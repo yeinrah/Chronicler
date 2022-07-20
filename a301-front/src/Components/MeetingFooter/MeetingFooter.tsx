@@ -1,5 +1,5 @@
 import React from 'react';
-import 'MeetingFooter.module.css';
+import './MeetingFooter.module.css';
 
 const MeetingFooter = () => {
   return (

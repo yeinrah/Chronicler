@@ -1,5 +1,5 @@
 import React from 'react';
-import 'SignInUpCard.module.css';
+import './SignInUpCard.module.css';
 
 const SignInUpCard = () => {
   return (
