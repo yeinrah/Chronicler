@@ -1,7 +1,7 @@
 import React from 'react';
 import 'SignIn.module.css';
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   return (
     <div>SignIn</div>
   )

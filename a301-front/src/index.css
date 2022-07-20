@@ -1,18 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&family=UnifrakturMaguntia&family=Vesper+Libre:wght@400;500&display=swap');
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-    font-family: 'Vesper Libre', serif;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-family: 'UnifrakturMaguntia', cursive;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+    --font-base: 'Vesper Libre','Noto Sans KR', 'UnifrakturMaguntia';
+
+    --bgBase-color: #202321;
+    --bgExtra-color: #715C71;
+    --fontBase-color: #FFFFFF;
+    --fontAccent-color: #333236;
+    --eleBase-color: #FDECFE;
+    --eleActionPos-color: #24E424;
+    --eleActionNeg-color: #EA4335;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
 }
