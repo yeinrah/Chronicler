@@ -1,5 +1,5 @@
 import React from 'react';
-improt 'FindPw.module.css';
+import 'FindPw.module.css';
 
 const FindPw = () => {
   return (
