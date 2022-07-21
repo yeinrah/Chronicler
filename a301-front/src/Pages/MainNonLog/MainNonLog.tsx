@@ -8,32 +8,26 @@ import {
   Button,
   styled,
 } from '@mui/material';
+import MainStack from '../../Components/MainStack';
+import MainBtn from '../../Components/MainBtn';
+import CardOfBtn from '../../Components/CardOfBtn';
 const MainNonLog: React.FC = () => {
-  const MainStack = styled(Stack)({
-    marginTop: '40vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-    spacing: '25vw',
-  });
-  const MainBtn = styled(Button)({
-    margin: '1vh',
-    color: '#FFFFFF',
-    backgroundColor: '#202321',
-  });
   return (
     <>
       <MainStack direction={'row'}>
-        <Card>
-          <CardContent>
-            <Typography sx={{ fontSize: '4vw' }}>회의에 집중하세요</Typography>
+        <Card sx={{ marginRight: '30vw' }}>
+          <CardContent sx={{ width: '30vw' }}>
+            <Typography sx={{ fontSize: '3vw' }}>
+              회의에 집중하세요. 기록은 우리에게 맡기세요 .
+            </Typography>
           </CardContent>
         </Card>
         <Card>
-          <CardContent sx={{ backgroundColor: '#715C71' }}>
-            <MainBtn variant="contained">로그인</MainBtn>
+          <CardOfBtn>
+            <MainBtn variant="contained">새 회의</MainBtn>
             <br />
             <MainBtn variant="contained">회원가입</MainBtn>
-          </CardContent>
+          </CardOfBtn>
         </Card>
       </MainStack>
     </>
