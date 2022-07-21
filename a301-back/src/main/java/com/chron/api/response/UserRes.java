@@ -1,5 +1,6 @@
 package com.chron.api.response;
 
+
 import com.chron.db.entity.User;
 
 import io.swagger.annotations.ApiModel;

@@ -1,4 +1,4 @@
-package com.chron.A301;
+package com.chron;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

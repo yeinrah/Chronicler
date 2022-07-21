@@ -13,21 +13,18 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
 	private final UserRepository userRepository;
-	//id / nickname / password / email / image / phone
-
+	// id / nickname / password / email / image / phone
 	// 회원가입
-	 public UserRes insertUser(UserRegisterPostReq userInfo) {
-	        User user = new User();
+	public UserRes insertUser(UserRegisterPostReq userInfo) {
+		User user = new User();
+		user.setNickname(userInfo.getNickname());
+		user.setPassword(userInfo.getPassword());
+		user.setEmail(userInfo.getEmail());
+		user.setPhone(userInfo.getPhone());
 
-	        //pw, salt를 user에 저장
-	        user.setNickname(userInfo.getNickname());
-	        user.setPassword(userInfo.getPassword());
-	        user.setEmail(userInfo.getEmail());
-	        user.setPhone(userInfo.getPhone());
-	        
-	        //DB에 저장
-	        userRepository.save(user);
+		// DB에 저장
+		userRepository.save(user);
 
-	        return new UserRes();
-	   	 }
-	   }
+		return new UserRes();
+	}
+}

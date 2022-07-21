@@ -1,4 +1,4 @@
-package com.chron.A301;
+package com.chron;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
