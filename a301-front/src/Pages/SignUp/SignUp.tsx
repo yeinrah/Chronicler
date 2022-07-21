@@ -1,6 +1,6 @@
 import React from 'react';
-import './SignIn.module.css';
-import { SignInCard } from '../../Containers';
+import './SignUp.module.css';
+import { SignUpCard } from '../../Containers';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 const theme = createTheme({
@@ -20,12 +20,12 @@ const theme = createTheme({
   },
 });
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <ThemeProvider theme={theme}>
-      <SignInCard />
+      <SignUpCard />
     </ThemeProvider>
   );
 };
 
-export default SignIn;
+export default SignUp;

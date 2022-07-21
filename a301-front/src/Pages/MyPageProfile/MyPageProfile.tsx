@@ -1,10 +1,8 @@
 import React from 'react';
-import 'MyPageProfile.module.css';
+import './MyPageProfile.module.css';
 
 const MyPageProfile = () => {
-  return (
-    <div>MyPageProfile</div>
-  )
-}
+  return <div>MyPageProfile</div>;
+};
 
-export default MyPageProfile
+export default MyPageProfile;
