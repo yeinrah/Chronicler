@@ -17,7 +17,13 @@ const MainLogined: React.FC = () => {
     <>
       <MainStack direction={'row'}>
         <Card sx={{ marginRight: '30vw' }}>
-          <CardContent sx={{ width: '30vw' }}>
+          <CardContent
+            sx={{
+              width: '30vw',
+              backgroundColor: 'var(--bgBase-color)',
+              color: 'white',
+            }}
+          >
             <Typography sx={{ fontSize: '3vw' }}>
               회의에 집중하세요. 기록은 우리에게 맡기세요 .
             </Typography>
@@ -25,10 +31,8 @@ const MainLogined: React.FC = () => {
         </Card>
         <Card>
           <CardOfBtn>
-            <MainBtn variant="contained">로그인</MainBtn>
-            <br />
-            <MainBtn variant="contained">회원가입</MainBtn>
-            <InputText id="outlined-basic" />
+            <MainBtn variant="contained">새회의</MainBtn>
+            <InputText id="outlined-basic" label={'초대링크를 입력하세요.'} />
           </CardOfBtn>
         </Card>
       </MainStack>

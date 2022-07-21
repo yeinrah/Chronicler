@@ -10,6 +10,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const TitleTypography = styled(Typography)({
@@ -46,8 +47,19 @@ const Navbar = () => {
         </Box>
         <MenuBox sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
           {MenuItems.map((item) => (
-            <Typography sx={{ cursor: 'pointer', fontSize: '15px' }}>
-              {item.Name}
+            <Typography
+              key={item.Name}
+              sx={{ cursor: 'pointer', fontSize: '15px' }}
+            >
+              <Link
+                to={item.Link}
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+              >
+                {item.Name}
+              </Link>
             </Typography>
           ))}
         </MenuBox>
@@ -68,8 +80,19 @@ const Navbar = () => {
       >
         <Box sx={{ width: 200, height: '80vh' }}>
           {MenuItems.map((item) => (
-            <MenuItem sx={{ cursor: 'pointer', fontSize: '15px' }}>
-              {item.Name}
+            <MenuItem
+              key={item.Name}
+              sx={{ cursor: 'pointer', fontSize: '15px' }}
+            >
+              <Link
+                to={item.Link}
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+              >
+                {item.Name}
+              </Link>
             </MenuItem>
           ))}
         </Box>
