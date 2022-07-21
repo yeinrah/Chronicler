@@ -1,20 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&family=UnifrakturMaguntia&family=Vesper+Libre:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&family=UnifrakturMaguntia&family=Vesper+Libre:wght@400;500&display=swap");
 
 :root {
-    --font-base: 'Vesper Libre','Noto Sans KR', 'UnifrakturMaguntia';
+  --font-base: "Vesper Libre", "Noto Sans KR", "UnifrakturMaguntia";
 
-    --bgBase-color: #202321;
-    --bgExtra-color: #715C71;
-    --fontBase-color: #FFFFFF;
-    --fontAccent-color: #333236;
-    --eleBase-color: #FDECFE;
-    --eleActionPos-color: #24E424;
-    --eleActionNeg-color: #EA4335;
+  --bgBase-color: #202321;
+  --bgExtra-color: #202124;
+  --fontBase-color: #ffffff;
+  --fontAccent-color: #333236;
+  --eleBase-color: #fdecfe;
+  --eleActionPos-color: #24e424;
+  --eleActionNeg-color: #ea4335;
 }
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    scroll-behavior: smooth;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
 }

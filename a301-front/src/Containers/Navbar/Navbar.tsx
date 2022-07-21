@@ -30,7 +30,7 @@ const Navbar = () => {
   ];
   const [open, setOpen] = useState(false);
   return (
-    <AppBar sx={{ backgroundColor: 'black' }}>
+    <AppBar sx={{ backgroundColor: 'var(--bgExtra-color)' }}>
       <StyledToolbar>
         <Box>
           <TitleTypography>Chronicler</TitleTypography>

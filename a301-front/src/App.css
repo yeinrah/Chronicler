@@ -1,3 +1,4 @@
 body {
-  font-family: 'Vesper Libre';
+  font-family: "Vesper Libre";
+  background-color: var(--bgBase-color);
 }
