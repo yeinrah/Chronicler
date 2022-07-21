@@ -34,7 +34,16 @@ const Navbar = () => {
     <AppBar sx={{ backgroundColor: 'var(--bgExtra-color)' }}>
       <StyledToolbar>
         <Box>
-          <TitleTypography>Chronicler</TitleTypography>
+          <Link
+            to="/"
+            style={{
+              textDecoration: 'none',
+              cursor: 'pointer',
+              color: 'var(--fontBase-color)',
+            }}
+          >
+            <TitleTypography>Chronicler</TitleTypography>
+          </Link>
         </Box>
         <Box>
           <MenuIcon
