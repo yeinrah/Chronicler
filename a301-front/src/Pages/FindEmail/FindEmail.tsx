@@ -1,10 +1,8 @@
 import React from 'react';
-import 'FindEmail.module.css';
+import './FindEmail.module.css';
 
 const FindEmail = () => {
-  return (
-    <div>FindEmail</div>
-  )
-}
+  return <div>FindEmail</div>;
+};
 
-export default FindEmail
+export default FindEmail;

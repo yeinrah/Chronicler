@@ -1,10 +1,8 @@
 import React from 'react';
-import 'MyPageRecord.module.css';
+import './MyPageRecord.module.css';
 
 const MyPageRecord = () => {
-  return (
-    <div>MyPageRecord</div>
-  )
-}
+  return <div>MyPageRecord</div>;
+};
 
-export default MyPageRecord
+export default MyPageRecord;

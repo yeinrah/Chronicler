@@ -1,10 +1,8 @@
 import React from 'react';
-import 'SiginUp.module.css';
+import './SiginUp.module.css';
 
 const SiginUp = () => {
-  return (
-    <div>SiginUp</div>
-  )
-}
+  return <div>SiginUp</div>;
+};
 
-export default SiginUp
+export default SiginUp;

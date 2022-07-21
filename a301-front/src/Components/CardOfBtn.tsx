@@ -1,7 +1,11 @@
 import { styled, CardContent } from '@mui/material';
+import { auto } from '@popperjs/core';
 const CardOfBtn = styled(CardContent)({
-  backgroundColor: '#715C71',
-  width: '30vw',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  backgroundColor: 'var(--eleBase-color)',
+  width: '25vw',
   height: '30vh',
 });
 export default CardOfBtn;
