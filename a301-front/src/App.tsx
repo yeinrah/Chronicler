@@ -14,7 +14,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<MainNonLog />} />
-        <Route path="/signup" element={<SiginUp />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
