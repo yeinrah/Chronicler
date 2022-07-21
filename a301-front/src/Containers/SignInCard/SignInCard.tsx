@@ -14,6 +14,7 @@ import {
   Typography,
   Container,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const SignInCard = () => {
@@ -108,7 +109,12 @@ const SignInCard = () => {
                 variant="body2"
                 sx={{ color: 'var(--eleActionPos-color)' }}
               >
-                Forgot email?
+                <RouterLink
+                  to="/findemail"
+                  style={{ color: 'var(--eleActionPos-color)' }}
+                >
+                  Forgot email?
+                </RouterLink>
               </Link>
             </Grid>
             <Grid item xs>
@@ -117,7 +123,12 @@ const SignInCard = () => {
                 variant="body2"
                 sx={{ color: 'var(--eleActionPos-color)' }}
               >
-                Forgot password?
+                <RouterLink
+                  to="/findpw"
+                  style={{ color: 'var(--eleActionPos-color)' }}
+                >
+                  Forgot password?
+                </RouterLink>
               </Link>
             </Grid>
             <Grid item>
@@ -126,7 +137,12 @@ const SignInCard = () => {
                 variant="body2"
                 sx={{ color: 'var(--eleActionPos-color)' }}
               >
-                {'Sign Up'}
+                <RouterLink
+                  to="/signup"
+                  style={{ color: 'var(--eleActionPos-color)' }}
+                >
+                  Sign UP
+                </RouterLink>
               </Link>
             </Grid>
           </Grid>

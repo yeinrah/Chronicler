@@ -118,12 +118,17 @@ const SignUpCard = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              {/* <Link href="/signin" variant="body2">
+              <Link href="/signin" variant="body2">
+                <RouterLink
+                  to="/signin"
+                  style={{ color: 'var(--eleActionPos-color)' }}
+                >
+                  Already have an account? Sign in
+                </RouterLink>
+              </Link>
+              {/* <RouterLink to="/signin">
                 Already have an account? Sign in
-              </Link> */}
-              <RouterLink to="/signin">
-                Already have an account? Sign in
-              </RouterLink>
+              </RouterLink> */}
             </Grid>
           </Grid>
         </Box>

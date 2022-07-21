@@ -8,6 +8,7 @@ import MainNonLog from './Pages/MainNonLog/MainNonLog';
 import MyPage from './Pages/MyPage/MyPage';
 import { SignUp, SignIn, FindEmail, FindPw, ConfirmNewPw } from './Pages';
 import ErrorPage from './Pages/ErrorPage/ErrorPage';
+import { FindEmailCard, FindPwCard } from './Containers';
 function App() {
   return (
     <div className="App">
@@ -16,6 +17,8 @@ function App() {
         <Route path="/" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/findemail" element={<FindEmailCard />} />
+        <Route path="/findpw" element={<FindPwCard />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
