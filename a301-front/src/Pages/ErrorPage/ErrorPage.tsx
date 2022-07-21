@@ -1,4 +1,12 @@
 const ErrorPage = () => {
-  return <>THIS IS ERROR PAGE</>;
+  return (
+    <>
+      <img
+        alt="404"
+        src="Asset/Image/errorpage.PNG"
+        style={{ marginTop: '20vh', width: '100vw' }}
+      ></img>
+    </>
+  );
 };
 export default ErrorPage;
