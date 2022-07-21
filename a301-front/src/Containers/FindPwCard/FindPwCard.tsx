@@ -10,7 +10,7 @@ import {
   Typography,
   Container,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import PolicyIcon from '@mui/icons-material/Policy';
 
 const FindPwCard = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +37,7 @@ const FindPwCard = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'var(--eleActionPos-color)' }}>
-          <LockOutlinedIcon />
+          <PolicyIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Find your password
