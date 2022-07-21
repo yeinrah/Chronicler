@@ -1,5 +1,5 @@
 import React from 'react';
-import './SignUpCard.module.css';
+import './ConfirmNewPwCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
   Avatar,
@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-const SignUpCard = () => {
+const ConfirmNewPwCard = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,7 +45,7 @@ const SignUpCard = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Set new password
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -53,38 +53,8 @@ const SignUpCard = () => {
               <TextField
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="nickname"
-                label="Nickname"
-                name="nickname"
-                autoComplete="nickname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="phone"
-                label="Phone(Only digits)"
-                name="phone"
-                autoComplete="phone"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
                 name="password"
-                label="Password"
+                label="New Password"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -95,7 +65,7 @@ const SignUpCard = () => {
                 required
                 fullWidth
                 name="password"
-                label="Confirm Password"
+                label="Confirm New Password"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -113,15 +83,8 @@ const SignUpCard = () => {
               mb: 2,
             }}
           >
-            Sign Up
+            Set New Password
           </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
       <Copyright sx={{ mt: 5 }} />
@@ -129,4 +92,4 @@ const SignUpCard = () => {
   );
 };
 
-export default SignUpCard;
+export default ConfirmNewPwCard;

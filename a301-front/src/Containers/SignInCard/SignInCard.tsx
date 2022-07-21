@@ -1,5 +1,6 @@
 import React from 'react';
 import './SignInCard.module.css';
+import Copyright from '../../Components/Copyright';
 import {
   Avatar,
   Button,
@@ -14,22 +15,6 @@ import {
   Container,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="#">
-        Chronicler.com
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-      <br />
-      <br />
-      <br />
-    </Typography>
-  );
-}
 
 const SignInCard = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

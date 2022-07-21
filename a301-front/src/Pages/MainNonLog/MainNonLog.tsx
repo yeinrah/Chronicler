@@ -1,13 +1,6 @@
 import React from 'react';
 import './MainNonLog.module.css';
-import {
-  Stack,
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  styled,
-} from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import MainStack from '../../Components/MainStack';
 import MainBtn from '../../Components/MainBtn';
 import CardOfBtn from '../../Components/CardOfBtn';
