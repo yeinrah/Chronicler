@@ -9,5 +9,5 @@ import com.chron.db.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean existsByEmail(String email);
 	boolean existsByPhone(String phone);
-
+	User findOneByPhone(String email);
 }

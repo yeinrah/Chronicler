@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -15,10 +16,8 @@ import javax.validation.constraints.Size;
 @ApiModel("FindEmailReq")
 public class FindEmailReq {
 
-    @ApiModelProperty(name = "찾을 유저 email", example = "khss4008@gmail.com")
-    @NotNull(message = "email may not be empty")
-    @Pattern(regexp = "^[0-9a-zA-Z]*$",
-            message = "이메일은 숫자, 영어만 가능합니다.")
-    @Size(min = 3, max = 40)
-    private String findEmail;
+	@ApiModelProperty(name = "유저 Phone", example = "your_phone")
+	@NotNull(message = "휴대폰 번호를 입력해주세요.")
+	@Pattern(regexp = "(010)(\\d{4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
+	private String phone;
 }

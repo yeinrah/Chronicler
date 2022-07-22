@@ -32,7 +32,13 @@ public class UserService {
 				.email(userRegisterReq.getEmail()).phone(userRegisterReq.getPhone()).build();
 		return userRepository.save(user);
 	}
-
+	
+	@Transactional
+	public User findEmail(String phone)throws Exception{
+		
+		return userRepository.findOneByPhone(phone);
+	}
+	
 	// 이메일 중복 검사
 	@Transactional(readOnly = true)
 	public void checkEmailDuplication(UserRegisterReq userRegisterReq) {
