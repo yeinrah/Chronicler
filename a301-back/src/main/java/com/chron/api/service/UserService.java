@@ -1,41 +1,49 @@
 package com.chron.api.service;
 
-import javax.transaction.Transactional;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.chron.api.request.UserRegisterPostReq;
-import com.chron.api.response.UserRes;
+import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.User;
 import com.chron.db.repository.UserRepository;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
 public class UserService {
-	
+
 	private final UserRepository userRepository;
-	//id / nickname / password / email / image / phone
+	// id / nickname / password / email / image / phone
 
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
 	}
-	
-	
+
 	// 회원가입
 	@Transactional
-	 public User signup(UserRegisterPostReq userInfo) throws Exception{
-	        User user = User.builder()
-	        		.nickname(userInfo.getNickname())
-	        		.password(userInfo.getPassword())
-	        		.email(userInfo.getEmail())
-	        		.phone(userInfo.getPhone())
-	        		.build();
-//	        System.out.println("userService user의 값"+user.getNickname());
-//	        System.out.println("userService userInfo의 값"+userInfo.getNickname());
-	        return userRepository.save(user);
-	   	 }
+	public User signup(UserRegisterReq userRegisterReq) throws Exception {
+		User user = User.builder().nickname(userRegisterReq.getNickname()).password(userRegisterReq.getPassword())
+				.email(userRegisterReq.getEmail()).phone(userRegisterReq.getPhone()).build();
+		return userRepository.save(user);
+	}
+
+	// 이메일 중복 검사
+	@Transactional(readOnly = true)
+	public void checkEmailDuplication(UserRegisterReq userRegisterReq) {
+		boolean emailDuplicate = userRepository.existsByEmail(userRegisterReq.getEmail());
+		if (emailDuplicate) {
+			throw new IllegalStateException("이미 존재하는 이메일입니다.");
+		}
+	}
+
+	// 전화번호 중복 검사
+	@Transactional(readOnly = true)
+	public void checkPhoneDuplication(UserRegisterReq userRegisterReq) {
+		boolean phoneDuplicate = userRepository.existsByPhone(userRegisterReq.getPhone());
+		if (phoneDuplicate) {
+			throw new IllegalStateException("이미 존재하는 번호입니다.");
+		}
+	}
+
 }

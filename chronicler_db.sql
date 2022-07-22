@@ -1,5 +1,5 @@
 create database IF NOT EXISTS `chronicler` collate utf8mb4_general_ci;
-
+USE `chronicler`;
 CREATE TABLE user (
  id INTEGER auto_increment,
  nickname VARCHAR(32),
@@ -10,4 +10,6 @@ CREATE TABLE user (
  PRIMARY KEY(id)
 );
 
+INSERT INTO user(nickname, password, email, phone) VALUES('nick','password1!','sample@naver.com','01012345678');
 
+Select * from user;
