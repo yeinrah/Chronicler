@@ -1,5 +1,8 @@
 package com.chron.api.service;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.chron.api.request.UserRegisterPostReq;
@@ -9,22 +12,30 @@ import com.chron.db.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
 public class UserService {
+	
 	private final UserRepository userRepository;
-	// id / nickname / password / email / image / phone
-	// 회원가입
-	public UserRes insertUser(UserRegisterPostReq userInfo) {
-		User user = new User();
-		user.setNickname(userInfo.getNickname());
-		user.setPassword(userInfo.getPassword());
-		user.setEmail(userInfo.getEmail());
-		user.setPhone(userInfo.getPhone());
+	//id / nickname / password / email / image / phone
 
-		// DB에 저장
-		userRepository.save(user);
-
-		return new UserRes();
+	@Autowired
+	public UserService(UserRepository userRepository) {
+		super();
+		this.userRepository = userRepository;
 	}
+	
+	
+	// 회원가입
+	@Transactional
+	 public User signup(UserRegisterPostReq userInfo) throws Exception{
+	        User user = User.builder()
+	        		.nickname(userInfo.getNickname())
+	        		.password(userInfo.getPassword())
+	        		.email(userInfo.getEmail())
+	        		.phone(userInfo.getPhone())
+	        		.build();
+//	        System.out.println("userService user의 값"+user.getNickname());
+//	        System.out.println("userService userInfo의 값"+userInfo.getNickname());
+	        return userRepository.save(user);
+	   	 }
 }
