@@ -1,8 +1,9 @@
 package com.chron.api.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.User;
@@ -11,7 +12,11 @@ import com.chron.db.repository.UserRepository;
 @Service
 public class UserService {
 
-	private final UserRepository userRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private UserRepository userRepository;
 	// id / nickname / password / email / image / phone
 
 	@Autowired
@@ -23,7 +28,7 @@ public class UserService {
 	// 회원가입
 	@Transactional
 	public User signup(UserRegisterReq userRegisterReq) throws Exception {
-		User user = User.builder().nickname(userRegisterReq.getNickname()).password(userRegisterReq.getPassword())
+		User user = User.builder().nickname(userRegisterReq.getNickname()).password(encoder.encode(userRegisterReq.getPassword()))
 				.email(userRegisterReq.getEmail()).phone(userRegisterReq.getPhone()).build();
 		return userRepository.save(user);
 	}

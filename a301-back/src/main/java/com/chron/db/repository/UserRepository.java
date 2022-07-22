@@ -8,7 +8,6 @@ import com.chron.db.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean existsByEmail(String email);
-
 	boolean existsByPhone(String phone);
 
 }
