@@ -4,6 +4,7 @@ export { default as FindPw } from "./FindPw/FindPw";
 export { default as MainLogined } from "./MainLogined/MainLogined";
 export { default as MainNonLog } from "./MainNonLog/MainNonLog";
 export { default as MeetingRoom } from "./MeetingRoom/MeetingRoom";
+export { default as MyPage } from "./MyPage/MyPage";
 export { default as MyPageProfile } from "./MyPageProfile/MyPageProfile";
 export { default as MyPageRecord } from "./MyPageRecord/MyPageRecord";
 export { default as SignUp } from "./SignUp/SignUp";
