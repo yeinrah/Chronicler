@@ -8,7 +8,7 @@ import MainNonLog from './Pages/MainNonLog/MainNonLog';
 import MyPage from './Pages/MyPage/MyPage';
 import { SignUp, SignIn, FindEmail, FindPw, ConfirmNewPw } from './Pages';
 import ErrorPage from './Pages/ErrorPage/ErrorPage';
-import { FindEmailCard, FindPwCard } from './Containers';
+import { FindEmailCard, FindPwCard, MeetingFooter } from './Containers';
 function App() {
   return (
     <div className="App">
