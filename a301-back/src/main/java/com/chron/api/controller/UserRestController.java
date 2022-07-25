@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chron.api.request.FindEmailReq;
+import com.chron.api.request.UpdateNicknameReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.api.service.UserService;
 import com.chron.db.entity.User;
@@ -61,8 +62,8 @@ public class UserRestController {
 	
 	@PatchMapping("/updateNickname/{id}")
 	@ApiOperation(value = "닉네임 수정", notes = "닉네임 수정")
-	public ResponseEntity<?> updateNickname(@PathVariable Integer id, @RequestParam String nickname) throws Exception {
-		userService.updateNickname(id, nickname);
+	public ResponseEntity<?> updateNickname(@PathVariable Integer id, @Valid @RequestBody UpdateNicknameReq updateNicknameReq) throws Exception {
+		userService.updateNickname(id, updateNicknameReq);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 	

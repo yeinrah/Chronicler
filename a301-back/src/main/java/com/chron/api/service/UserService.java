@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chron.api.request.UpdateNicknameReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.User;
 import com.chron.db.repository.UserRepository;
@@ -59,9 +60,9 @@ public class UserService {
 	
 	// 닉네임 수정
 	@Transactional
-	public User updateNickname(Integer id, String nickname) throws Exception {
+	public User updateNickname(Integer id, UpdateNicknameReq updateNicknameReq) throws Exception {
 		User user = userRepository.findOneById(id);
-		user.setNickname(nickname);
+		user.setNickname(updateNicknameReq.getNickname());
 		return userRepository.save(user);
 	}
 	
