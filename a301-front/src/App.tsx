@@ -21,11 +21,12 @@ import {
   FindPwCard,
   VideoPlayer,
 } from './Containers';
+import { FindEmailCard, FindPwCard, MeetingFooter } from './Containers';
 function App() {
   return (
     <div className="App">
-      {/* <Navbar /> */}
-      {/* <Routes>
+      <Navbar />
+      <Routes>
         <Route path="/" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
@@ -33,9 +34,9 @@ function App() {
         <Route path="/findpw" element={<FindPwCard />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
-      </Routes> */}
-      <MeetingRoom />
-      <MeetingFooter />
+      </Routes>
+      {/* <MeetingRoom />
+      <MeetingFooter /> */}
     </div>
   );
 }

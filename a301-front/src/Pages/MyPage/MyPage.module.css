@@ -1,0 +1,6 @@
+.profileImg {
+  cursor: pointer;
+}
+.profileImg:hover {
+  background-color: var(--bgExtra-color);
+}
