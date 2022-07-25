@@ -60,7 +60,11 @@ const MeetingFooter: React.FC<Props> = ({
           placement="top"
           arrow
         >
-          <IconButton color="inherit" onClick={() => setCameraOn(!cameraOn)}>
+          <IconButton
+            color="inherit"
+            className={cameraOn ? styles.micCameraBtn : styles.micCameraBtnOff}
+            onClick={() => setCameraOn(!cameraOn)}
+          >
             <VideocamIcon />
           </IconButton>
         </Tooltip>
