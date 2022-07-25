@@ -46,7 +46,7 @@ const MeetingFooter: React.FC<Props> = ({
       sx={{ top: 'auto', bottom: 0, backgroundColor: 'var(--bgExtra-color)' }}
     >
       <FootBar>
-        <Tooltip title={micOn ? 'Mic Off' : 'Mic On'} placement="top" arrow>
+        <Tooltip title={micOn ? 'Mic On' : 'Mic Off'} placement="top" arrow>
           <IconButton
             color="inherit"
             className={micOn ? styles.micCameraBtn : styles.micCameraBtnOff}
@@ -56,7 +56,7 @@ const MeetingFooter: React.FC<Props> = ({
           </IconButton>
         </Tooltip>
         <Tooltip
-          title={cameraOn ? 'Camera Off' : 'Camera On'}
+          title={cameraOn ? 'Camera On' : 'Camera Off'}
           placement="top"
           arrow
         >
@@ -83,7 +83,11 @@ const MeetingFooter: React.FC<Props> = ({
           This is subtitle
         </Box>
         <Box sx={{ flexGrow: 1 }} />
-        <Tooltip title="Participants" placement="top" arrow>
+        <Tooltip
+          title={openParticipant ? 'See Participants' : 'Close Participants'}
+          placement="top"
+          arrow
+        >
           <IconButton
             color="inherit"
             onClick={() => setOpenParticipant(!openParticipant)}
@@ -91,7 +95,11 @@ const MeetingFooter: React.FC<Props> = ({
             <GroupsIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Chat" placement="top" arrow>
+        <Tooltip
+          title={openChat ? 'Open Chat' : 'Close Chat'}
+          placement="top"
+          arrow
+        >
           <IconButton color="inherit" onClick={() => setOpenChat(!openChat)}>
             <ChatIcon />
           </IconButton>
