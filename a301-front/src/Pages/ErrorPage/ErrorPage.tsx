@@ -3,7 +3,7 @@ const ErrorPage = () => {
     <>
       <img
         alt="404"
-        src="Asset/Image/errorpage.PNG"
+        src="./errorpage.PNG"
         style={{ marginTop: '20vh', width: '100vw' }}
       ></img>
     </>

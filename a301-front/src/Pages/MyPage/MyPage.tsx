@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import './MyPage.module.css';
-import { styled, Stack, Typography, Button, Modal, Box } from '@mui/material';
+import styles from './MyPage.module.css';
+import {
+  styled,
+  Stack,
+  Typography,
+  Button,
+  Modal,
+  Box,
+  ImageList,
+} from '@mui/material';
 import MainBtn from '../../Components/MainBtn';
 import { ImageTwoTone } from '@mui/icons-material';
 import MeetingTable from '../../Components/MeetingTable';
 import InputText from '../../Components/InputText';
-import { height } from '@mui/system';
 import { Link } from 'react-router-dom';
+import profileImages from '../../Asset/Image/profile/profileImages';
 const MyPage = () => {
   const [prevMeetingList, setPrevMeetingList] = useState<
     { title: string; date: Date }[]
@@ -15,15 +23,21 @@ const MyPage = () => {
     { title: '회의2', date: new Date() },
   ]);
   const [nickNameModalOpen, setNickNameModalOpen] = useState(false);
+  const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
   const [curImage, setCurImage] = useState(0);
   const nickNameHandleOpen = () => setNickNameModalOpen(true);
-  const nickNameHadnleClose = () => setNickNameModalOpen(false);
+  const nickNameHandleClose = () => setNickNameModalOpen(false);
+  const phoneHandleOpen = () => setPhoneModalOpen(true);
+  const phoneHandleClose = () => setPhoneModalOpen(false);
   const passwordHandleOpen = () => setPasswordModalOpen(true);
-  const passwordHadnleClose = () => setPasswordModalOpen(false);
+  const passwordHandleClose = () => setPasswordModalOpen(false);
   const profileHandleOpen = () => setProfileModalOpen(true);
-  const profileHadnleClose = () => setProfileModalOpen(false);
+  const profileHandleClose = () => setProfileModalOpen(false);
+  const updateImage = () => {
+    // setCurImage(index);
+  };
   const MypageStack = styled(Stack)({
     display: 'flex',
     justifyContent: 'center',
@@ -102,11 +116,16 @@ const MyPage = () => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
   });
+  const ProfileChoices = styled(Stack)({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  });
   const NickNameModal = () => {
     return (
       <Modal
         open={nickNameModalOpen}
-        onClose={nickNameHadnleClose}
+        onClose={nickNameHandleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -122,11 +141,31 @@ const MyPage = () => {
       </Modal>
     );
   };
+  const PhoneModal = () => {
+    return (
+      <Modal
+        open={phoneModalOpen}
+        onClose={phoneHandleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <BoxModal sx={styleModal}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            전화번호 변경
+          </Typography>
+          <UserInfo>
+            <InputText sx={{ width: '100%' }} />
+            <MypageBtn sx={{ height: '100%' }}>확인</MypageBtn>
+          </UserInfo>
+        </BoxModal>
+      </Modal>
+    );
+  };
   const PasswordModal = () => {
     return (
       <Modal
         open={passwordModalOpen}
-        onClose={passwordHadnleClose}
+        onClose={passwordHandleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -145,14 +184,30 @@ const MyPage = () => {
     return (
       <Modal
         open={profileModalOpen}
-        onClose={profileHadnleClose}
+        onClose={profileHandleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <BoxModal sx={styleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            haha
+            프로필 선택
           </Typography>
+          <ProfileChoices>
+            {profileImages.map((element, index) => (
+              <img
+                src={profileImages[index]}
+                alt="images"
+                width="60rem"
+                key={element}
+                className={styles.profileImg}
+                onMouseEnter={() => {}}
+                onClick={() => {
+                  setCurImage(index);
+                  profileHandleClose();
+                }}
+              />
+            ))}
+          </ProfileChoices>
         </BoxModal>
       </Modal>
     );
@@ -162,9 +217,12 @@ const MyPage = () => {
       <NickNameModal />
       <PasswordModal />
       <ProfileModal />
+      <PhoneModal />
       <MypageStack direction="row">
         <MypageLeftStack>
-          <MypageProfileImage onClick={profileHandleOpen} />
+          <MypageProfileImage onClick={profileHandleOpen}>
+            <img src={profileImages[curImage]} alt="my profile" />
+          </MypageProfileImage>
         </MypageLeftStack>
         <MypageRightStack>
           <SubTitle>닉네임</SubTitle>
@@ -179,6 +237,11 @@ const MyPage = () => {
           <SubTitle>비밀번호</SubTitle>
           <UserInfo>
             <MypageBtn onClick={passwordHandleOpen}>비밀번호 변경</MypageBtn>
+          </UserInfo>
+          <SubTitle>전화번호</SubTitle>
+          <UserInfo>
+            <SubText>01038819667</SubText>
+            <MypageBtn onClick={phoneHandleOpen}>전화번호 변경</MypageBtn>
           </UserInfo>
           <SubTitle>회의 기록</SubTitle>
           <MeetingInfo>
