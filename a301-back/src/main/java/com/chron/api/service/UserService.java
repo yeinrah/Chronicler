@@ -56,5 +56,12 @@ public class UserService {
 			throw new IllegalStateException("이미 존재하는 번호입니다.");
 		}
 	}
-
+	
+	// 닉네임 수정
+	@Transactional
+	public User updateNickname(Integer id, String nickname) throws Exception {
+		User user = userRepository.findOneById(id);
+		user.setNickname(nickname);
+		return userRepository.save(user);
+	}
 }

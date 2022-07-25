@@ -1,3 +1,4 @@
+drop database IF EXISTS `chronicler`;
 create database IF NOT EXISTS `chronicler` collate utf8mb4_general_ci;
 USE `chronicler`;
 CREATE TABLE user (
