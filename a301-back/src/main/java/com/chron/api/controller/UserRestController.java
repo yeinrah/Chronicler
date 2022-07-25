@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chron.api.request.FindEmailReq;
 import com.chron.api.request.UpdateNicknameReq;
+import com.chron.api.request.UpdatePasswordReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.api.service.UserService;
 import com.chron.db.entity.User;
@@ -72,5 +72,12 @@ public class UserRestController {
 	public ResponseEntity<?> withdraw(@PathVariable Integer id) throws Exception {
 		userService.withdraw(id);
 		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@PatchMapping("/updatePassword/{id}")
+	@ApiOperation(value = "비밀번호 변경", notes = "비밀번호를 변경한다.")
+	public ResponseEntity<?> updatePassword(@PathVariable int id, @Valid @RequestBody UpdatePasswordReq password) {
+		userService.updatePassword(id, password);
+		return new ResponseEntity<Integer>(HttpStatus.OK);
 	}
 }
