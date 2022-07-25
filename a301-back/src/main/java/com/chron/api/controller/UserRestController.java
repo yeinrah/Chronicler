@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +63,13 @@ public class UserRestController {
 	@ApiOperation(value = "닉네임 수정", notes = "닉네임 수정")
 	public ResponseEntity<?> updateNickname(@PathVariable Integer id, @RequestParam String nickname) throws Exception {
 		userService.updateNickname(id, nickname);
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/mypage/{id}")
+	@ApiOperation(value = "회원 탈퇴", notes = "회원 탈퇴")
+	public ResponseEntity<?> withdraw(@PathVariable Integer id) throws Exception {
+		userService.withdraw(id);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }

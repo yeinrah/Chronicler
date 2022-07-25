@@ -64,4 +64,11 @@ public class UserService {
 		user.setNickname(nickname);
 		return userRepository.save(user);
 	}
+	
+	// 회원 탈퇴
+	@Transactional
+	public void withdraw(Integer id) {
+		User user = userRepository.findOneById(id);
+		userRepository.delete(user);
+	}
 }
