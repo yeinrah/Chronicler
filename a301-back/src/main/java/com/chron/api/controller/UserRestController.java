@@ -58,7 +58,7 @@ public class UserRestController {
 		return new ResponseEntity<String>(user.getEmail(),HttpStatus.OK);
 	}
 	
-	@PatchMapping("/{id}/updateNickname")
+	@PatchMapping("/updateNickname/{id}")
 	@ApiOperation(value = "닉네임 수정", notes = "닉네임 수정")
 	public ResponseEntity<?> updateNickname(@PathVariable Integer id, @RequestParam String nickname) throws Exception {
 		userService.updateNickname(id, nickname);
