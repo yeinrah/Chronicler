@@ -1,5 +1,5 @@
 import React from 'react';
-import './MeetingFooter.module.css';
+import styles from './MeetingFooter.module.css';
 import {
   AppBar,
   Box,
@@ -15,7 +15,27 @@ import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ChatIcon from '@mui/icons-material/Chat';
 
-const MeetingFooter = () => {
+interface Props {
+  openChat: boolean;
+  openParticipant: boolean;
+  micOn: boolean;
+  cameraOn: boolean;
+  setOpenChat: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenParticipant: React.Dispatch<React.SetStateAction<boolean>>;
+  setMicOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setCameraOn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const MeetingFooter: React.FC<Props> = ({
+  openChat,
+  openParticipant,
+  micOn,
+  cameraOn,
+  setOpenChat,
+  setOpenParticipant,
+  setMicOn,
+  setCameraOn,
+}) => {
   const FootBar = styled(Toolbar)({
     display: 'flex',
     gap: 30,
@@ -26,19 +46,21 @@ const MeetingFooter = () => {
       sx={{ top: 'auto', bottom: 0, backgroundColor: 'var(--bgExtra-color)' }}
     >
       <FootBar>
-        <Tooltip title="Mic Off" placement="top" arrow>
+        <Tooltip title={micOn ? 'Mic Off' : 'Mic On'} placement="top" arrow>
           <IconButton
             color="inherit"
-            sx={{ bgcolor: 'var(--eleActionNeg-color)' }}
+            className={micOn ? styles.micCameraBtn : styles.micCameraBtnOff}
+            onClick={() => setMicOn(!micOn)}
           >
             <MicIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Camera Off" placement="top" arrow>
-          <IconButton
-            color="inherit"
-            sx={{ bgcolor: 'var(--eleActionNeg-color)' }}
-          >
+        <Tooltip
+          title={cameraOn ? 'Camera Off' : 'Camera On'}
+          placement="top"
+          arrow
+        >
+          <IconButton color="inherit" onClick={() => setCameraOn(!cameraOn)}>
             <VideocamIcon />
           </IconButton>
         </Tooltip>
@@ -58,12 +80,15 @@ const MeetingFooter = () => {
         </Box>
         <Box sx={{ flexGrow: 1 }} />
         <Tooltip title="Participants" placement="top" arrow>
-          <IconButton color="inherit">
+          <IconButton
+            color="inherit"
+            onClick={() => setOpenParticipant(!openParticipant)}
+          >
             <GroupsIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Chat" placement="top" arrow>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={() => setOpenChat(!openChat)}>
             <ChatIcon />
           </IconButton>
         </Tooltip>

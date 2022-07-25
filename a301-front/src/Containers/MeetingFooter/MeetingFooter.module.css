@@ -1,0 +1,15 @@
+.micCameraBtn {
+  background-color: var(--eleActionNeg-color);
+}
+.micCameraBtn:hover {
+  background-color: var(--eleActionNeg-color);
+}
+.micCameraBtnOff {
+  background-color: var(--eleActionPos-color);
+}
+.micCameraBtnOff:hover {
+  background-color: var(--eleActionPos-color);
+}
+.abc {
+  background-color: aliceblue;
+}
