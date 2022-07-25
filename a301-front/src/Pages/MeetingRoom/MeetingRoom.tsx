@@ -1,24 +1,40 @@
 import React from 'react';
 import './MeetingRoom.module.css';
-import { VideoPlayer } from '../../Containers';
-import { Container, Grid } from '@mui/material';
+import { ChatBlock, ParticipantBlock, VideoPlayer } from '../../Containers';
+import { Container, Grid, Stack } from '@mui/material';
 
 const MeetingRoom = () => {
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ backgroundColor: 'yellow', display: 'flex', flexWrap: 'wrap' }}
+    <Stack
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      spacing={0}
     >
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-      <VideoPlayer />
-    </Container>
+      <Container
+        maxWidth="xl"
+        sx={{ backgroundColor: 'yellow', display: 'flex', flexWrap: 'wrap' }}
+      >
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+        <VideoPlayer />
+      </Container>
+      <Stack
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="flex-end"
+        spacing={0}
+      >
+        <ParticipantBlock />
+        <ChatBlock />
+      </Stack>
+    </Stack>
   );
 };
 
