@@ -5,6 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chron.api.request.UpdateImageReq;
+import com.chron.api.request.UpdateNicknameReq;
+import com.chron.api.request.UpdatePasswordReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.User;
 import com.chron.db.repository.UserRepository;
@@ -14,7 +17,7 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	// id / nickname / password / email / image / phone
@@ -28,17 +31,40 @@ public class UserService {
 	// 회원가입
 	@Transactional
 	public User signup(UserRegisterReq userRegisterReq) throws Exception {
-		User user = User.builder().nickname(userRegisterReq.getNickname()).password(encoder.encode(userRegisterReq.getPassword()))
-				.email(userRegisterReq.getEmail()).phone(userRegisterReq.getPhone()).build();
+		User user = User.builder().nickname(userRegisterReq.getNickname())
+				.password(encoder.encode(userRegisterReq.getPassword())).email(userRegisterReq.getEmail())
+				.phone(userRegisterReq.getPhone()).build();
 		return userRepository.save(user);
 	}
-	
+
+	// 로그인
 	@Transactional
-	public User findEmail(String phone)throws Exception{
-		
+	public User login(String email, String pw) throws Exception {
+		User loginUser = userRepository.findOneByEmail(email);
+		if (loginUser == null)
+			throw new IllegalStateException("이메일 또는 비밀번호가 틀립니다.");
+		else if (!encoder.encode(pw).equals((loginUser.getPassword()))) {
+			System.out.println(encoder.encode(pw));
+			System.out.println(loginUser.getPassword());
+			System.out.println(pw);
+			throw new IllegalStateException("이메일 또는 비밀번호가 틀립니다.");
+		} else
+			return loginUser;
+	}
+
+	// 이메일 찾기
+	@Transactional
+	public User findEmail(String phone) throws Exception {
 		return userRepository.findOneByPhone(phone);
 	}
-	
+
+	// 비밀번호 변경
+	@Transactional
+	public void updatePassword(int id, UpdatePasswordReq password) {
+		String encodePw = encoder.encode(password.getPassword());
+		userRepository.updatePassword(id, encodePw);
+	}
+
 	// 이메일 중복 검사
 	@Transactional(readOnly = true)
 	public void checkEmailDuplication(UserRegisterReq userRegisterReq) {
@@ -57,4 +83,26 @@ public class UserService {
 		}
 	}
 
+	// 닉네임 수정
+	@Transactional
+	public User updateNickname(Integer id, UpdateNicknameReq updateNicknameReq) throws Exception {
+		User user = userRepository.findOneById(id);
+		user.setNickname(updateNicknameReq.getNickname());
+		return userRepository.save(user);
+	}
+
+	// 이미지 수정
+	@Transactional
+	public User updateImage(Integer id, UpdateImageReq updateImageReq) throws Exception {
+		User user = userRepository.findOneById(id);
+		user.setImage(Integer.parseInt(updateImageReq.getImage()));
+		return userRepository.save(user);
+	}
+
+	// 회원 탈퇴
+	@Transactional
+	public void withdraw(Integer id) {
+		User user = userRepository.findOneById(id);
+		userRepository.delete(user);
+	}
 }
