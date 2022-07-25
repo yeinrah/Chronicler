@@ -38,8 +38,8 @@ public class User{
 	@Column(name = "email", length = 255)
 	private String email;
 	
-	@Column(name = "image", length = 255)
-	private String image;
+	@Column(name = "image")
+	private Integer image;
 	
 	@Column(name = "phone", length = 11)
 	private String phone;
