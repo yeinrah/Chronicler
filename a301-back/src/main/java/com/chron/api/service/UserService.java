@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chron.api.request.UpdatePasswordReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.User;
 import com.chron.db.repository.UserRepository;
@@ -39,6 +40,13 @@ public class UserService {
 		return userRepository.findOneByPhone(phone);
 	}
 	
+	// 비밀번호 변경 
+	@Transactional
+	public void updatePassword(int id, UpdatePasswordReq password) {
+		String encodePw = encoder.encode(password.getPassword());
+		userRepository.updatePassword(id, encodePw);
+	}
+	
 	// 이메일 중복 검사
 	@Transactional(readOnly = true)
 	public void checkEmailDuplication(UserRegisterReq userRegisterReq) {
@@ -56,5 +64,6 @@ public class UserService {
 			throw new IllegalStateException("이미 존재하는 번호입니다.");
 		}
 	}
+	
 
 }
