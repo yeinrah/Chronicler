@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chron.api.request.UpdateImageReq;
 import com.chron.api.request.UpdateNicknameReq;
 import com.chron.api.request.UpdatePasswordReq;
 import com.chron.api.request.UserRegisterReq;
@@ -16,7 +17,7 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	@Autowired
 	private UserRepository userRepository;
 	// id / nickname / password / email / image / phone
@@ -30,14 +31,15 @@ public class UserService {
 	// 회원가입
 	@Transactional
 	public User signup(UserRegisterReq userRegisterReq) throws Exception {
-		User user = User.builder().nickname(userRegisterReq.getNickname()).password(encoder.encode(userRegisterReq.getPassword()))
-				.email(userRegisterReq.getEmail()).phone(userRegisterReq.getPhone()).build();
+		User user = User.builder().nickname(userRegisterReq.getNickname())
+				.password(encoder.encode(userRegisterReq.getPassword())).email(userRegisterReq.getEmail())
+				.phone(userRegisterReq.getPhone()).build();
 		return userRepository.save(user);
 	}
-	
+
 	@Transactional
-	public User findEmail(String phone)throws Exception{
-		
+	public User findEmail(String phone) throws Exception {
+
 		return userRepository.findOneByPhone(phone);
 	}
 	
@@ -65,7 +67,7 @@ public class UserService {
 			throw new IllegalStateException("이미 존재하는 번호입니다.");
 		}
 	}
-	
+
 	// 닉네임 수정
 	@Transactional
 	public User updateNickname(Integer id, UpdateNicknameReq updateNicknameReq) throws Exception {
@@ -73,7 +75,15 @@ public class UserService {
 		user.setNickname(updateNicknameReq.getNickname());
 		return userRepository.save(user);
 	}
-	
+
+	// 닉네임 수정
+	@Transactional
+	public User updateImage(Integer id, UpdateImageReq updateImageReq) throws Exception {
+		User user = userRepository.findOneById(id);
+		user.setImage(Integer.parseInt(updateImageReq.getImage()));
+		return userRepository.save(user);
+	}
+
 	// 회원 탈퇴
 	@Transactional
 	public void withdraw(Integer id) {
