@@ -10,11 +10,12 @@ import {
   ImageList,
 } from '@mui/material';
 import MainBtn from '../../Components/MainBtn';
-import { ImageTwoTone } from '@mui/icons-material';
 import MeetingTable from '../../Components/MeetingTable';
 import InputText from '../../Components/InputText';
-import { Link } from 'react-router-dom';
 import profileImages from '../../Asset/Image/profile/profileImages';
+import BoxModal from '../../Components/BoxModal';
+import UserInfo from '../../Components/UserInfo';
+import MypageBtn from '../../Components/MypageBtn';
 const MyPage = () => {
   const [prevMeetingList, setPrevMeetingList] = useState<
     { title: string; date: Date }[]
@@ -66,11 +67,6 @@ const MyPage = () => {
     // marginLeft: '5%',
     margin: '5vh auto 0 30%',
   });
-  const UserInfo = styled(Stack)({
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: '10px 0 0 20px',
-  });
   const SubTitle = styled(Typography)({
     display: 'inline-block',
     fontWeight: 'bold',
@@ -83,17 +79,6 @@ const MyPage = () => {
   const SubText = styled(Typography)({
     fontSize: '2rem',
     color: 'var(--fontBase-color)',
-  });
-  const MypageBtn = styled(Button)({
-    height: '2.7rem',
-    marginLeft: '1rem',
-    backgroundColor: 'var(--eleActionPos-color)',
-    color: 'var(--fontAccent-color)',
-    ':hover': {
-      backgroundColor: 'var(--eleActionPos-color)',
-      color: 'var(--fontAccent-color)',
-      opacity: '0.5',
-    },
   });
   const MeetingInfo = styled(Stack)({
     display: 'flex',
@@ -110,12 +95,7 @@ const MyPage = () => {
     boxShadow: 24,
     p: 4,
   };
-  const BoxModal = styled(Box)({
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  });
+
   const ProfileChoices = styled(Stack)({
     display: 'flex',
     flexDirection: 'row',
