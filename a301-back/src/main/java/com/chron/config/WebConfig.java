@@ -27,13 +27,13 @@ public class WebConfig implements WebMvcConfigurer {
 	@Autowired
 	private JWTInterceptor jwtInterceptor;
 
-//	@Override
-//	public void addInterceptors(InterceptorRegistry registry) {
-//		registry.addInterceptor(jwtInterceptor)
-//				// 모든 경로로 들어오는 요청에 대해 수행하되,
-//				.addPathPatterns("/**")
-//				// 로그인, 회원가입, swagger이 들어오는 경우에는 인터셉터를 수행하지 않는다.
-//				.excludePathPatterns("/api/login").excludePathPatterns("/api/join")
-//				.excludePathPatterns("/swagger-ui/**");
-//	}
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(jwtInterceptor)
+				// 모든 경로로 들어오는 요청에 대해 수행하되,
+				.addPathPatterns("/**")
+				// 로그인, 회원가입, swagger이 들어오는 경우에는 인터셉터를 수행하지 않는다.
+				.excludePathPatterns("/api/login").excludePathPatterns("/api/join")
+				.excludePathPatterns("/swagger-ui/**");
+	}
 }

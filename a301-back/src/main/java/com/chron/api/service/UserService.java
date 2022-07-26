@@ -102,4 +102,14 @@ public class UserService {
 		User user = userRepository.findOneById(id);
 		userRepository.delete(user);
 	}
+
+	// 회원 정보 조회
+	@Transactional
+	public User findUser(Integer id) throws Exception {
+		User user = userRepository.findOneById(id);
+		if (user == null) {
+			throw new IllegalStateException("회원 정보 조회에 실패했습니다.");
+		}
+		return user;
+	}
 }
