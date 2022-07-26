@@ -1,5 +1,5 @@
 import React from 'react';
-import './VideoPlayer.module.css';
+import styles from './VideoPlayer.module.css';
 import { Grid, Typography, Paper, styled } from '@mui/material';
 
 const VideoPlayer = () => {

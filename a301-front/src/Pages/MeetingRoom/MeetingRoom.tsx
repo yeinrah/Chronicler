@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './MeetingRoom.module.css';
+import styles from './MeetingRoom.module.css';
 import {
   ChatBlock,
   MeetingFooter,
@@ -22,10 +22,7 @@ const MeetingRoom = () => {
         alignItems="center"
         spacing={0}
       >
-        <Container
-          maxWidth="xl"
-          sx={{ backgroundColor: 'yellow', display: 'flex', flexWrap: 'wrap' }}
-        >
+        <Container maxWidth="xl" sx={{ display: 'flex', flexWrap: 'wrap' }}>
           <VideoPlayer />
           <VideoPlayer />
           <VideoPlayer />
@@ -42,8 +39,11 @@ const MeetingRoom = () => {
           alignItems="flex-end"
           spacing={0}
         >
-          <ParticipantBlock />
-          <ChatBlock />
+          <ParticipantBlock
+            openChat={openChat}
+            openParticipant={openParticipant}
+          />
+          <ChatBlock openChat={openChat} openParticipant={openParticipant} />
         </Stack>
       </Stack>
       <MeetingFooter

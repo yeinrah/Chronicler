@@ -1,5 +1,5 @@
 import React from 'react';
-import './MainLogined.module.css';
+import styles from './MainLogined.module.css';
 import {
   Stack,
   Card,

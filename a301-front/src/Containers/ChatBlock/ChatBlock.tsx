@@ -8,10 +8,15 @@ import {
   TextField,
 } from '@mui/material';
 import React from 'react';
-import './ChatBlock.module.css';
+import styles from './ChatBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
-const ChatBlock = () => {
+interface Props {
+  openChat: boolean;
+  openParticipant: boolean;
+}
+
+const ChatBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -31,7 +36,16 @@ const ChatBlock = () => {
   });
 
   return (
-    <ChatBox width="20vw" height="70vh">
+    <ChatBox
+      width="20vw"
+      className={
+        openChat
+          ? openParticipant
+            ? styles.withParticipant
+            : styles.onlyChat
+          : styles.noChat
+      }
+    >
       <AppBar position="static">
         <Toolbar
           sx={{

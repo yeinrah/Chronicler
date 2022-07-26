@@ -1,3 +1,5 @@
+import styles from './ErrorPage.module.css';
+
 const ErrorPage = () => {
   return (
     <>

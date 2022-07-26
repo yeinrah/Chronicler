@@ -1,5 +1,5 @@
 import React from 'react';
-import './ConfirmNewPwCard.module.css';
+import styles from './ConfirmNewPwCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
   Avatar,
