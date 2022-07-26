@@ -59,7 +59,7 @@ public class UserRestController {
 
 	@PostMapping("/login")
 	@ApiOperation(value = "로그인", notes = "이메일, 비밀번호를 통해 로그인 한다.")
-	@ApiResponses({ @ApiResponse(code = 200, message = "로그인 성공"), @ApiResponse(code = 400, message = "입력 오류"),
+	@ApiResponses({ @ApiResponse(code = 200, message = "로그인 성공"), @ApiResponse(code = 202, message = "로그인 성공"), @ApiResponse(code = 400, message = "입력 오류"),
 			@ApiResponse(code = 409, message = "수정 실패"), @ApiResponse(code = 500, message = "회원정보 중복(로그인 불가)") })
 	public ResponseEntity<Map<String, Object>> login(String email, String pw) throws Exception {
 		HttpStatus status = null;
@@ -70,7 +70,7 @@ public class UserRestController {
 			if (loginUser != null) {
 				// id 정보만 들어 있는 토큰 생성
 				result.put("access-token", jwtUtil.createToken("userEmail", loginUser.getEmail()));
-				result.put("message", "SUCCESS");
+				result.put("message", "로그인에 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;
 			}
 			// 실패했을 경우
@@ -78,8 +78,9 @@ public class UserRestController {
 				result.put("message", "로그인에 실패하였습니다.");
 				status = HttpStatus.BAD_REQUEST;
 			}
-		} catch (Exception e) {
-			result.put("message", "로그인에 실패하였습니다.");
+		} 
+		catch (Exception e) {
+			result.put("message", "예외가 발생했습니다");
 			status = HttpStatus.ACCEPTED;
 		}
 		return new ResponseEntity<Map<String, Object>>(result, status);

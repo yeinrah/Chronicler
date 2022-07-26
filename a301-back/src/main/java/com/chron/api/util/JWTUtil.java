@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-
 @Component
 public class JWTUtil {
-	// 비밀키 생성
-	private static final String SALT = "Chroni";
+
+	// 비밀키 생성 32bytes이상
+	private static final String SALT = "Chroniissupersuperawesomebecause";
 
 	// 토큰 생성
 	public String createToken(String claimId, String data) throws UnsupportedEncodingException {

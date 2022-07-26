@@ -43,12 +43,9 @@ public class UserService {
 		User loginUser = userRepository.findOneByEmail(email);
 		if (loginUser == null)
 			throw new IllegalStateException("이메일 또는 비밀번호가 틀립니다.");
-		else if (!encoder.encode(pw).equals((loginUser.getPassword()))) {
-			System.out.println(encoder.encode(pw));
-			System.out.println(loginUser.getPassword());
-			System.out.println(pw);
+		if (!encoder.matches(pw, loginUser.getPassword()))
 			throw new IllegalStateException("이메일 또는 비밀번호가 틀립니다.");
-		} else
+		else
 			return loginUser;
 	}
 
