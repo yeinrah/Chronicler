@@ -87,7 +87,13 @@ const Navbar = () => {
           horizontal: 'left',
         }}
       >
-        <Box sx={{ width: 200, height: '80vh' }}>
+        <Box
+          sx={{
+            width: 200,
+            height: '80vh',
+            backgroundColor: 'var(--fontAccent-color)',
+          }}
+        >
           {MenuItems.map((item) => (
             <MenuItem
               key={item.Name}
