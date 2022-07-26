@@ -1,5 +1,5 @@
 import React from 'react';
-import './MainNonLog.module.css';
+import styles from './MainNonLog.module.css';
 import { Card, CardContent, Typography } from '@mui/material';
 import MainStack from '../../Components/MainStack';
 import MainBtn from '../../Components/MainBtn';

@@ -1,5 +1,5 @@
 import React from 'react';
-import './FindEmailCard.module.css';
+import styles from './FindEmailCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
   Avatar,

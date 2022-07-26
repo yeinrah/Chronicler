@@ -1,5 +1,5 @@
 import React from 'react';
-import './SignUp.module.css';
+import styles from './SignUp.module.css';
 import { SignUpCard } from '../../Containers';
 import theme from '../../Components/Theme';
 import { ThemeProvider } from '@mui/material';

@@ -1,5 +1,5 @@
 import React from 'react';
-import './SignInCard.module.css';
+import styles from './SignInCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
   Avatar,

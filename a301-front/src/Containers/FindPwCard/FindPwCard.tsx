@@ -1,5 +1,5 @@
 import React from 'react';
-import './FindPwCard.module.css';
+import styles from './FindPwCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
   Avatar,
