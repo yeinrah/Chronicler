@@ -81,7 +81,7 @@ public class UserRestController {
 			}
 		} catch (Exception e) {
 			result.put("message", "예외가 발생했습니다");
-			status = HttpStatus.ACCEPTED;
+			status = HttpStatus.FORBIDDEN;
 		}
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
@@ -121,5 +121,12 @@ public class UserRestController {
 	public ResponseEntity<?> updatePassword(@PathVariable int id, @Valid @RequestBody UpdatePasswordReq password) {
 		userService.updatePassword(id, password);
 		return new ResponseEntity<Integer>(HttpStatus.OK);
+	}
+
+	@GetMapping("/mypage/{id}")
+	@ApiOperation(value = "회원 정보 조회", notes = "id를 통해 마이페이지를 조회한다.")
+	public ResponseEntity<?> findUser(@PathVariable Integer id) throws Exception {
+		User user = userService.findUser(id);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }
