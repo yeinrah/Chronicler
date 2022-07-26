@@ -1,5 +1,5 @@
-import React from 'react';
 import styles from './SignUpCard.module.css';
+import React, { useEffect, useRef, useState } from 'react';
 import Copyright from '../../Components/Copyright';
 import {
   Avatar,
@@ -16,6 +16,42 @@ import { Link as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const SignUpCard = () => {
+  const [enteredEmail, setEnteredEmail] = useState('');
+  const [enteredEmailError, setEnteredEmailError] = useState(false);
+  const [enteredNickname, setEnteredNickname] = useState('');
+  const [enteredNicknameError, setEnteredNicknameError] = useState(false);
+  const [enteredPhone, setEnteredPhone] = useState('');
+  const [enteredPhoneError, setEnteredPhoneError] = useState(false);
+  const [enteredPassword, setEnteredPassword] = useState('');
+  const [enteredPasswordError, setEnteredPasswordError] = useState(false);
+  const [enteredPasswordConfirm, setEnteredPasswordConfirm] = useState('');
+  const [enteredPasswordConfirmError, setEnteredPasswordConfirmError] =
+    useState(false);
+  useEffect(() => {
+    if (enteredEmail.indexOf('@') < 0 || enteredEmail.length === 0) {
+      setEnteredEmailError(true);
+    } else setEnteredEmailError(false);
+
+    if (enteredNickname.length > 10 || enteredNickname.length === 0) {
+      setEnteredNicknameError(true);
+    } else setEnteredNicknameError(false);
+
+    if (enteredPhone.indexOf('-') > 0 || enteredPhone.length === 0) {
+      setEnteredPhoneError(true);
+    } else setEnteredPhoneError(false);
+    if (enteredPassword.length < 10 || enteredPassword.length == 0) {
+      setEnteredPasswordError(true);
+    } else setEnteredPasswordError(false);
+    if (enteredPassword !== enteredPasswordConfirm) {
+      setEnteredPasswordConfirmError(true);
+    } else setEnteredPasswordConfirmError(false);
+  }, [
+    enteredEmail,
+    enteredNickname,
+    enteredPhone,
+    enteredPassword,
+    enteredPasswordConfirm,
+  ]);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -58,6 +94,10 @@ const SignUpCard = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                error={enteredEmailError}
+                onChange={(e) => {
+                  setEnteredEmail(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -68,6 +108,10 @@ const SignUpCard = () => {
                 label="Nickname"
                 name="nickname"
                 autoComplete="nickname"
+                error={enteredNicknameError}
+                onChange={(e) => {
+                  setEnteredNickname(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -78,6 +122,10 @@ const SignUpCard = () => {
                 label="Phone(Only digits)"
                 name="phone"
                 autoComplete="phone"
+                error={enteredPhoneError}
+                onChange={(e) => {
+                  setEnteredPhone(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -89,6 +137,10 @@ const SignUpCard = () => {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                error={enteredPasswordError}
+                onChange={(e) => {
+                  setEnteredPassword(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -100,6 +152,10 @@ const SignUpCard = () => {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                error={enteredPasswordConfirmError}
+                onChange={(e) => {
+                  setEnteredPasswordConfirm(e.target.value);
+                }}
               />
             </Grid>
           </Grid>
@@ -112,6 +168,17 @@ const SignUpCard = () => {
               color: 'var(--fontBase-color)',
               mt: 3,
               mb: 2,
+            }}
+            onClick={() => {
+              if (
+                enteredEmailError ||
+                enteredNicknameError ||
+                enteredPasswordError ||
+                enteredPhoneError ||
+                enteredPasswordConfirmError
+              ) {
+                alert('유효한 값이 아닙니다.');
+              }
             }}
           >
             Sign Up
