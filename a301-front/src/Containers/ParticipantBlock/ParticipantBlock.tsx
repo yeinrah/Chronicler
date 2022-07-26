@@ -1,9 +1,14 @@
 import { AppBar, Box, styled, Toolbar, Typography } from '@mui/material';
 import React from 'react';
-import './ParticipantBlock.module.css';
+import styles from './ParticipantBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
-const ParticipantBlock = () => {
+interface Props {
+  openChat: boolean;
+  openParticipant: boolean;
+}
+
+const ParticipantBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
   const ParticipantBox = styled(Box)({
     padding: '1px',
     border: '1px solid black',
@@ -11,7 +16,17 @@ const ParticipantBlock = () => {
   });
 
   return (
-    <ParticipantBox width="20vw" height="30vh">
+    <ParticipantBox
+      width="20vw"
+      sx={{ borderBottom: 0 }}
+      className={
+        openParticipant
+          ? openChat
+            ? styles.withChat
+            : styles.onlyParticipant
+          : styles.noParticipant
+      }
+    >
       <AppBar position="static">
         <Toolbar
           sx={{
@@ -27,7 +42,7 @@ const ParticipantBlock = () => {
         sx={{
           color: 'var(--eleBase-color)',
           padding: '10px',
-          height: '90%',
+          height: '100%',
           overflow: 'scroll',
         }}
       >

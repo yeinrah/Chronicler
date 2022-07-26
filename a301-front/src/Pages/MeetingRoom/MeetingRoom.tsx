@@ -42,8 +42,11 @@ const MeetingRoom = () => {
           alignItems="flex-end"
           spacing={0}
         >
-          <ParticipantBlock />
-          <ChatBlock />
+          <ParticipantBlock
+            openChat={openChat}
+            openParticipant={openParticipant}
+          />
+          <ChatBlock openChat={openChat} openParticipant={openParticipant} />
         </Stack>
       </Stack>
       <MeetingFooter

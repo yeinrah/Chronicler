@@ -84,7 +84,7 @@ const MeetingFooter: React.FC<Props> = ({
         </Box>
         <Box sx={{ flexGrow: 1 }} />
         <Tooltip
-          title={openParticipant ? 'See Participants' : 'Close Participants'}
+          title={openParticipant ? 'Close Participants' : 'See Participants'}
           placement="top"
           arrow
         >
@@ -96,7 +96,7 @@ const MeetingFooter: React.FC<Props> = ({
           </IconButton>
         </Tooltip>
         <Tooltip
-          title={openChat ? 'Open Chat' : 'Close Chat'}
+          title={openChat ? 'Close Chat' : 'Open Chat'}
           placement="top"
           arrow
         >
