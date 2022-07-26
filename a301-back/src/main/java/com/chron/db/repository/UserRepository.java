@@ -11,6 +11,7 @@ import com.chron.db.entity.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	boolean existsByEmail(String email);
 	boolean existsByPhone(String phone);
+	User findOneByEmail(String email);
 	User findOneByPhone(String email);
 	User findOneById(Integer id);
 	@Modifying
