@@ -14,6 +14,5 @@ CREATE TABLE user (
  PRIMARY KEY(id)
 );
 
-INSERT INTO user(nickname, password, email, phone) VALUES('nick','$10$LRsbvwLBfYvZ9iv1cNZM/.sRP86cZvfSByVH2eWpqZCHy1LILQIUC','sample@naver.com','01012345678');
 
 Select * from user;

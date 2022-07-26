@@ -17,19 +17,19 @@ public class JWTInterceptor implements HandlerInterceptor {
 	@Autowired
 	private JWTUtil jwtUtil;
 
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		if(request.getMethod().equals("OPTIONS")) {
-			return true;
-		}
-		
-		final String token = request.getHeader(HEADER_AUTH);
-
-		if (token != null) {
-			jwtUtil.checkToken(token);
-			return true;
-		}
-		throw new Exception("유효하지 않은 접근입니다.");
-	}
+//	@Override
+//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+//			throws Exception {
+//		if(request.getMethod().equals("OPTIONS")) {
+//			return true;
+//		}
+//		
+//		final String token = request.getHeader(HEADER_AUTH);
+//
+//		if (token != null) {
+//			jwtUtil.checkToken(token);
+//			return true;
+//		}
+//		throw new Exception("유효하지 않은 접근입니다.");
+//	}
 }

@@ -72,6 +72,9 @@ public class UserRestController {
 				// id 정보만 들어 있는 토큰 생성
 				result.put("access-token", jwtUtil.createToken("userEmail", loginUser.getEmail()));
 				result.put("message", "로그인에 성공하였습니다.");
+				loginUser.setPassword("");
+				result.put("loginUser", loginUser);
+				
 				status = HttpStatus.ACCEPTED;
 			}
 			// 실패했을 경우
