@@ -171,10 +171,12 @@ const MyPage = () => {
       >
         <BoxModal sx={styleModal}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            이메일 인증(비밀번호 변경)
+            비밀번호 변경
           </Typography>
           <UserInfo>
-            <Link to="/">이메일인증</Link>
+            {/* <Link to="/">이메일인증</Link> */}
+            <InputText sx={{ width: '100%' }} type="password" />
+            <MypageBtn sx={{ height: '100%' }}>확인</MypageBtn>
           </UserInfo>
         </BoxModal>
       </Modal>

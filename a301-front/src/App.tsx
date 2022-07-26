@@ -24,7 +24,7 @@ import {
 function App() {
   return (
     <div className="App">
-      {/* <Navbar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
@@ -33,8 +33,8 @@ function App() {
         <Route path="/findpw" element={<FindPwCard />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
-      </Routes> */}
-      <MeetingRoom />
+      </Routes>
+      {/* <MeetingRoom /> */}
     </div>
   );
 }
