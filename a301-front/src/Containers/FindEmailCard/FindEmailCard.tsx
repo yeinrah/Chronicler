@@ -11,6 +11,7 @@ import {
   Container,
 } from '@mui/material';
 import PolicyIcon from '@mui/icons-material/Policy';
+import userInfoFindEmailApi from '../../Api/userInfoFindEmailApi';
 
 const FindEmailCard = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,6 +20,20 @@ const FindEmailCard = () => {
     console.log({
       phone: data.get('phone'),
     });
+  };
+  const findEmail = () => {
+    type PhoneNumber = {
+      phone: string;
+    };
+    userInfoFindEmailApi
+      .get<PhoneNumber>('/userInfo/findEmail', {
+        params: {
+          phone: '01012345678',
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (
@@ -61,6 +76,7 @@ const FindEmailCard = () => {
               mt: 3,
               mb: 2,
             }}
+            onClick={findEmail}
           >
             Find Your Email
           </Button>
