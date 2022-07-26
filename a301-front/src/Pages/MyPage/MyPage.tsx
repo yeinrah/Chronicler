@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './MyPage.module.css';
 import {
   styled,
@@ -16,7 +16,15 @@ import profileImages from '../../Asset/Image/profile/profileImages';
 import BoxModal from '../../Components/BoxModal';
 import UserInfo from '../../Components/UserInfo';
 import MypageBtn from '../../Components/MypageBtn';
+import userInfoSearch from '../../Api/userInfoSearch';
+import userInfoUpdatePassword from '../../Api/userInfoUpdatePassword';
+import userInfoUpdateNickname from '../../Api/userInfoUpdateNickname';
+import userInfoUpdateImage from '../../Api/userInfoUpdateImage';
 const MyPage = () => {
+  const [myEmail, setMyEmail] = useState<any>('hasadas');
+  const [myProfileNum, setMyProfileNum] = useState<any>();
+  const [myPhone, setMyPhone] = useState<any>();
+  const [myNickname, setMyNickname] = useState<any>();
   const [prevMeetingList, setPrevMeetingList] = useState<
     { title: string; date: Date }[]
   >([
@@ -27,7 +35,6 @@ const MyPage = () => {
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [profileModalOpen, setProfileModalOpen] = useState(false);
-  const [curImage, setCurImage] = useState(0);
   const nickNameHandleOpen = () => setNickNameModalOpen(true);
   const nickNameHandleClose = () => setNickNameModalOpen(false);
   const phoneHandleOpen = () => setPhoneModalOpen(true);
@@ -36,9 +43,56 @@ const MyPage = () => {
   const passwordHandleClose = () => setPasswordModalOpen(false);
   const profileHandleOpen = () => setProfileModalOpen(true);
   const profileHandleClose = () => setProfileModalOpen(false);
-  const updateImage = () => {
-    // setCurImage(index);
+  const inputNickNameChange = useRef<any>();
+  const inputPasswordChange = useRef<any>();
+  const inputPhoneChange = useRef<any>();
+  const updateProfileImage = (num: number) => {
+    userInfoUpdateImage
+      .patch('./userInfo/updateImage/1', { image: num })
+      .then(() => {
+        setMyProfileNum(num);
+      });
   };
+  const updateNickName = () => {
+    userInfoUpdateNickname
+      .patch('/userInfo/updateNickname/1', {
+        nickname: inputNickNameChange.current.value,
+      })
+      .then(() => {
+        nickNameHandleClose();
+        setMyNickname(inputNickNameChange.current.value);
+      });
+  };
+  const updatePassword = () => {
+    userInfoUpdatePassword
+      .patch('./userInfo/updatePassword/1', {
+        password: inputPasswordChange.current.value,
+      })
+      .then(() => {
+        passwordHandleClose();
+        console.log('succes');
+      });
+  };
+  const updatePhone = () => {};
+  type userInfo = {
+    id: number;
+    // nickname: string;
+    // email: string;
+    // phone: string;
+    // image: number;
+  };
+  const loadUserInfo = () => {
+    userInfoSearch.get<any>('userInfo/mypage/1', {}).then((info) => {
+      console.log(info.data);
+      setMyEmail(info.data.email);
+      setMyNickname(info.data.nickname);
+      setMyPhone(info.data.phone);
+      setMyProfileNum(0);
+    });
+  };
+  useEffect(() => {
+    loadUserInfo();
+  }, []);
   const MypageStack = styled(Stack)({
     display: 'flex',
     justifyContent: 'center',
@@ -114,8 +168,10 @@ const MyPage = () => {
             닉네임 변경
           </Typography>
           <UserInfo>
-            <InputText sx={{ width: '100%' }} />
-            <MypageBtn sx={{ height: '100%' }}>확인</MypageBtn>
+            <InputText sx={{ width: '100%' }} inputRef={inputNickNameChange} />
+            <MypageBtn sx={{ height: '100%' }} onClick={updateNickName}>
+              확인
+            </MypageBtn>
           </UserInfo>
         </BoxModal>
       </Modal>
@@ -134,8 +190,10 @@ const MyPage = () => {
             전화번호 변경
           </Typography>
           <UserInfo>
-            <InputText sx={{ width: '100%' }} />
-            <MypageBtn sx={{ height: '100%' }}>확인</MypageBtn>
+            <InputText sx={{ width: '100%' }} inputRef={inputPhoneChange} />
+            <MypageBtn sx={{ height: '100%' }} onClick={updatePhone}>
+              확인
+            </MypageBtn>
           </UserInfo>
         </BoxModal>
       </Modal>
@@ -155,8 +213,14 @@ const MyPage = () => {
           </Typography>
           <UserInfo>
             {/* <Link to="/">이메일인증</Link> */}
-            <InputText sx={{ width: '100%' }} type="password" />
-            <MypageBtn sx={{ height: '100%' }}>확인</MypageBtn>
+            <InputText
+              sx={{ width: '100%' }}
+              type="password"
+              inputRef={inputPasswordChange}
+            />
+            <MypageBtn sx={{ height: '100%' }} onClick={updatePassword}>
+              확인
+            </MypageBtn>
           </UserInfo>
         </BoxModal>
       </Modal>
@@ -184,7 +248,7 @@ const MyPage = () => {
                 className={styles.profileImg}
                 onMouseEnter={() => {}}
                 onClick={() => {
-                  setCurImage(index);
+                  updateProfileImage(index);
                   profileHandleClose();
                 }}
               />
@@ -203,18 +267,18 @@ const MyPage = () => {
       <MypageStack direction="row">
         <MypageLeftStack>
           <MypageProfileImage onClick={profileHandleOpen}>
-            <img src={profileImages[curImage]} alt="my profile" />
+            <img src={profileImages[myProfileNum]} alt="my profile" />
           </MypageProfileImage>
         </MypageLeftStack>
         <MypageRightStack>
           <SubTitle>닉네임</SubTitle>
           <UserInfo>
-            <SubText>정서</SubText>
+            <SubText>{myNickname}</SubText>
             <MypageBtn onClick={nickNameHandleOpen}>닉네임 변경</MypageBtn>
           </UserInfo>
           <SubTitle>이메일</SubTitle>
           <UserInfo>
-            <SubText>wjdtj9656@gmail.com</SubText>
+            <SubText>{myEmail}</SubText>
           </UserInfo>
           <SubTitle>비밀번호</SubTitle>
           <UserInfo>
@@ -222,7 +286,7 @@ const MyPage = () => {
           </UserInfo>
           <SubTitle>전화번호</SubTitle>
           <UserInfo>
-            <SubText>01038819667</SubText>
+            <SubText>{myPhone}</SubText>
             <MypageBtn onClick={phoneHandleOpen}>전화번호 변경</MypageBtn>
           </UserInfo>
           <SubTitle>회의 기록</SubTitle>
