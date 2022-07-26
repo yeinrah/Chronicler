@@ -1,3 +1,10 @@
+import React from 'react';
+
+const userApi = () => {
+  return <div>userApi</div>;
+};
+
+export default userApi;
 // import axios from 'axios';
 // const UserApi = axios.create({
 //   // baseURL: `www.naver.com`,
@@ -9,7 +16,7 @@
 // });
 // export default UserApi;
 
-// 사용 예시
+// // 사용 예시
 // const Problem = (props) => {
 //   const deleteProblem = () => {
 //     ProblemApi.delete(`/problem/${props.item.id}`).then(() => {

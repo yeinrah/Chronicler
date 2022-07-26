@@ -31,27 +31,27 @@ const SignUpCard = () => {
     if (enteredEmail.indexOf('@') < 0 || enteredEmail.length === 0) {
       setEnteredEmailError(true);
     } else setEnteredEmailError(false);
-
+  }, [enteredEmail]);
+  useEffect(() => {
     if (enteredNickname.length > 10 || enteredNickname.length === 0) {
       setEnteredNicknameError(true);
     } else setEnteredNicknameError(false);
-
+  }, [enteredNickname]);
+  useEffect(() => {
     if (enteredPhone.indexOf('-') > 0 || enteredPhone.length === 0) {
       setEnteredPhoneError(true);
     } else setEnteredPhoneError(false);
-    if (enteredPassword.length < 10 || enteredPassword.length == 0) {
+  }, [enteredPhone]);
+  useEffect(() => {
+    if (enteredPassword.length < 10 || enteredPassword.length === 0) {
       setEnteredPasswordError(true);
     } else setEnteredPasswordError(false);
+  }, [enteredPassword]);
+  useEffect(() => {
     if (enteredPassword !== enteredPasswordConfirm) {
       setEnteredPasswordConfirmError(true);
     } else setEnteredPasswordConfirmError(false);
-  }, [
-    enteredEmail,
-    enteredNickname,
-    enteredPhone,
-    enteredPassword,
-    enteredPasswordConfirm,
-  ]);
+  }, [enteredPassword, enteredPasswordConfirm]);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
