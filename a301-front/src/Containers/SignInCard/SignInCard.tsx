@@ -14,13 +14,14 @@ import {
   Typography,
   Container,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignInApi from '../../Api/userSignInApi';
 
 const SignInCard = () => {
   const enteredEmail = useRef<any>();
   const enteredPassword = useRef<any>();
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -44,9 +45,12 @@ const SignInCard = () => {
       })
       .then((item) => {
         localStorage.setItem('access-token', item.data['access-token']);
+        // alert('로그인 성공');
+        navigate('/');
       })
       .catch((e) => {
         console.log(e);
+        alert('로그인 실패');
       });
   };
 

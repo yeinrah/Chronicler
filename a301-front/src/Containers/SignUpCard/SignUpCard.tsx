@@ -12,7 +12,7 @@ import {
   Typography,
   Container,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignUpApi from '../../Api/userSignUpApi';
 
@@ -53,6 +53,7 @@ const SignUpCard = () => {
       setEnteredPasswordConfirmError(true);
     } else setEnteredPasswordConfirmError(false);
   }, [enteredPassword, enteredPasswordConfirm]);
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -73,6 +74,11 @@ const SignUpCard = () => {
       })
       .then(() => {
         console.log('successssss');
+        alert('회원가입 성공');
+        navigate('/');
+      })
+      .catch(() => {
+        alert('회원가입 실패');
       });
   };
 

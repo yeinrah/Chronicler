@@ -274,12 +274,7 @@ const MyPage = () => {
           <SubTitle>닉네임</SubTitle>
           <UserInfo>
             <SubText>{myNickname}</SubText>
-            <MypageBtn
-              sx={{ justifyContent: 'flex-start' }}
-              onClick={nickNameHandleOpen}
-            >
-              닉네임 변경
-            </MypageBtn>
+            <MypageBtn onClick={nickNameHandleOpen}>닉네임 변경</MypageBtn>
           </UserInfo>
           <SubTitle>이메일</SubTitle>
           <UserInfo>
