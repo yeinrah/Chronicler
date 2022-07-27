@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Navbar.module.css';
 import {
   Typography,
@@ -25,11 +25,16 @@ const Navbar = () => {
     display: 'flex',
     gap: 30,
   });
-  const MenuItems = [
-    { Name: 'Logout', Link: '#' },
-    { Name: 'MyPage', Link: '#' },
-  ];
   const [open, setOpen] = useState(false);
+  const [isLogin, setisLogin] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem('access-token'));
+  useEffect(() => {
+    console.log(token);
+    if (token) {
+      setisLogin(true);
+    } else setisLogin(false);
+  }, [token]);
+
   return (
     <AppBar sx={{ backgroundColor: 'var(--bgExtra-color)' }}>
       <StyledToolbar>
@@ -55,22 +60,41 @@ const Navbar = () => {
           />
         </Box>
         <MenuBox sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
-          {MenuItems.map((item) => (
-            <Typography
-              key={item.Name}
-              sx={{ cursor: 'pointer', fontSize: '15px' }}
+          <Typography
+            key="Logout"
+            sx={{ cursor: 'pointer', fontSize: '15px' }}
+            className={isLogin ? styles.signedin : styles.signedout}
+          >
+            <Link
+              onClick={() => {
+                localStorage.removeItem('access-token');
+                setToken(null);
+                window.alert('로그아웃되었습나다');
+              }}
+              style={{
+                textDecoration: 'none',
+                color: 'var(--fontBase-color)',
+              }}
+              to="#"
             >
-              <Link
-                to={item.Link}
-                style={{
-                  textDecoration: 'none',
-                  color: 'var(--fontBase-color)',
-                }}
-              >
-                {item.Name}
-              </Link>
-            </Typography>
-          ))}
+              Logout
+            </Link>
+          </Typography>
+          <Typography
+            key="MyPage"
+            sx={{ cursor: 'pointer', fontSize: '15px' }}
+            className={isLogin ? styles.signedin : styles.signedout}
+          >
+            <Link
+              to="/mypage"
+              style={{
+                textDecoration: 'none',
+                color: 'var(--fontBase-color)',
+              }}
+            >
+              MyPage
+            </Link>
+          </Typography>
         </MenuBox>
       </StyledToolbar>
       <Menu
@@ -94,22 +118,41 @@ const Navbar = () => {
             backgroundColor: 'var(--fontAccent-color)',
           }}
         >
-          {MenuItems.map((item) => (
-            <MenuItem
-              key={item.Name}
-              sx={{ cursor: 'pointer', fontSize: '15px' }}
+          <Typography
+            key="Logout"
+            sx={{ cursor: 'pointer', fontSize: '15px' }}
+            className={isLogin ? styles.signedin : styles.signedout}
+          >
+            <Link
+              onClick={() => {
+                localStorage.removeItem('access-token');
+                setToken(null);
+                window.alert('로그아웃되었습나다');
+              }}
+              style={{
+                textDecoration: 'none',
+                color: 'var(--fontBase-color)',
+              }}
+              to="#"
             >
-              <Link
-                to={item.Link}
-                style={{
-                  textDecoration: 'none',
-                  color: 'var(--fontBase-color)',
-                }}
-              >
-                {item.Name}
-              </Link>
-            </MenuItem>
-          ))}
+              Logout
+            </Link>
+          </Typography>
+          <Typography
+            key="MyPage"
+            sx={{ cursor: 'pointer', fontSize: '15px' }}
+            className={isLogin ? styles.signedin : styles.signedout}
+          >
+            <Link
+              to="/mypage"
+              style={{
+                textDecoration: 'none',
+                color: 'var(--fontBase-color)',
+              }}
+            >
+              MyPage
+            </Link>
+          </Typography>
         </Box>
       </Menu>
     </AppBar>
