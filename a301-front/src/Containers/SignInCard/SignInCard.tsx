@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './SignInCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
@@ -17,11 +17,14 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignInApi from '../../Api/userSignInApi';
+import { useRecoilState } from 'recoil';
+import userInfoState from '../../recoil/atoms/userInfoAtom';
 
 const SignInCard = () => {
   const enteredEmail = useRef<any>();
   const enteredPassword = useRef<any>();
   const navigate = useNavigate();
+  const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,7 +48,17 @@ const SignInCard = () => {
       })
       .then((item) => {
         localStorage.setItem('access-token', item.data['access-token']);
+        console.log(item);
         // alert('로그인 성공');
+        setNowUserInfo({
+          id: item.data.loginUser.id,
+          email: item.data.loginUser.email,
+          nickname: item.data.loginUser.email,
+          image: item.data.loginUser.image,
+          phone: item.data.loginUser.phone,
+        });
+        console.log(nowUserInfo);
+        console.log(nowUserInfo.email);
         navigate('/');
       })
       .catch((e) => {
