@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import userSignUpApi from '../../Api/userSignUpApi';
 
 const SignUpCard = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -61,6 +62,18 @@ const SignUpCard = () => {
       phone: data.get('phone'),
       password: data.get('password'),
     });
+  };
+  const signUP = () => {
+    userSignUpApi
+      .post<any>('userInfo/signup', {
+        email: enteredEmail,
+        nickname: enteredNickname,
+        password: enteredPassword,
+        phone: enteredPhone,
+      })
+      .then(() => {
+        console.log('successssss');
+      });
   };
 
   return (
@@ -178,6 +191,8 @@ const SignUpCard = () => {
                 enteredPasswordConfirmError
               ) {
                 alert('유효한 값이 아닙니다.');
+              } else {
+                signUP();
               }
             }}
           >
