@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './SignInCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
@@ -16,8 +16,11 @@ import {
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import userSignInApi from '../../Api/userSignInApi';
 
 const SignInCard = () => {
+  const enteredEmail = useRef<any>();
+  const enteredPassword = useRef<any>();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -26,6 +29,25 @@ const SignInCard = () => {
       nickname: data.get('nickname'),
       password: data.get('password'),
     });
+  };
+  const signIn = () => {
+    // type LoginForm = {
+    //   email: string;
+    //   pw: string;
+    // };
+    userSignInApi
+      .post<any>('/userInfo/login', null, {
+        params: {
+          email: enteredEmail.current.value,
+          pw: enteredPassword.current.value,
+        },
+      })
+      .then((item) => {
+        localStorage.setItem('access-token', item.data['access-token']);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (
@@ -59,16 +81,7 @@ const SignInCard = () => {
             name="email"
             autoComplete="email"
             autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="nickname"
-            label="Nickname"
-            name="nickname"
-            autoComplete="nickname"
-            autoFocus
+            inputRef={enteredEmail}
           />
           <TextField
             margin="normal"
@@ -79,6 +92,7 @@ const SignInCard = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            inputRef={enteredPassword}
           />
           <FormControlLabel
             control={
@@ -99,6 +113,7 @@ const SignInCard = () => {
               mt: 3,
               mb: 2,
             }}
+            onClick={signIn}
           >
             Sign In
           </Button>
