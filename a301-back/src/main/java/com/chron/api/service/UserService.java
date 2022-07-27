@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chron.api.request.UpdateImageReq;
 import com.chron.api.request.UpdateNicknameReq;
 import com.chron.api.request.UpdatePasswordReq;
+import com.chron.api.request.UpdatePhoneReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.User;
 import com.chron.db.repository.UserRepository;
@@ -87,6 +88,14 @@ public class UserService {
 	public User updateNickname(Integer id, UpdateNicknameReq updateNicknameReq) throws Exception {
 		User user = userRepository.findOneById(id);
 		user.setNickname(updateNicknameReq.getNickname());
+		return userRepository.save(user);
+	}
+	// 핸드폰 번호 수정
+	@Transactional
+	public User updatePhone(Integer id, UpdatePhoneReq phone) throws Exception {
+		User user = userRepository.findOneById(id);
+		System.out.println(user.getPhone());
+		user.setPhone(phone.getPhone());
 		return userRepository.save(user);
 	}
 

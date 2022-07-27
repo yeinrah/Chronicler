@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chron.api.request.UpdateImageReq;
 import com.chron.api.request.UpdateNicknameReq;
 import com.chron.api.request.UpdatePasswordReq;
+import com.chron.api.request.UpdatePhoneReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.api.service.UserService;
 import com.chron.api.util.JWTUtil;
@@ -109,6 +110,13 @@ public class UserRestController {
 	public ResponseEntity<?> updateImage(@PathVariable Integer id, @Valid @RequestBody UpdateImageReq updateImageReq)
 			throws Exception {
 		userService.updateImage(id, updateImageReq);
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+	@PatchMapping("/updatePhone/{id}")
+	@ApiOperation(value = "핸드폰 번호 수정", notes = "핸드폰 번호 수정")
+	public ResponseEntity<?> updatePhone(@PathVariable Integer id, @Valid @RequestBody UpdatePhoneReq updatePhoneReq)
+			throws Exception {
+		userService.updatePhone(id, updatePhoneReq);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
