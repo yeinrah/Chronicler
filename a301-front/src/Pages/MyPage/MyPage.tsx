@@ -20,8 +20,11 @@ import userInfoSearch from '../../Api/userInfoSearch';
 import userInfoUpdatePassword from '../../Api/userInfoUpdatePassword';
 import userInfoUpdateNickname from '../../Api/userInfoUpdateNickname';
 import userInfoUpdateImage from '../../Api/userInfoUpdateImage';
+import userInfoUpdatePhone from '../../Api/userinfoUpdatePhone';
+import { useRecoilState } from 'recoil';
+import userInfoState from '../../recoil/atoms/userInfoState';
 const MyPage = () => {
-  const [myEmail, setMyEmail] = useState<any>('hasadas');
+  const [myEmail, setMyEmail] = useState<any>('null user');
   const [myProfileNum, setMyProfileNum] = useState<any>();
   const [myPhone, setMyPhone] = useState<any>();
   const [myNickname, setMyNickname] = useState<any>();
@@ -46,16 +49,17 @@ const MyPage = () => {
   const inputNickNameChange = useRef<any>();
   const inputPasswordChange = useRef<any>();
   const inputPhoneChange = useRef<any>();
+  const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
   const updateProfileImage = (num: number) => {
     userInfoUpdateImage
-      .patch('./userInfo/updateImage/1', { image: num })
+      .patch(`./userInfo/updateImage/${nowUserInfo.id}`, { image: num })
       .then(() => {
         setMyProfileNum(num);
       });
   };
   const updateNickName = () => {
     userInfoUpdateNickname
-      .patch('/userInfo/updateNickname/1', {
+      .patch(`/userInfo/updateNickname/${nowUserInfo.id}`, {
         nickname: inputNickNameChange.current.value,
       })
       .then(() => {
@@ -65,15 +69,23 @@ const MyPage = () => {
   };
   const updatePassword = () => {
     userInfoUpdatePassword
-      .patch('./userInfo/updatePassword/1', {
+      .patch(`./userInfo/updatePassword/${nowUserInfo.id}`, {
         password: inputPasswordChange.current.value,
       })
       .then(() => {
         passwordHandleClose();
-        console.log('succes');
       });
   };
-  const updatePhone = () => {};
+  const updatePhone = () => {
+    userInfoUpdatePhone
+      .patch(`./userInfo/updatePhone/${nowUserInfo.id}`, {
+        phone: inputPhoneChange.current.value,
+      })
+      .then(() => {
+        phoneHandleClose();
+        setMyPhone(inputPhoneChange.current.value);
+      });
+  };
   type userInfo = {
     id: number;
     // nickname: string;
@@ -82,13 +94,17 @@ const MyPage = () => {
     // image: number;
   };
   const loadUserInfo = () => {
-    userInfoSearch.get<any>('userInfo/mypage/1', {}).then((info) => {
-      console.log(info.data);
-      setMyEmail(info.data.email);
-      setMyNickname(info.data.nickname);
-      setMyPhone(info.data.phone);
-      setMyProfileNum(0);
-    });
+    userInfoSearch
+      .get<any>(`userInfo/mypage/${nowUserInfo.id}`, {})
+      .then((info) => {
+        console.log(info);
+        console.log('chkeck!!!');
+        if (!info.data.image) info.data.image = 0;
+        setMyEmail(info.data.email);
+        setMyNickname(info.data.nickname);
+        setMyPhone(info.data.phone);
+        setMyProfileNum(info.data.image);
+      });
   };
   useEffect(() => {
     loadUserInfo();
@@ -212,7 +228,6 @@ const MyPage = () => {
             비밀번호 변경
           </Typography>
           <UserInfo>
-            {/* <Link to="/">이메일인증</Link> */}
             <InputText
               sx={{ width: '100%' }}
               type="password"

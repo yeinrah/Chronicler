@@ -11,6 +11,9 @@ import {
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import userLoginedState from '../../recoil/atoms/userLoginedState';
+import { useRecoilState } from 'recoil';
+import userInfoState from '../../recoil/atoms/userInfoState';
 
 const Navbar = () => {
   const TitleTypography = styled(Typography)({
@@ -26,14 +29,16 @@ const Navbar = () => {
     gap: 30,
   });
   const [open, setOpen] = useState(false);
-  const [isLogin, setisLogin] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem('access-token'));
-  useEffect(() => {
-    console.log(token);
-    if (token) {
-      setisLogin(true);
-    } else setisLogin(false);
-  }, [token]);
+  // const [isLogin, setisLogin] = useState(false);
+  // const [token, setToken] = useState(localStorage.getItem('access-token'));
+  const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
+  const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
+  // useEffect(() => {
+  //   console.log(token);
+  //   if (token) {
+  //     setisLogin(true);
+  //   } else setisLogin(false);
+  // }, [token]);
 
   return (
     <AppBar sx={{ backgroundColor: 'var(--bgExtra-color)' }}>
@@ -63,19 +68,21 @@ const Navbar = () => {
           <Typography
             key="Logout"
             sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={isLogin ? styles.signedin : styles.signedout}
+            className={nowLogined ? styles.signedin : styles.signedout}
           >
             <Link
               onClick={() => {
                 localStorage.removeItem('access-token');
-                setToken(null);
+                // setToken(null);
+                setNowLogined(false);
+                setNowUserInfo({});
                 window.alert('로그아웃되었습나다');
               }}
               style={{
                 textDecoration: 'none',
                 color: 'var(--fontBase-color)',
               }}
-              to="#"
+              to="/"
             >
               Logout
             </Link>
@@ -83,7 +90,7 @@ const Navbar = () => {
           <Typography
             key="MyPage"
             sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={isLogin ? styles.signedin : styles.signedout}
+            className={nowLogined ? styles.signedin : styles.signedout}
           >
             <Link
               to="/mypage"
@@ -121,12 +128,12 @@ const Navbar = () => {
           <Typography
             key="Logout"
             sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={isLogin ? styles.signedin : styles.signedout}
+            className={nowLogined ? styles.signedin : styles.signedout}
           >
             <Link
               onClick={() => {
                 localStorage.removeItem('access-token');
-                setToken(null);
+                // setToken(null);
                 window.alert('로그아웃되었습나다');
               }}
               style={{
@@ -141,7 +148,7 @@ const Navbar = () => {
           <Typography
             key="MyPage"
             sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={isLogin ? styles.signedin : styles.signedout}
+            className={nowLogined ? styles.signedin : styles.signedout}
           >
             <Link
               to="/mypage"

@@ -19,37 +19,76 @@ import userSignUpApi from '../../Api/userSignUpApi';
 const SignUpCard = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredEmailError, setEnteredEmailError] = useState(false);
+  const [enteredEmailErrorMsg, setEnteredEmailErrorMsg] = useState('');
   const [enteredNickname, setEnteredNickname] = useState('');
   const [enteredNicknameError, setEnteredNicknameError] = useState(false);
+  const [enteredNicknameErrorMsg, setEnteredNicknameErrorMsg] = useState('');
   const [enteredPhone, setEnteredPhone] = useState('');
   const [enteredPhoneError, setEnteredPhoneError] = useState(false);
+  const [enteredPhoneErrorMsg, setEnteredPhoneErrorMsg] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
   const [enteredPasswordError, setEnteredPasswordError] = useState(false);
+  const [enteredPasswordErrorMsg, setEnteredPasswordErrorMsg] = useState('');
   const [enteredPasswordConfirm, setEnteredPasswordConfirm] = useState('');
   const [enteredPasswordConfirmError, setEnteredPasswordConfirmError] =
     useState(false);
+  const [enteredPasswordConfirmErrorMsg, setEnteredPasswordConfirmErrorMsg] =
+    useState('');
+  const nicknameRegex = /([^A-Za-z0-9가-힣])/g;
+  const passwordRegex =
+    /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/g;
   useEffect(() => {
-    if (enteredEmail.indexOf('@') < 0 || enteredEmail.length === 0) {
+    if (enteredEmail.length === 0) {
+    } else if (
+      enteredEmail.indexOf('@') < 0 ||
+      enteredEmail.length < 5 ||
+      enteredEmail.length > 50
+    ) {
+      setEnteredEmailErrorMsg('이메일 사이즈는 5에서 50입니다.');
       setEnteredEmailError(true);
     } else setEnteredEmailError(false);
   }, [enteredEmail]);
   useEffect(() => {
-    if (enteredNickname.length > 10 || enteredNickname.length === 0) {
+    if (enteredNickname.length === 0) {
+    } else if (
+      enteredNickname.length > 32 ||
+      enteredNickname.length < 1 ||
+      nicknameRegex.test(enteredNickname)
+    ) {
+      setEnteredNicknameErrorMsg(
+        '닉네임은 1~32글자, 숫자, 영어, 한글만 가능합니다.'
+      );
       setEnteredNicknameError(true);
     } else setEnteredNicknameError(false);
   }, [enteredNickname]);
   useEffect(() => {
-    if (enteredPhone.indexOf('-') > 0 || enteredPhone.length === 0) {
+    if (enteredPhone.length === 0) {
+    } else if (
+      enteredPhone.indexOf('-') > 0 ||
+      enteredPhone.length !== 11 ||
+      !enteredPhone.startsWith('010')
+    ) {
+      setEnteredPhoneErrorMsg('전화번호는 010시작, 11자리 입니다.');
       setEnteredPhoneError(true);
     } else setEnteredPhoneError(false);
   }, [enteredPhone]);
   useEffect(() => {
-    if (enteredPassword.length < 10 || enteredPassword.length === 0) {
+    if (enteredPassword.length === 0) {
+    } else if (
+      enteredPassword.length < 8 ||
+      enteredPassword.length > 16 ||
+      enteredPassword.length === 0 ||
+      !passwordRegex.test(enteredPassword)
+    ) {
+      setEnteredPasswordErrorMsg(
+        '비밀번호는 숫자, 영어, 특수문자가 적어도 1개 이상씩 포함 / 8~16글자 입니다.'
+      );
       setEnteredPasswordError(true);
     } else setEnteredPasswordError(false);
   }, [enteredPassword]);
   useEffect(() => {
     if (enteredPassword !== enteredPasswordConfirm) {
+      setEnteredPasswordConfirmErrorMsg('비밀번호와 일치 하지 않습니다.');
       setEnteredPasswordConfirmError(true);
     } else setEnteredPasswordConfirmError(false);
   }, [enteredPassword, enteredPasswordConfirm]);
@@ -118,6 +157,17 @@ const SignUpCard = () => {
                   setEnteredEmail(e.target.value);
                 }}
               />
+              {enteredEmailError ? (
+                <Typography
+                  component="h1"
+                  variant="caption"
+                  sx={{ color: 'red' }}
+                >
+                  {enteredEmailErrorMsg}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -132,6 +182,17 @@ const SignUpCard = () => {
                   setEnteredNickname(e.target.value);
                 }}
               />
+              {enteredNicknameError ? (
+                <Typography
+                  component="h1"
+                  variant="caption"
+                  sx={{ color: 'red' }}
+                >
+                  {enteredNicknameErrorMsg}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -146,6 +207,17 @@ const SignUpCard = () => {
                   setEnteredPhone(e.target.value);
                 }}
               />
+              {enteredPhoneError ? (
+                <Typography
+                  component="h1"
+                  variant="caption"
+                  sx={{ color: 'red' }}
+                >
+                  {enteredPhoneErrorMsg}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -161,6 +233,17 @@ const SignUpCard = () => {
                   setEnteredPassword(e.target.value);
                 }}
               />
+              {enteredPasswordError ? (
+                <Typography
+                  component="h1"
+                  variant="caption"
+                  sx={{ color: 'red' }}
+                >
+                  {enteredPasswordErrorMsg}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -176,6 +259,17 @@ const SignUpCard = () => {
                   setEnteredPasswordConfirm(e.target.value);
                 }}
               />
+              {enteredPasswordConfirmError ? (
+                <Typography
+                  component="h1"
+                  variant="caption"
+                  sx={{ color: 'red' }}
+                >
+                  {enteredPasswordConfirmErrorMsg}
+                </Typography>
+              ) : (
+                ''
+              )}
             </Grid>
           </Grid>
           <Button

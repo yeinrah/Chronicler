@@ -5,7 +5,11 @@ import MainStack from '../../Components/MainStack';
 import MainBtn from '../../Components/MainBtn';
 import CardOfBtn from '../../Components/CardOfBtn';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import userLoginedState from '../../recoil/atoms/userLoginedState';
+import InputText from '../../Components/InputText';
 const MainNonLog: React.FC = () => {
+  const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   return (
     <>
       <MainStack direction={'row'}>
@@ -22,29 +26,38 @@ const MainNonLog: React.FC = () => {
             </Typography>
           </CardContent>
         </Card>
-        <Card>
-          <CardOfBtn>
-            <Link
-              to="/signin"
-              style={{
-                textDecoration: 'none',
-                color: 'var(--fontBase-color)',
-              }}
-            >
-              <MainBtn variant="contained">로그인</MainBtn>
-            </Link>
+        {!nowLogined ? (
+          <Card>
+            <CardOfBtn>
+              <Link
+                to="/signin"
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+              >
+                <MainBtn variant="contained">로그인</MainBtn>
+              </Link>
 
-            <Link
-              to="/signup"
-              style={{
-                textDecoration: 'none',
-                color: 'var(--fontBase-color)',
-              }}
-            >
-              <MainBtn variant="contained">회원가입</MainBtn>
-            </Link>
-          </CardOfBtn>
-        </Card>
+              <Link
+                to="/signup"
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+              >
+                <MainBtn variant="contained">회원가입</MainBtn>
+              </Link>
+            </CardOfBtn>
+          </Card>
+        ) : (
+          <Card>
+            <CardOfBtn>
+              <MainBtn variant="contained">새회의</MainBtn>
+              <InputText id="outlined-basic" label={'초대링크를 입력하세요.'} />
+            </CardOfBtn>
+          </Card>
+        )}
       </MainStack>
     </>
   );
