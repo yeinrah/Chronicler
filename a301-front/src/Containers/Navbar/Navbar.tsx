@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import userLoginedState from '../../recoil/atoms/userLoginedState';
 import { useRecoilState } from 'recoil';
 import userInfoState from '../../recoil/atoms/userInfoState';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const TitleTypography = styled(Typography)({
@@ -76,7 +77,11 @@ const Navbar = () => {
                 // setToken(null);
                 setNowLogined(false);
                 setNowUserInfo({});
-                window.alert('로그아웃되었습나다');
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: '로그아웃 됨',
+                });
               }}
               style={{
                 textDecoration: 'none',
@@ -133,8 +138,11 @@ const Navbar = () => {
             <Link
               onClick={() => {
                 localStorage.removeItem('access-token');
-                // setToken(null);
-                window.alert('로그아웃되었습나다');
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: '로그아웃 됨',
+                });
               }}
               style={{
                 textDecoration: 'none',

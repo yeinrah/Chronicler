@@ -20,6 +20,7 @@ import userSignInApi from '../../Api/userSignInApi';
 import { useRecoilState } from 'recoil';
 import userInfoState from '../../recoil/atoms/userInfoState';
 import userLoginedState from '../../recoil/atoms/userLoginedState';
+import Swal from 'sweetalert2';
 
 const SignInCard = () => {
   const enteredEmail = useRef<any>();
@@ -50,8 +51,6 @@ const SignInCard = () => {
       })
       .then((item) => {
         localStorage.setItem('access-token', item.data['access-token']);
-        console.log(item);
-        // alert('로그인 성공');
         setNowUserInfo({
           id: item.data.loginUser.id,
           email: item.data.loginUser.email,
@@ -60,13 +59,20 @@ const SignInCard = () => {
           phone: item.data.loginUser.phone,
         });
         setNowLogined(true);
-        console.log(nowUserInfo);
-        console.log(nowUserInfo.email);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success..!',
+          text: '로그인 성공',
+        });
         navigate('/');
       })
       .catch((e) => {
         console.log(e);
-        alert('로그인 실패');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '로그인 실패',
+        });
       });
   };
 

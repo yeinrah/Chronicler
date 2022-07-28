@@ -18,12 +18,15 @@ import UserInfo from '../../Components/UserInfo';
 import InputText from '../../Components/InputText';
 import MypageBtn from '../../Components/MypageBtn';
 import { stringify } from 'querystring';
+import Swal from 'sweetalert2';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const FindEmailCard = () => {
   const [isShowEmailModal, setIsShowEmailModal] = useState(false);
-  const emailShowHandleOpen = () => setIsShowEmailModal(true);
-  const emailShowHandleClose = () => setIsShowEmailModal(false);
+  // const emailShowHandleOpen = () => setIsShowEmailModal(true);
+  // const emailShowHandleClose = () => setIsShowEmailModal(false);
   const inputNumber = useRef<any>();
+  const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState<any>('');
   const styleModal = {
     position: 'absolute' as 'absolute',
@@ -54,42 +57,54 @@ const FindEmailCard = () => {
       })
       .then((res) => {
         setUserEmail(res.data);
-        emailShowHandleOpen();
-        console.log(res.data);
+        // emailShowHandleOpen();
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: String(res.data),
+        }).then(() => {
+          navigate('/signin');
+        });
+        // console.log(res.data);
       })
       .catch((error) => {
         setUserEmail('유효하지 않은 번호 입니다.');
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'fail',
+          text: '유효하지 않은 번호 입니다.',
+        });
+        // console.log(error);
       });
   };
-  const ShowEmailModal = () => {
-    return (
-      <Modal
-        open={isShowEmailModal}
-        onClose={emailShowHandleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <BoxModal sx={styleModal}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {userEmail}
-          </Typography>
-          <UserInfo>
-            <MypageBtn
-              sx={{ height: '100%', margin: 'auto' }}
-              onClick={emailShowHandleClose}
-            >
-              확인
-            </MypageBtn>
-          </UserInfo>
-        </BoxModal>
-      </Modal>
-    );
-  };
+  // const ShowEmailModal = () => {
+  //   return (
+  //     <Modal
+  //       // open={isShowEmailModal}
+  //       // onClose={emailShowHandleClose}
+  //       aria-labelledby="modal-modal-title"
+  //       aria-describedby="modal-modal-description"
+  //     >
+  //       <BoxModal sx={styleModal}>
+  //         <Typography id="modal-modal-title" variant="h6" component="h2">
+  //           {userEmail}
+  //         </Typography>
+  //         <UserInfo>
+  //           <MypageBtn
+  //             sx={{ height: '100%', margin: 'auto' }}
+  //             onClick={emailShowHandleClose}
+  //           >
+  //             확인
+  //           </MypageBtn>
+  //         </UserInfo>
+  //       </BoxModal>
+  //     </Modal>
+  //   );
+  // };
 
   return (
     <>
-      <ShowEmailModal />
+      {/* <ShowEmailModal /> */}
       <Container
         component="main"
         maxWidth="xs"
