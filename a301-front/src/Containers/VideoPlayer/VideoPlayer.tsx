@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './VideoPlayer.module.css';
 import { Grid, Typography, Paper, styled } from '@mui/material';
+import UserVideoComponent from '../UserVideoComponent/UserVideoComponent';
 
 const VideoPlayer = () => {
   const VideoPaper = styled(Paper)({
@@ -17,7 +18,7 @@ const VideoPlayer = () => {
         <Typography variant="h5" gutterBottom>
           Name
         </Typography>
-        <Grid />
+        <UserVideoComponent />
       </Grid>
     </VideoPaper>
   );

@@ -21,10 +21,11 @@ import {
   FindPwCard,
   VideoPlayer,
 } from './Containers';
+import MRTest from './Pages/MRTest/MRTest';
 function App() {
   return (
     <div className="App">
-      <Navbar />
+      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
@@ -34,6 +35,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/MeetingRoom" element={<MeetingRoom />} />
+        <Route path="/MRTest" element={<MRTest />} />
       </Routes>
     </div>
   );
