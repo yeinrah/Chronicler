@@ -29,12 +29,16 @@ const SignUpCard = () => {
   const [enteredPasswordConfirmError, setEnteredPasswordConfirmError] =
     useState(false);
   useEffect(() => {
-    if (enteredEmail.indexOf('@') < 0 || enteredEmail.length === 0) {
+    if (
+      enteredEmail.indexOf('@') < 0 ||
+      enteredEmail.length < 5 ||
+      enteredEmail.length > 50
+    ) {
       setEnteredEmailError(true);
     } else setEnteredEmailError(false);
   }, [enteredEmail]);
   useEffect(() => {
-    if (enteredNickname.length > 10 || enteredNickname.length === 0) {
+    if (enteredNickname.length > 32 || enteredNickname.length < 1) {
       setEnteredNicknameError(true);
     } else setEnteredNicknameError(false);
   }, [enteredNickname]);

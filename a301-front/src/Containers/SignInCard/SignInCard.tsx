@@ -18,13 +18,15 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignInApi from '../../Api/userSignInApi';
 import { useRecoilState } from 'recoil';
-import userInfoState from '../../recoil/atoms/userInfoAtom';
+import userInfoState from '../../recoil/atoms/userInfoState';
+import userLoginedState from '../../recoil/atoms/userLoginedState';
 
 const SignInCard = () => {
   const enteredEmail = useRef<any>();
   const enteredPassword = useRef<any>();
   const navigate = useNavigate();
   const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
+  const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -57,6 +59,7 @@ const SignInCard = () => {
           image: item.data.loginUser.image,
           phone: item.data.loginUser.phone,
         });
+        setNowLogined(true);
         console.log(nowUserInfo);
         console.log(nowUserInfo.email);
         navigate('/');
