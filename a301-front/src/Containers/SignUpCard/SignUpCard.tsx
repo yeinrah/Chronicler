@@ -15,6 +15,7 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignUpApi from '../../Api/userSignUpApi';
+import Swal from 'sweetalert2';
 
 const SignUpCard = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -112,12 +113,21 @@ const SignUpCard = () => {
         phone: enteredPhone,
       })
       .then(() => {
-        console.log('successssss');
-        alert('회원가입 성공');
-        navigate('/');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: '회원가입 성공',
+        }).then(() => {
+          navigate('/');
+        });
       })
       .catch(() => {
         alert('회원가입 실패');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops....',
+          text: '회원가입 실패',
+        });
       });
   };
 
