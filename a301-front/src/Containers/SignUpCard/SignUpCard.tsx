@@ -122,7 +122,6 @@ const SignUpCard = () => {
         });
       })
       .catch(() => {
-        alert('회원가입 실패');
         Swal.fire({
           icon: 'error',
           title: 'Oops....',
