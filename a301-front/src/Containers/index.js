@@ -8,3 +8,6 @@ export { default as ConfirmNewPwCard } from "./ConfirmNewPwCard/ConfirmNewPwCard
 export { default as VideoPlayer } from "./VideoPlayer/VideoPlayer";
 export { default as ChatBlock } from "./ChatBlock/ChatBlock";
 export { default as ParticipantBlock } from "./ParticipantBlock/ParticipantBlock";
+export { default as OpenViduVideoComponent } from "./OvVideo/OvVideo";
+export { default as registerServiceWorker } from "./registerServiceWorker/registerServiceWorker";
+export { default as UserVideoComponent } from "./UserVideoComponent/UserVideoComponent";

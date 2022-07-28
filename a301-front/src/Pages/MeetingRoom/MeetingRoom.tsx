@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './MeetingRoom.module.css';
+import { OpenVidu } from 'openvidu-browser';
 import {
   ChatBlock,
   MeetingFooter,

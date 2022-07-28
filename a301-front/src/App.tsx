@@ -33,8 +33,8 @@ function App() {
         <Route path="/findpw" element={<FindPwCard />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/MeetingRoom" element={<MeetingRoom />} />
       </Routes>
-      {/* <MeetingRoom /> */}
     </div>
   );
 }
