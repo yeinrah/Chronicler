@@ -3,6 +3,7 @@ import { OpenVidu } from "openvidu-browser";
 import React, { Component } from "react";
 import styles from "./MRTest.module.css";
 import UserVideoComponent from "../../Containers/UserVideoComponent/UserVideoComponent";
+import { Typography, TextField, Button } from "@mui/material";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -232,35 +233,49 @@ class MRTest extends Component {
     return (
       <div className="container">
         {this.state.session === undefined ? (
-          <div id="join">
-            <div id="join-dialog" className="jumbotron vertical-center">
-              <h1> Join a video session </h1>
+          <div id={styles.join} className="container">
+            <div
+              id={styles["join-dialog"]}
+              className="jumbotron vertical-center"
+            >
+              <Typography variant="h3" component="h2">
+                Join a video session
+              </Typography>
+              <br />
               <form className="form-group" onSubmit={this.joinSession}>
                 <p>
-                  <label>Participant: </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    id="userName"
-                    value={myUserName}
-                    onChange={this.handleChangeUserName}
-                    required
-                  />
+                  <Typography variant="label" component="h2">
+                    Participant:&nbsp;
+                    <TextField
+                      className="form-control"
+                      type="text"
+                      id="userName"
+                      value={myUserName}
+                      onChange={this.handleChangeUserName}
+                      required
+                      color="success"
+                      size="small"
+                    />
+                  </Typography>
                 </p>
                 <p>
-                  <label> Session: </label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    id="sessionId"
-                    value={mySessionId}
-                    onChange={this.handleChangeSessionId}
-                    required
-                  />
+                  <Typography variant="label" component="h2">
+                    Session:&nbsp;
+                    <TextField
+                      className="form-control"
+                      type="text"
+                      id="sessionId"
+                      value={mySessionId}
+                      onChange={this.handleChangeSessionId}
+                      required
+                      color="success"
+                      size="small"
+                    />
+                  </Typography>
                 </p>
                 <p className="text-center">
                   <input
-                    className="btn btn-lg btn-success"
+                    className={styles.btn}
                     name="commit"
                     type="submit"
                     value="JOIN"
@@ -276,7 +291,7 @@ class MRTest extends Component {
             <div id="session-header">
               <h1 id="session-title">{mySessionId}</h1>
               <input
-                className="btn btn-large btn-danger"
+                className={styles.btn}
                 type="button"
                 id="buttonLeaveSession"
                 onClick={this.leaveSession}
