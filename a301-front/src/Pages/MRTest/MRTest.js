@@ -2,8 +2,13 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { Component } from "react";
 import styles from "./MRTest.module.css";
-import UserVideoComponent from "../../Containers/UserVideoComponent/UserVideoComponent";
-import { Typography, TextField, Button } from "@mui/material";
+import {
+  MeetingFooter,
+  ParticipantBlock,
+  ChatBlock,
+  UserVideoComponent,
+} from "../../Containers";
+import { Typography, TextField, Stack, Button } from "@mui/material";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -19,8 +24,16 @@ class MRTest extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      openChat: false,
+      openParticipant: false,
+      micOn: false,
+      cameraOn: false,
     };
 
+    this.setOpenChat = this.setOpenChat.bind(this);
+    this.setOpenParticipant = this.setOpenParticipant.bind(this);
+    this.setMicOn = this.setMicOn.bind(this);
+    this.setCameraOn = this.setCameraOn.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
     this.switchCamera = this.switchCamera.bind(this);
@@ -40,6 +53,27 @@ class MRTest extends Component {
 
   onbeforeunload(event) {
     this.leaveSession();
+  }
+
+  setOpenChat(e) {
+    this.setState({
+      openChat: e,
+    });
+  }
+  setOpenParticipant(e) {
+    this.setState({
+      openParticipant: e,
+    });
+  }
+  setMicOn(e) {
+    this.setState({
+      micOn: e,
+    });
+  }
+  setCameraOn(e) {
+    this.setState({
+      cameraOn: e,
+    });
   }
 
   handleChangeSessionId(e) {
@@ -124,8 +158,8 @@ class MRTest extends Component {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
-              var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
+              let devices = await this.OV.getDevices();
+              let videoDevices = devices.filter(
                 (device) => device.kind === "videoinput"
               );
 
@@ -136,8 +170,8 @@ class MRTest extends Component {
               let publisher = this.OV.initPublisher(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+                publishVideo: false, // Whether you want to start publishing with your video enabled or not
                 resolution: "640x480", // The resolution of your video
                 frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
@@ -185,6 +219,10 @@ class MRTest extends Component {
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
+      openChat: false,
+      openParticipant: false,
+      micOn: false,
+      cameraOn: false,
     });
   }
 
@@ -231,7 +269,7 @@ class MRTest extends Component {
     const myUserName = this.state.myUserName;
 
     return (
-      <div className="container">
+      <>
         {this.state.session === undefined ? (
           <div id={styles.join} className="container">
             <div
@@ -267,7 +305,7 @@ class MRTest extends Component {
                       id="sessionId"
                       value={mySessionId}
                       onChange={this.handleChangeSessionId}
-                      required
+                      disabled
                       color="success"
                       size="small"
                     />
@@ -287,56 +325,68 @@ class MRTest extends Component {
         ) : null}
 
         {this.state.session !== undefined ? (
-          <div id="session">
-            <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
-              <input
-                className={styles.btn}
-                type="button"
-                id="buttonLeaveSession"
-                onClick={this.leaveSession}
-                value="Leave session"
-              />
-            </div>
-
-            {this.state.mainStreamManager !== undefined ? (
-              <div id="main-video" className="col-md-6">
-                <UserVideoComponent
-                  streamManager={this.state.mainStreamManager}
-                />
-                <input
-                  className="btn btn-large btn-success"
-                  type="button"
-                  id="buttonSwitchCamera"
-                  onClick={this.switchCamera}
-                  value="Switch Camera"
-                />
+          <div>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              flexWrap="wrap"
+              spacing={0}
+              padding="10px"
+            >
+              <div id={styles["video-container"]} className="col-md-6">
+                {this.state.publisher !== undefined ? (
+                  <div
+                    className="stream-container col-md-6 col-xs-6"
+                    onClick={() =>
+                      this.handleMainVideoStream(this.state.publisher)
+                    }
+                  >
+                    <UserVideoComponent streamManager={this.state.publisher} />
+                  </div>
+                ) : null}
+                {this.state.subscribers.map((sub, i) => (
+                  <div
+                    key={i}
+                    className="stream-container col-md-6 col-xs-6"
+                    onClick={() => this.handleMainVideoStream(sub)}
+                  >
+                    <UserVideoComponent streamManager={sub} />
+                  </div>
+                ))}
               </div>
-            ) : null}
-            <div id="video-container" className="col-md-6">
-              {this.state.publisher !== undefined ? (
-                <div
-                  className="stream-container col-md-6 col-xs-6"
-                  onClick={() =>
-                    this.handleMainVideoStream(this.state.publisher)
-                  }
-                >
-                  <UserVideoComponent streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {this.state.subscribers.map((sub, i) => (
-                <div
-                  key={i}
-                  className="stream-container col-md-6 col-xs-6"
-                  onClick={() => this.handleMainVideoStream(sub)}
-                >
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
-            </div>
+              <Stack
+                direction="column"
+                justifyContent="flex-start"
+                alignItems="flex-end"
+                spacing={0}
+              >
+                <ParticipantBlock
+                  openChat={this.state.openChat}
+                  openParticipant={this.state.openParticipant}
+                />
+                <ChatBlock
+                  openChat={this.state.openChat}
+                  openParticipant={this.state.openParticipant}
+                />
+              </Stack>
+            </Stack>
+            <MeetingFooter
+              openChat={this.state.openChat}
+              openParticipant={this.state.openParticipant}
+              micOn={this.state.micOn}
+              cameraOn={this.state.cameraOn}
+              setOpenChat={this.setOpenChat}
+              setOpenParticipant={this.setOpenParticipant}
+              setMicOn={this.setMicOn}
+              setCameraOn={this.setCameraOn}
+              publishAudio={this.state.publisher.publishAudio}
+              publishVideo={this.state.publisher.publishVideo}
+              leaveSession={this.leaveSession}
+            />
           </div>
         ) : null}
-      </div>
+      </>
     );
   }
 

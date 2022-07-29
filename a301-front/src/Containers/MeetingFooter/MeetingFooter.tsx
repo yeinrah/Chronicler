@@ -24,6 +24,9 @@ interface Props {
   setOpenParticipant: React.Dispatch<React.SetStateAction<boolean>>;
   setMicOn: React.Dispatch<React.SetStateAction<boolean>>;
   setCameraOn: React.Dispatch<React.SetStateAction<boolean>>;
+  leaveSession: any;
+  publishAudio: any;
+  publishVideo: any;
 }
 
 const MeetingFooter: React.FC<Props> = ({
@@ -35,6 +38,9 @@ const MeetingFooter: React.FC<Props> = ({
   setOpenParticipant,
   setMicOn,
   setCameraOn,
+  leaveSession,
+  publishAudio,
+  publishVideo,
 }) => {
   const FootBar = styled(Toolbar)({
     display: 'flex',
@@ -50,7 +56,10 @@ const MeetingFooter: React.FC<Props> = ({
           <IconButton
             color="inherit"
             className={micOn ? styles.micCameraBtn : styles.micCameraBtnOff}
-            onClick={() => setMicOn(!micOn)}
+            onClick={() => {
+              setMicOn(!micOn);
+              publishAudio(!micOn);
+            }}
           >
             <MicIcon />
           </IconButton>
@@ -63,13 +72,16 @@ const MeetingFooter: React.FC<Props> = ({
           <IconButton
             color="inherit"
             className={cameraOn ? styles.micCameraBtn : styles.micCameraBtnOff}
-            onClick={() => setCameraOn(!cameraOn)}
+            onClick={() => {
+              setCameraOn(!cameraOn);
+              publishVideo(!cameraOn);
+            }}
           >
             <VideocamIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Leave Room" placement="top" arrow>
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={leaveSession}>
             <LogoutIcon />
           </IconButton>
         </Tooltip>
