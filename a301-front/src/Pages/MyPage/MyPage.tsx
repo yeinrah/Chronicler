@@ -24,6 +24,9 @@ import userInfoUpdatePhone from '../../Api/userinfoUpdatePhone';
 import { useRecoilState } from 'recoil';
 import userInfoState from '../../recoil/atoms/userInfoState';
 import Swal from 'sweetalert2';
+import userInfoDelete from '../../Api/userInfoDelete';
+import { useNavigate } from 'react-router-dom';
+import userLoginedState from '../../recoil/atoms/userLoginedState';
 const MyPage = () => {
   const [myEmail, setMyEmail] = useState<any>('null user');
   const [myProfileNum, setMyProfileNum] = useState<any>();
@@ -35,6 +38,7 @@ const MyPage = () => {
     { title: '회의1', date: new Date() },
     { title: '회의2', date: new Date() },
   ]);
+  const navigate = useNavigate();
   const [nickNameModalOpen, setNickNameModalOpen] = useState(false);
   const [phoneModalOpen, setPhoneModalOpen] = useState(false);
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
@@ -50,7 +54,32 @@ const MyPage = () => {
   const inputNickNameChange = useRef<any>();
   const inputPasswordChange = useRef<any>();
   const inputPhoneChange = useRef<any>();
+  const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
+  const swalWithBootstrapButtons: any = Swal.mixin({
+    customClass: {
+      confirmButton: 'btn btn-success',
+      cancelButton: 'btn btn-danger',
+    },
+  });
+  const DeleteUser = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        userInfoDelete.delete<any>(`/userInfo/mypage/${nowUserInfo.id}`);
+        setNowLogined(false);
+        navigate('/');
+      }
+    });
+  };
   const updateProfileImage = (num: number) => {
     userInfoUpdateImage
       .patch(`./userInfo/updateImage/${nowUserInfo.id}`, { image: num })
@@ -349,6 +378,17 @@ const MyPage = () => {
           <MeetingInfo>
             <MeetingTable listItem={prevMeetingList} />
           </MeetingInfo>
+          <MypageBtn
+            sx={{
+              maxWidth: 700,
+              margin: '50px 0px',
+              backgroundColor: 'var(--eleActionNeg-color)',
+              color: 'var(--fontBase-color)',
+            }}
+            onClick={DeleteUser}
+          >
+            회원 탈퇴
+          </MypageBtn>
         </MypageRightStack>
       </MypageStack>
     </>
