@@ -22,10 +22,14 @@ import {
   VideoPlayer,
 } from './Containers';
 import MRTest from './Pages/MRTest/MRTest';
+import { useRecoilState } from 'recoil';
+import showNavState from './recoil/atoms/showNavState';
 function App() {
+  const [isShownNavState, setIsShownNavState] =
+    useRecoilState<any>(showNavState);
   return (
     <div className="App">
-      {/* <Navbar /> */}
+      {isShownNavState ? <Navbar /> : ''}
       <Routes>
         <Route path="/" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
