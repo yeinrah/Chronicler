@@ -158,8 +158,8 @@ class MRTest extends Component {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
-              var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
+              let devices = await this.OV.getDevices();
+              let videoDevices = devices.filter(
                 (device) => device.kind === "videoinput"
               );
 
@@ -170,8 +170,8 @@ class MRTest extends Component {
               let publisher = this.OV.initPublisher(undefined, {
                 audioSource: undefined, // The source of audio. If undefined default microphone
                 videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-                publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-                publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+                publishVideo: false, // Whether you want to start publishing with your video enabled or not
                 resolution: "640x480", // The resolution of your video
                 frameRate: 30, // The frame rate of your video
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
@@ -330,10 +330,11 @@ class MRTest extends Component {
               direction="row"
               justifyContent="space-between"
               alignItems="center"
+              flexWrap="wrap"
               spacing={0}
-              sx={{ width: "100vw", height: "100vh" }}
+              padding="10px"
             >
-              <div id="video-container" className="col-md-6">
+              <div id={styles["video-container"]} className="col-md-6">
                 {this.state.publisher !== undefined ? (
                   <div
                     className="stream-container col-md-6 col-xs-6"
@@ -379,6 +380,8 @@ class MRTest extends Component {
               setOpenParticipant={this.setOpenParticipant}
               setMicOn={this.setMicOn}
               setCameraOn={this.setCameraOn}
+              publishAudio={this.state.publisher.publishAudio}
+              publishVideo={this.state.publisher.publishVideo}
               leaveSession={this.leaveSession}
             />
           </div>
