@@ -380,8 +380,8 @@ class MRTest extends Component {
               setOpenParticipant={this.setOpenParticipant}
               setMicOn={this.setMicOn}
               setCameraOn={this.setCameraOn}
-              publishAudio={this.state.publisher.publishAudio}
-              publishVideo={this.state.publisher.publishVideo}
+              // publishAudio={this.state.publisher.publishAudio}
+              // publishVideo={this.state.publisher.publishVideo}
               leaveSession={this.leaveSession}
             />
           </div>

@@ -47,7 +47,7 @@ const MeetingRoom = () => {
           <ChatBlock openChat={openChat} openParticipant={openParticipant} />
         </Stack>
       </Stack>
-      <MeetingFooter
+      {/* <MeetingFooter
         openChat={openChat}
         openParticipant={openParticipant}
         micOn={micOn}
@@ -56,7 +56,7 @@ const MeetingRoom = () => {
         setOpenParticipant={setOpenParticipant}
         setMicOn={setMicOn}
         setCameraOn={setCameraOn}
-      />
+      /> */}
     </>
   );
 };

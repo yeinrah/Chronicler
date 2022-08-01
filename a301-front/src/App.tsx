@@ -29,7 +29,7 @@ function App() {
     useRecoilState<any>(showNavState);
   return (
     <div className="App">
-      {isShownNavState ? <Navbar /> : ''}
+      {/* {isShownNavState ? <Navbar /> : ''} */}
       <Routes>
         <Route path="/" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
