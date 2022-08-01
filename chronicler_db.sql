@@ -19,8 +19,6 @@ CREATE TABLE user (
 CREATE TABLE conference (
 c_id INTEGER auto_increment,
 owner_id Integer,
-call_start_time DATETIME,
-call_end_time DATETIME,
 title VARCHAR(50),
 description TEXT,
 is_active BOOLEAN NOT NULL default 0,
