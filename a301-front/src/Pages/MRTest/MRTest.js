@@ -36,7 +36,6 @@ class MRTest extends Component {
     this.setCameraOn = this.setCameraOn.bind(this);
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
-    this.switchCamera = this.switchCamera.bind(this);
     this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
@@ -121,7 +120,7 @@ class MRTest extends Component {
         session: this.OV.initSession(),
       },
       () => {
-        var mySession = this.state.session;
+        let mySession = this.state.session;
 
         // --- 3) Specify the actions when events take place in the session ---
 
@@ -129,8 +128,8 @@ class MRTest extends Component {
         mySession.on("streamCreated", (event) => {
           // Subscribe to the Stream to receive it. Second parameter is undefined
           // so OpenVidu doesn't create an HTML video by its own
-          var subscriber = mySession.subscribe(event.stream, undefined);
-          var subscribers = this.state.subscribers;
+          let subscriber = mySession.subscribe(event.stream, undefined);
+          let subscribers = this.state.subscribers;
           subscribers.push(subscriber);
 
           // Update the state with the new subscribers
@@ -160,8 +159,8 @@ class MRTest extends Component {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
-              var devices = await this.OV.getDevices();
-              var videoDevices = devices.filter(
+              let devices = await this.OV.getDevices();
+              let videoDevices = devices.filter(
                 (device) => device.kind === "videoinput"
               );
 
@@ -222,44 +221,6 @@ class MRTest extends Component {
       mainStreamManager: undefined,
       publisher: undefined,
     });
-  }
-
-  async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== this.state.currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: false,
-            publishVideo: false,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager);
-
-          await this.state.session.publish(newPublisher);
-          this.setState({
-            currentVideoDevice: newVideoDevice,
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
   }
 
   render() {
@@ -366,6 +327,9 @@ class MRTest extends Component {
                 <ChatBlock
                   openChat={this.state.openChat}
                   openParticipant={this.state.openParticipant}
+                  myUserName={this.state.myUserName}
+                  mainStreamManager={this.state.mainStreamManager}
+                  session={this.state.session}
                 />
               </Stack>
             </Stack>
