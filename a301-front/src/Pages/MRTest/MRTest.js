@@ -8,7 +8,7 @@ import {
   ChatBlock,
   UserVideoComponent,
 } from "../../Containers";
-import { Typography, TextField, Stack, Button } from "@mui/material";
+import { Typography, TextField, Stack } from "@mui/material";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -69,11 +69,13 @@ class MRTest extends Component {
     this.setState({
       micOn: e,
     });
+    this.state.publisher.publishAudio(e);
   }
   setCameraOn(e) {
     this.setState({
       cameraOn: e,
     });
+    this.state.publisher.publishVideo(e);
   }
 
   handleChangeSessionId(e) {
@@ -158,8 +160,8 @@ class MRTest extends Component {
           mySession
             .connect(token, { clientData: this.state.myUserName })
             .then(async () => {
-              let devices = await this.OV.getDevices();
-              let videoDevices = devices.filter(
+              var devices = await this.OV.getDevices();
+              var videoDevices = devices.filter(
                 (device) => device.kind === "videoinput"
               );
 
@@ -219,10 +221,6 @@ class MRTest extends Component {
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
       publisher: undefined,
-      openChat: false,
-      openParticipant: false,
-      micOn: false,
-      cameraOn: false,
     });
   }
 
@@ -243,8 +241,8 @@ class MRTest extends Component {
           // In mobile devices the default and first camera is the front one
           var newPublisher = this.OV.initPublisher(undefined, {
             videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
+            publishAudio: false,
+            publishVideo: false,
             mirror: true,
           });
 
@@ -380,8 +378,6 @@ class MRTest extends Component {
               setOpenParticipant={this.setOpenParticipant}
               setMicOn={this.setMicOn}
               setCameraOn={this.setCameraOn}
-              // publishAudio={this.state.publisher.publishAudio}
-              // publishVideo={this.state.publisher.publishVideo}
               leaveSession={this.leaveSession}
             />
           </div>
