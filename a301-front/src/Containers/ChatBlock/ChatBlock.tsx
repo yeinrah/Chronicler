@@ -14,15 +14,23 @@ import CloseIcon from '@mui/icons-material/Close';
 interface Props {
   openChat: boolean;
   openParticipant: boolean;
+  sendMessage: Function;
+  message: string;
 }
 
-const ChatBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
+const ChatBlock: React.FC<Props> = ({
+  openChat,
+  openParticipant,
+  sendMessage,
+  message,
+}) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       phone: data.get('comment'),
     });
+    sendMessage(data.get('comment'));
   };
 
   const ChatBox = styled(Box)({
@@ -67,10 +75,7 @@ const ChatBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
       >
         <Comment overflow="visible">
           <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
+          <p>{message}</p>
         </Comment>
         <Comment overflow="visible">
           <h6>User Nickname, Timestamp</h6>

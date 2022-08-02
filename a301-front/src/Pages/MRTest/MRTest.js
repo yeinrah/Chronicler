@@ -29,6 +29,7 @@ const MRTest = (props) => {
   const [cameraOn, setCameraOn] = useState(false);
   const [currentVideoDevice, setCurrentVideoDevice] = useState();
   const [OV, setOV] = useState(undefined);
+  const [message, setMessage] = useState();
   // let OV;
   useEffect(() => {
     window.addEventListener("beforeunload", beforeunload);
@@ -47,6 +48,12 @@ const MRTest = (props) => {
   useEffect(() => {
     console.log("subscribes.change");
   }, [subscribers]);
+  const listenMessage = () => {
+    session.on("signal", (event) => {
+      setMessage(event.data);
+      console.log(event.data);
+    });
+  };
   const listenScriber = () => {
     if (session) {
       var mySession = session;
@@ -63,7 +70,7 @@ const MRTest = (props) => {
         setSubscribers([...subscribersNow]);
         // setMyUserName("haaaa");
       });
-
+      listenMessage();
       // On every Stream destroyed...
       mySession.on("streamDestroyed", (event) => {
         // Remove the stream from 'subscribers' array
@@ -286,6 +293,14 @@ const MRTest = (props) => {
         .catch((error) => reject(error));
     });
   };
+  const sendMessage = (aaa) => {
+    session.signal({
+      data: `{${myUserName},${aaa}}`,
+      to: [],
+      type: "chat",
+    });
+    console.log(session);
+  };
   return (
     <>
       {console.log(session)}
@@ -381,6 +396,8 @@ const MRTest = (props) => {
                 openParticipant={openParticipant}
               />
               <ChatBlock
+                sendMessage={sendMessage}
+                message={message}
                 openChat={openChat}
                 openParticipant={openParticipant}
               />
