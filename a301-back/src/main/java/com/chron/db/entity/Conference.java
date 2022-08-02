@@ -2,19 +2,22 @@ package com.chron.db.entity;
 
 import javax.persistence.*;
 
+import com.sun.istack.NotNull;
+
 import lombok.*;
 
 @Entity
-@Table(name = "session")
+@Table(name = "conference")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Session {
+public class Conference {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "c_id")
-	private String c_id;
+	private Integer c_id;
 
 	@Column(name = "owner_id")
 	private Integer owner_id;
@@ -27,8 +30,8 @@ public class Session {
 
 	@Column(name = "description")
 	private String description;
-
-	@Column(name = "is_active", nullable = false)
+	@NotNull
+	@Column(name = "is_active")
 	private boolean is_active;
 
 //	@Builder.Default

@@ -58,9 +58,9 @@ REFERENCES user(id)
 
 -- 회원_회의 테이블
 CREATE TABLE user_conference (
-id INTEGER auto_increment,
-user_id Integer,
-c_id Integer,
+id INTEGER NOT NULL auto_increment,
+user_id Integer NOT NULL,
+c_id Integer NOT NULL,
 is_owner BOOLEAN NOT NULL default 0,
 PRIMARY KEY(id),
 FOREIGN KEY(user_id)

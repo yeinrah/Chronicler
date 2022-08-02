@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("MakeSessionReq")
-public class MakeSessionReq {
+public class MakeConferenceReq {
 
 	@ApiModelProperty(name = "닉네임", example = "harry")
 	@NotNull(message = "닉네임 칸을 채워주세요.")

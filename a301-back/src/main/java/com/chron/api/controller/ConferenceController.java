@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.chron.api.request.MakeSessionReq;
-import com.chron.api.response.SessionRes;
-import com.chron.api.service.SessionService;
+import com.chron.api.request.MakeConferenceReq;
+import com.chron.api.response.ConferenceRes;
+import com.chron.api.service.ConferenceService;
 import com.chron.api.util.RandomNumberUtil;
+import com.chron.db.entity.Conference;
 import com.chron.db.entity.User;
+import com.chron.db.entity.User_conference;
 
 import io.openvidu.java.client.ConnectionProperties;
 import io.openvidu.java.client.ConnectionType;
@@ -31,38 +33,38 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(value = "방 관리 API", tags = { "Room" })
+@Api(value = "방 관리 API", tags = { "Conference" })
 @RestController
-@RequestMapping("/session")
-public class SessionController {
+@RequestMapping("/conference")
+public class ConferenceController {
 
-	private SessionService sessionService;
+	private ConferenceService conferenceService;
 
-	private OpenVidu openVidu;
+//	private OpenVidu openVidu;
 
 	private Map<String, Integer> mapSessions = new ConcurrentHashMap<>();
 	private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
 
-	private String OPENVIDU_URL;
-	private String SECRET;
+//	private String OPENVIDU_URL;
+//	private String SECRET;
 
 	@Autowired
-	public SessionController(SessionService sessionService, @Value("openvidu.secret") String secret,
+	public ConferenceController(ConferenceService conferenceService, @Value("openvidu.secret") String secret,
 			@Value("openvidu.url") String openviduUrl) {
-		this.sessionService = sessionService;
+		this.conferenceService = conferenceService;
 
-		this.SECRET = secret;
-		this.OPENVIDU_URL = openviduUrl;
-		this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
+//		this.SECRET = secret;
+//		this.OPENVIDU_URL = openviduUrl;
+//		this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
 	}
 
 	@PostMapping("/{id}")
-	@ApiOperation(value = "세션 만들기", notes = "세션 만들기을 통해 세션과 토큰을 생성 후 토큰, 세션 이름, 닉네임 반환")
-	@ApiResponses({ @ApiResponse(code = 200, message = "세션 만들기 성공"), @ApiResponse(code = 400, message = "input 오류"),
+	@ApiOperation(value = "회의 DB에 등록", notes = "DB에 등록 후, 세션 이름, 닉네임 반환")
+	@ApiResponses({ @ApiResponse(code = 200, message = "회의 만들기 성공"), @ApiResponse(code = 400, message = "input 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"),
 			@ApiResponse(code = 500, message = "서버 에러") })
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-	public ResponseEntity<SessionRes> makeSession(@PathVariable int id, @RequestBody MakeSessionReq makeSessionReq)
+//	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	public ResponseEntity<ConferenceRes> makeConference(@PathVariable int id, @RequestBody MakeConferenceReq makeConferenceReq)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 
 		// 세션 코드 난수 생성
@@ -70,10 +72,15 @@ public class SessionController {
 
 		
 		// DB 저장
-		sessionService.makeSession(conference_code, makeSessionReq, id);
-
+		Conference conf = conferenceService.makeConference(conference_code,  makeConferenceReq, id);
+//		sessionService.insertOwner(id, )
+		//방 참가했을 때 회의_회원 테이블에 방장 데이터 넣기
+		conferenceService.insertOwner(id, conf.getC_id());
+		
 		return ResponseEntity.ok(
-				sessionService.getSessionRes(conference_code, makeSessionReq.getTitle(), makeSessionReq.getNickname()));
+				conferenceService.getConferenceRes(conference_code, makeConferenceReq.getTitle(), makeConferenceReq.getNickname()));
 	}
+	
+	
 
 }

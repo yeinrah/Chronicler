@@ -13,8 +13,8 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("SessionRes")
-public class SessionRes {
+@ApiModel("ConferenceRes")
+public class ConferenceRes {
 
 	@ApiModelProperty(name = "세션코드", example = "ABE83")
 	private String conference_code;
