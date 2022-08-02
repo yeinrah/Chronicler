@@ -24,8 +24,6 @@ import {
 import MRTest from './Pages/MRTest/MRTest';
 import { useRecoilState } from 'recoil';
 import showNavState from './recoil/atoms/showNavState';
-import MRTest2 from './Pages/MRTest/MRTest2';
-import MRTest3 from './Pages/MRTest/MRTest3';
 // import MRTest2 from './Pages/MRTest/MRTest2';
 function App() {
   const [isShownNavState, setIsShownNavState] =
@@ -42,9 +40,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/MeetingRoom" element={<MeetingRoom />} />
-        {/* <Route path="/MRTest" element={<MRTest />} /> */}
-        {/* <Route path="/MRTest" element={<MRTest2 />} /> */}
-        <Route path="/MRTest" element={<MRTest3 />} />
+        <Route path="/MRTest" element={<MRTest />} />
       </Routes>
     </div>
   );
