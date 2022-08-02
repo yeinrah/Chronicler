@@ -9,11 +9,12 @@ import {
   UserVideoComponent,
 } from "../../Containers";
 import { Typography, TextField, Stack, Alert } from "@mui/material";
+import { Abc } from "@mui/icons-material";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
-const MRTest2 = (props) => {
+const MRTest3 = (props) => {
   const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState(
     "Participant" + Math.floor(Math.random() * 100)
@@ -36,7 +37,14 @@ const MRTest2 = (props) => {
     };
   }, []);
   useEffect(() => {
-    console.log(session);
+    if (OV) {
+      setSession(OV.initSession());
+    }
+  }, [OV]);
+  useEffect(() => {
+    abc();
+  }, [session]);
+  const abc = () => {
     if (session) {
       var mySession = session;
       // --- 3) Specify the actions when events take place in the session ---
@@ -45,13 +53,19 @@ const MRTest2 = (props) => {
       mySession.on("streamCreated", (event) => {
         // Subscribe to the Stream to receive it. Second parameter is undefined
         // so OpenVidu doesn't create an HTML video by its own
-        var subscriber = mySession.subscribe(event.stream, undefined);
+        var subscriber1 = mySession.subscribe(event.stream, undefined);
         var subscribersNow = subscribers;
-        subscribersNow.push(subscriber);
-
+        console.log("haha");
+        console.log(subscriber1);
+        console.log(subscribers);
+        subscribersNow.push(subscriber1);
         // Update the state with the new subscribers
         setSubscribers(subscribersNow);
-        console.log("!!!!!!!!!!!!!!!!!!!");
+        setMyUserName("haaaa");
+        console.log(subscribers);
+        console.log(subscribersNow);
+        console.log(subscribersNow);
+        console.log("!!!!!!!!!!!!!!!!!!a!");
         console.log(subscribers);
         console.log(publisher);
       });
@@ -115,10 +129,7 @@ const MRTest2 = (props) => {
           });
       });
     }
-  }, [session]);
-  useEffect(() => {
-    if (OV) setSession(OV.initSession());
-  }, [OV]);
+  };
   const beforeunload = () => {
     leaveSession();
   };
@@ -149,7 +160,7 @@ const MRTest2 = (props) => {
       setSubscribers(subscribersNow);
     }
   };
-  const joinSession = async (event) => {
+  const joinSession = (event) => {
     event.preventDefault();
     // --- 1) Get an OpenVidu object --
     // let OV = new OpenVidu();
@@ -410,4 +421,4 @@ const MRTest2 = (props) => {
  *   3) The Connection.token must be consumed in Session.connect() method
  */
 
-export default MRTest2;
+export default MRTest3;

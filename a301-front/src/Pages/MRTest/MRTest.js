@@ -111,7 +111,7 @@ class MRTest extends Component {
 
   joinSession() {
     // --- 1) Get an OpenVidu object ---
-
+    alert("haaha!!!!");
     this.OV = new OpenVidu();
 
     // --- 2) Init a session ---
@@ -179,7 +179,8 @@ class MRTest extends Component {
                 insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                 mirror: false, // Whether to mirror your local video or not
               });
-
+              console.log("haha!!");
+              console.log(publisher);
               // --- 6) Publish your stream ---
 
               mySession.publish(publisher);
