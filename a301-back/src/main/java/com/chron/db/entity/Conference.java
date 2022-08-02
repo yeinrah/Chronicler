@@ -22,8 +22,8 @@ public class Conference {
 	@Column(name = "owner_id")
 	private Integer owner_id;
 
-	@Column(name = "conference_code", length = 32)
-	private String conference_code;
+	@Column(name = "conferenceCode", length = 32)
+	private String conferenceCode;
 
 	@Column(name = "title", length = 50)
 	private String title;

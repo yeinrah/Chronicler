@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chron.api.request.EnterUserReq;
 import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.response.ConferenceRes;
 import com.chron.api.service.ConferenceService;
@@ -40,22 +42,15 @@ public class ConferenceController {
 
 	private ConferenceService conferenceService;
 
-//	private OpenVidu openVidu;
 
 	private Map<String, Integer> mapSessions = new ConcurrentHashMap<>();
 	private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
 
-//	private String OPENVIDU_URL;
-//	private String SECRET;
 
 	@Autowired
 	public ConferenceController(ConferenceService conferenceService, @Value("openvidu.secret") String secret,
 			@Value("openvidu.url") String openviduUrl) {
 		this.conferenceService = conferenceService;
-
-//		this.SECRET = secret;
-//		this.OPENVIDU_URL = openviduUrl;
-//		this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
 	}
 
 	@PostMapping("/{id}")
@@ -63,17 +58,16 @@ public class ConferenceController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "회의 만들기 성공"), @ApiResponse(code = 400, message = "input 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"),
 			@ApiResponse(code = 500, message = "서버 에러") })
-//	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	public ResponseEntity<ConferenceRes> makeConference(@PathVariable int id, @RequestBody MakeConferenceReq makeConferenceReq)
-			throws OpenViduJavaClientException, OpenViduHttpException {
-
+			throws Exception {
 		// 세션 코드 난수 생성
 		String conference_code = RandomNumberUtil.getRandomNumber();
-
 		
 		// DB 저장
 		Conference conf = conferenceService.makeConference(conference_code,  makeConferenceReq, id);
-//		sessionService.insertOwner(id, )
+		//conference_history를 만들고 action을 0으로 했음
+		conferenceService.makeConferenceHistory(id, conference_code);
+		
 		//방 참가했을 때 회의_회원 테이블에 방장 데이터 넣기
 		conferenceService.insertOwner(id, conf.getC_id());
 		
@@ -81,6 +75,20 @@ public class ConferenceController {
 				conferenceService.getConferenceRes(conference_code, makeConferenceReq.getTitle(), makeConferenceReq.getNickname()));
 	}
 	
+	@PostMapping("/enter/{id}")
+	@ApiOperation(value = "회원_회의 DB에 참가자 데이터를 등록", notes = "DB에 등록")
+	@ApiResponses({ @ApiResponse(code = 200, message = "회원_회의 DB에 넣기 성공"), @ApiResponse(code = 400, message = "input 오류"),@ApiResponse(code = 401, message = "인증 오류"),@ApiResponse(code = 500, message = "서버 에러") })
+	public ResponseEntity<?> enterConference(@PathVariable int id, @RequestBody EnterUserReq enterUserReq)
+			throws Exception {
+		
+		//방 참가했을 때 회의_회원 테이블에 팀원 데이터 넣기
+		conferenceService.insertParticipant(id, enterUserReq.getConference_code());
+		//참가했을때 conference_history의 action을 1로 해서 추가해줌
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
+		}
 	
+		//방 나가기 구현 => conference_history의 action을 2로, is_active false
+		//회의록 구현
 
 }

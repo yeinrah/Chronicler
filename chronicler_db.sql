@@ -48,7 +48,7 @@ ch_id INTEGER auto_increment,
 c_id Integer,
 user_id Integer,
 action SMALLINT,
-inserted_time DATETIME,
+inserted_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(ch_id),
 FOREIGN KEY(c_id)
 REFERENCES conference(c_id),

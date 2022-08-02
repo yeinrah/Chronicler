@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.chron.db.entity.Conference;
 
 @Repository
-public interface ConferenceRepository extends JpaRepository<Conference, String> {
-
+public interface ConferenceRepository extends JpaRepository<Conference, Integer> {
+	Conference findOneByConferenceCode(String conference_code);
 }
