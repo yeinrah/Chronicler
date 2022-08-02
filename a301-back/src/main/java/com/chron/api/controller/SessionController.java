@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,8 @@ import com.chron.api.service.SessionService;
 import com.chron.api.util.RandomNumberUtil;
 import com.chron.db.entity.User;
 
+import io.openvidu.java.client.ConnectionProperties;
+import io.openvidu.java.client.ConnectionType;
 import io.openvidu.java.client.OpenVidu;
 import io.openvidu.java.client.OpenViduHttpException;
 import io.openvidu.java.client.OpenViduJavaClientException;
@@ -53,23 +56,21 @@ public class SessionController {
 		this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
 	}
 
-	@PostMapping("")
+	@PostMapping("/{id}")
 	@ApiOperation(value = "세션 만들기", notes = "세션 만들기을 통해 세션과 토큰을 생성 후 토큰, 세션 이름, 닉네임 반환")
 	@ApiResponses({ @ApiResponse(code = 200, message = "세션 만들기 성공"), @ApiResponse(code = 400, message = "input 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"),
 			@ApiResponse(code = 500, message = "서버 에러") })
 	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-	public ResponseEntity<SessionRes> makeSession(@RequestBody MakeSessionReq makeSessionReq, @RequestBody User user)
+	public ResponseEntity<SessionRes> makeSession(@PathVariable int id, @RequestBody MakeSessionReq makeSessionReq)
 			throws OpenViduJavaClientException, OpenViduHttpException {
 
 		// 세션 코드 난수 생성
 		String conference_code = RandomNumberUtil.getRandomNumber();
 
-		// 방 관리 map에 저장
-		this.mapSessions.put(conference_code, 1);
-
+		
 		// DB 저장
-		sessionService.makeSession(conference_code, makeSessionReq, user);
+		sessionService.makeSession(conference_code, makeSessionReq, id);
 
 		return ResponseEntity.ok(
 				sessionService.getSessionRes(conference_code, makeSessionReq.getTitle(), makeSessionReq.getNickname()));

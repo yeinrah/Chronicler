@@ -15,7 +15,7 @@ import com.chron.api.interceptor.JWTInterceptor;
 public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE").maxAge(6000);
+		registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE","PATCH").maxAge(6000);
 	}
 
 	@Override

@@ -24,7 +24,8 @@ public class SessionService {
 	}
 
 	@Transactional
-	public Session makeSession(String conference_code, MakeSessionReq makeSessionReq, User user) {
+	public Session makeSession(String conference_code, MakeSessionReq makeSessionReq, int id) {
+		User user = userRepository.findOneById(id);
 		Session session = Session.builder().owner_id(user.getId()).conference_code(conference_code)
 				.title(makeSessionReq.getTitle()).is_active(true).build();
 		return sessionRepository.save(session);
@@ -33,11 +34,10 @@ public class SessionService {
 	@Transactional(readOnly = true)
 	public SessionRes getSessionRes(String conference_code, String title, String nickname) {
 		SessionRes sessionRes = new SessionRes();
-		User user = userRepository.findOneWithRolesByEmail(SecurityUtil.getCurrentEmail().orElse("")).orElse(null);
-
-		sessionRes.setNickname(user.getNickname());
+		
+		sessionRes.setNickname(nickname);
 		sessionRes.setTitle(title);
-
+		sessionRes.setConference_code(conference_code);
 		return sessionRes;
 	}
 }
