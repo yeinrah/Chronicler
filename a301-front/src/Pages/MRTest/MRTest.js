@@ -295,7 +295,7 @@ const MRTest = (props) => {
   };
   const sendMessage = (aaa) => {
     session.signal({
-      data: `{${myUserName},${aaa}}`,
+      data: `{"name":"${myUserName}","text":"${aaa}"}`,
       to: [],
       type: "chat",
     });

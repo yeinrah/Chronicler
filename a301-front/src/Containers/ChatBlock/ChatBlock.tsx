@@ -7,7 +7,7 @@ import {
   Button,
   TextField,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ChatBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -32,7 +32,10 @@ const ChatBlock: React.FC<Props> = ({
     });
     sendMessage(data.get('comment'));
   };
-
+  const [messages, setMessages] = useState<any>([{}]);
+  useEffect(() => {
+    if (message) setMessages([...messages, JSON.parse(message)]);
+  }, [message]);
   const ChatBox = styled(Box)({
     padding: '1px',
     border: '1px solid black',
@@ -73,59 +76,15 @@ const ChatBlock: React.FC<Props> = ({
           overflow: 'scroll',
         }}
       >
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>{message}</p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
-        <Comment overflow="visible">
-          <h6>User Nickname, Timestamp</h6>
-          <p>
-            This is a comment.
-            lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
-          </p>
-        </Comment>
+        {messages.map((item: any) => {
+          console.log(item);
+          return (
+            <Comment overflow="visible">
+              <h6>{item.name}</h6>
+              <p>{item.text}</p>
+            </Comment>
+          );
+        })}
       </Box>
       <Box
         component="form"
@@ -143,6 +102,7 @@ const ChatBlock: React.FC<Props> = ({
           placeholder="Write your comment"
           inputProps={{ style: { color: 'var(--fontBase-color)' } }}
           sx={{ color: 'var(--eleBase-color)' }}
+          autoFocus
         />
       </Box>
     </ChatBox>
