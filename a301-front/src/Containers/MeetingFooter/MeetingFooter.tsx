@@ -68,6 +68,7 @@ const MeetingFooter: React.FC<Props> = ({
             color="inherit"
             className={cameraOn ? styles.micCameraBtn : styles.micCameraBtnOff}
             onClick={() => {
+              console.log('??????????????');
               setCameraOn(!cameraOn);
             }}
           >
