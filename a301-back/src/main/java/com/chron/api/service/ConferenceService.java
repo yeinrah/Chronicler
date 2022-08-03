@@ -34,13 +34,12 @@ public class ConferenceService {
 		this.conferenceHistoryRepo = conferenceHistoryRepo;
 	}
 
-	// conference 만들기
+	// conference 생성
 	@Transactional
 	public Conference makeConference(String conference_code, MakeConferenceReq makeConferenceReq, int id) {
 		User user = userRepository.findOneById(id);
 		Conference conference = Conference.builder().ownerId(user.getId()).conferenceCode(conference_code)
-				.title(makeConferenceReq.getTitle()).isActive(true).build();
-
+				.title(makeConferenceReq.getTitle()).build();
 		return conferenceRepository.save(conference);
 	}
 
@@ -70,7 +69,7 @@ public class ConferenceService {
 		return userConferenceRepo.save(userConference);
 	}
 
-	// conference_history 만들기
+	// conference_history : 회의 생성
 	@Transactional
 	public ConferenceHistory makeConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);

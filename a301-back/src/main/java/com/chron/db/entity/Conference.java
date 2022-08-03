@@ -33,10 +33,7 @@ public class Conference {
 
 	@Column(name = "description")
 	private String description;
-	@NotNull
-	@Column(name = "is_active")
-	private boolean isActive;
-	
+
 	@OneToMany(mappedBy = "conference")
 	private List<UserConference> userconf = new ArrayList<UserConference>();
 }

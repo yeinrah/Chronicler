@@ -1,8 +1,5 @@
 package com.chron.api.controller;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +30,7 @@ public class ConferenceController {
 
 	private ConferenceService conferenceService;
 
-//	// 회의 관리
+	// 회의 관리
 //	private Map<String, Integer> mapSessions = new ConcurrentHashMap<>();
 
 	@Autowired
@@ -41,8 +38,9 @@ public class ConferenceController {
 		this.conferenceService = conferenceService;
 	}
 
+	// 회의 생성
 	@PostMapping("/{u_id}")
-	@ApiOperation(value = "회의 DB에 등록", notes = "DB에 등록 후, 세션 이름, 닉네임 반환")
+	@ApiOperation(value = "회의 생성", notes = "DB에 등록 후, 세션 이름, 닉네임 반환")
 	@ApiResponses({ @ApiResponse(code = 200, message = "회의 만들기 성공"), @ApiResponse(code = 400, message = "입력 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 500, message = "서버 에러") })
 	public ResponseEntity<ConferenceRes> makeConference(@PathVariable int u_id,
@@ -63,13 +61,13 @@ public class ConferenceController {
 				makeConferenceReq.getNickname()));
 	}
 
+	// 회의 참가
 	@PostMapping("/enter/{u_id}")
-	@ApiOperation(value = "회원_회의 DB에 참가자 데이터를 등록", notes = "DB에 등록")
-	@ApiResponses({ @ApiResponse(code = 200, message = "회원_회의 DB에 넣기 성공"), @ApiResponse(code = 400, message = "입력 오류"),
+	@ApiOperation(value = "회의 참가", notes = "세션코드와 닉네임을 입력하면 회의에 참가할 수 있다.")
+	@ApiResponses({ @ApiResponse(code = 200, message = "회의 접속 성공"), @ApiResponse(code = 400, message = "입력 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 500, message = "서버 에러") })
 	public ResponseEntity<?> enterConference(@PathVariable int u_id, @RequestBody EnterUserReq enterUserReq)
 			throws Exception {
-
 		// 방 참가했을 때 회의_회원 테이블에 팀원 데이터 넣기
 		conferenceService.insertParticipant(u_id, enterUserReq.getConference_code());
 		// 참가했을때 conference_history의 action을 1로 해서 추가해줌
@@ -77,17 +75,17 @@ public class ConferenceController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
-	
-	
-	// 방 나가기 구현 => conference_history의 action을 2로, is_active false
+	// 회의 나가기(방장이면, 회의 종료)
 	@PutMapping("/{conference_code}")
-	@ApiOperation(value = "참가자가 회의를 나갈 경우 사용", notes = "회의 나가기를 통해 상태 정보 변경")
+	@ApiOperation(value = "참가자가 회의를 나갈 경우 사용(방장이면 종료)", notes = "회의 나가기를 통해 상태 정보 변경")
 	@ApiResponses({ @ApiResponse(code = 200, message = "회의 나가기 성공"), @ApiResponse(code = 400, message = "입력 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 404, message = "회의 정보가 없습니다."),
 			@ApiResponse(code = 500, message = "서버 에러") })
 	public ResponseEntity<?> leaveConference(@PathVariable String conference_code,
 			@RequestBody LeaveConferenceReq leaveConferenceReq) {
 		int u_id = leaveConferenceReq.getId();
+		
+		// 참가자 ID가 방장 ID인지 체크
 		if (conferenceService.isOwner(u_id, conference_code))
 			conferenceService.endConferenceHistory(u_id, conference_code);
 		else
@@ -96,6 +94,6 @@ public class ConferenceController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	// 회의록 구현
+	// 회의록 구현하기
 
 }

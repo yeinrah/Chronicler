@@ -22,7 +22,6 @@ owner_id Integer,
 conference_code VARCHAR(16),
 title VARCHAR(50),
 description TEXT,
-is_active BOOLEAN NOT NULL default 0,
 PRIMARY KEY(c_id),
 FOREIGN KEY(owner_id)
 REFERENCES user(u_id)
