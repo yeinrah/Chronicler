@@ -177,6 +177,14 @@ const MyPage = () => {
       });
   };
   useEffect(() => {
+    if (!nowLogined) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '마이페이지는 로그인 후에 이용 가능합니다',
+      });
+      navigate('/');
+    }
     loadUserInfo();
   }, []);
   const MypageStack = styled(Stack)({

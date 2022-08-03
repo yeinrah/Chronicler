@@ -43,6 +43,7 @@ const MRTest = (props) => {
     }
   }, [OV]);
   useEffect(() => {
+    console.log(session);
     listenScriber();
   }, [session]);
   useEffect(() => {
