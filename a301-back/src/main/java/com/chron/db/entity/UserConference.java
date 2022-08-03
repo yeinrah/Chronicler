@@ -2,7 +2,6 @@ package com.chron.db.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,12 +30,18 @@ public class UserConference {
 	@Column(name = "id")
 	private int id;
 
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "user_id")
+	@Column(name = "user_id")
 	private int userId;
 
-	@ManyToOne(targetEntity = Conference.class)
-	@JoinColumn(name = "c_id")
+	@ManyToOne
+	@JoinColumn(name = "u_id", insertable = false, updatable = false)
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name = "c_id", insertable = false, updatable = false)
+	private Conference conference;
+
+	@Column(name = "c_id")
 	private int cId;
 
 	@NotNull

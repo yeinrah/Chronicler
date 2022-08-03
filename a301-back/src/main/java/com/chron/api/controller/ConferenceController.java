@@ -73,9 +73,12 @@ public class ConferenceController {
 		// 방 참가했을 때 회의_회원 테이블에 팀원 데이터 넣기
 		conferenceService.insertParticipant(u_id, enterUserReq.getConference_code());
 		// 참가했을때 conference_history의 action을 1로 해서 추가해줌
+		conferenceService.startConferenceHistory(u_id, enterUserReq.getConference_code());
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
+	
+	
 	// 방 나가기 구현 => conference_history의 action을 2로, is_active false
 	@PutMapping("/{conference_code}")
 	@ApiOperation(value = "참가자가 회의를 나갈 경우 사용", notes = "회의 나가기를 통해 상태 정보 변경")

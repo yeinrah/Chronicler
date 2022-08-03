@@ -38,5 +38,4 @@ public class ConferenceHistory {
 	
 	@Column(name = "inserted_time")
 	private String insertedTime;
-	
 }

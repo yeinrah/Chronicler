@@ -96,7 +96,9 @@ public class ConferenceService {
 	@Transactional
 	public ConferenceHistory endConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
-		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2).build();
+		Long time = System.currentTimeMillis();
+		java.sql.Timestamp stamp = new Timestamp(time);
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2).insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
 	}
 
