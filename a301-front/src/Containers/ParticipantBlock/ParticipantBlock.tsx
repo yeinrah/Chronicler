@@ -1,20 +1,30 @@
 import { AppBar, Box, styled, Toolbar, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ParticipantBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
   openChat: boolean;
   openParticipant: boolean;
+  participants: any;
 }
 
-const ParticipantBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
+const ParticipantBlock: React.FC<Props> = ({
+  openChat,
+  openParticipant,
+  participants,
+}) => {
   const ParticipantBox = styled(Box)({
     padding: '1px',
     border: '1px solid black',
     margin: '1px',
   });
-
+  const [participant, setParticipant] = useState(participants);
+  useEffect(() => {
+    console.log('asdadsadasdasda');
+    setParticipant([...participant, participants]);
+    console.log(participant);
+  }, [participants]);
   return (
     <ParticipantBox
       width="20vw"
@@ -47,13 +57,11 @@ const ParticipantBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
         }}
       >
         <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
+        {/* <Box>{participant}</Box> */}
+        {participant &&
+          participant.map((item: any) => {
+            return <Box>{item}</Box>;
+          })}
       </Box>
     </ParticipantBox>
   );

@@ -32,6 +32,7 @@ const MRTest = (props) => {
   const [currentVideoDevice, setCurrentVideoDevice] = useState();
   const [OV, setOV] = useState(undefined);
   const [message, setMessage] = useState();
+  const [participant, setPartcipant] = useState([]);
   const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
   // let OV;
   useEffect(() => {
@@ -55,8 +56,23 @@ const MRTest = (props) => {
     console.log("subscribes.change");
   }, [subscribers]);
   const listenMessage = () => {
-    session.on("signal", (event) => {
+    session.on("signal:chat", (event) => {
       setMessage(event.data);
+      // session.streamManagers.map((item, i) => {
+      //   console.log("haDQE!@#!");
+      //   if (item.session) {
+      //     console.log(item.session.connection.data);
+      //     setPartcipant([...participant, item.session.connection.data]);
+      //   } else if (item.stream) {
+      //     console.log(item.stream.connection.data);
+      //     setPartcipant([...participant, item.stream.connection.data]);
+      //   }
+      // });
+    });
+  };
+  const listenParticipant = () => {
+    session.on("signal:participant", (event) => {
+      setPartcipant(event.data);
       console.log(event.data);
     });
   };
@@ -64,7 +80,6 @@ const MRTest = (props) => {
     if (session) {
       var mySession = session;
       // --- 3) Specify the actions when events take place in the session ---
-
       // On every new Stream received...
       mySession.on("streamCreated", (event) => {
         // Subscribe to the Stream to receive it. Second parameter is undefined
@@ -74,8 +89,19 @@ const MRTest = (props) => {
         subscribersNow.push(subscriber1);
         // Update the state with the new subscribers
         setSubscribers([...subscribersNow]);
-        // setMyUserName("haaaa");
+        session.streamManagers.map((item, i) => {
+          console.log("haDQE!@#!");
+          if (item.session) {
+            console.log(item.session.connection.data);
+            setPartcipant([...participant, item.session.connection.data]);
+          }
+          if (item.stream) {
+            console.log(item.stream.connection.data);
+            setPartcipant([...participant, item.stream.connection.data]);
+          }
+        });
       });
+
       listenMessage();
       // On every Stream destroyed...
       mySession.on("streamDestroyed", (event) => {
@@ -275,6 +301,15 @@ const MRTest = (props) => {
     });
     console.log(session);
   };
+  const sendParticipant = () => {
+    session.signal({
+      data: `{"name":"${myUserName}"}`,
+      to: [],
+      type: "participant",
+    });
+    console.log(myUserName);
+    console.log("send!!!!!!!!!!!!");
+  };
   return (
     <>
       {console.log(session)}
@@ -366,6 +401,7 @@ const MRTest = (props) => {
               spacing={0}
             >
               <ParticipantBlock
+                participants={participant}
                 openChat={openChat}
                 openParticipant={openParticipant}
               />
