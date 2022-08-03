@@ -10,6 +10,8 @@ import {
 } from "../../Containers";
 import { Typography, TextField, Stack, Alert } from "@mui/material";
 import { Abc } from "@mui/icons-material";
+import { useRecoilState } from "recoil";
+import showNavState from "../../recoil/atoms/showNavState";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -31,12 +33,16 @@ const MRTest = (props) => {
   const [OV, setOV] = useState(undefined);
   const [message, setMessage] = useState();
   const [people, setPeople] = useState(subscribers.length);
+  const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
+
   // let OV;
   useEffect(() => {
     window.addEventListener("beforeunload", beforeunload);
+    setIsShownNavState(false);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
       leaveSession();
+      setIsShownNavState(true);
     };
   }, []);
   useEffect(() => {
@@ -45,6 +51,7 @@ const MRTest = (props) => {
     }
   }, [OV]);
   useEffect(() => {
+    console.log(session);
     listenScriber();
   }, [session]);
   useEffect(() => {
@@ -136,6 +143,7 @@ const MRTest = (props) => {
   };
   const beforeunload = () => {
     leaveSession();
+    setIsShownNavState(true);
   };
 
   const onSetMicOn = (e) => {
