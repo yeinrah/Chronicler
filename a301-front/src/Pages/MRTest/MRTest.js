@@ -49,25 +49,37 @@ const MRTest = (props) => {
     }
   }, [OV]);
   useEffect(() => {
-    console.log(session);
     listenScriber();
   }, [session]);
   useEffect(() => {
     console.log("subscribes.change");
-  }, [subscribers]);
+    let participantNow = [];
+    if (session) {
+      console.log("dasdasd!!@E!@#!@#!");
+      console.log(session);
+      console.log(session.streamManagers);
+      console.log(session.streamManagers.length);
+      setPartcipant([]);
+      session.streamManagers.map((item, i) => {
+        console.log("haDQE!@#!");
+        console.log(item);
+        if (item.session) {
+          console.log(item.session.connection.data);
+          participantNow.push(item.session.connection.data);
+          // setPartcipant([...participant, item.session.connection.data]);
+        } else if (item.stream) {
+          console.log(item.stream.connection.data);
+          participantNow.push(item.stream.connection.data);
+          // setPartcipant([...participant, item.stream.connection.data]);
+        }
+      });
+      setPartcipant([...participantNow]);
+    }
+  }, [subscribers, publisher]);
+  useEffect(() => {}, [participant]);
   const listenMessage = () => {
     session.on("signal:chat", (event) => {
       setMessage(event.data);
-      // session.streamManagers.map((item, i) => {
-      //   console.log("haDQE!@#!");
-      //   if (item.session) {
-      //     console.log(item.session.connection.data);
-      //     setPartcipant([...participant, item.session.connection.data]);
-      //   } else if (item.stream) {
-      //     console.log(item.stream.connection.data);
-      //     setPartcipant([...participant, item.stream.connection.data]);
-      //   }
-      // });
     });
   };
   const listenParticipant = () => {
@@ -81,6 +93,7 @@ const MRTest = (props) => {
       var mySession = session;
       // --- 3) Specify the actions when events take place in the session ---
       // On every new Stream received...
+      console.log("statrt!!!!!!!!!!!!!!!!!");
       mySession.on("streamCreated", (event) => {
         // Subscribe to the Stream to receive it. Second parameter is undefined
         // so OpenVidu doesn't create an HTML video by its own
@@ -89,17 +102,6 @@ const MRTest = (props) => {
         subscribersNow.push(subscriber1);
         // Update the state with the new subscribers
         setSubscribers([...subscribersNow]);
-        session.streamManagers.map((item, i) => {
-          console.log("haDQE!@#!");
-          if (item.session) {
-            console.log(item.session.connection.data);
-            setPartcipant([...participant, item.session.connection.data]);
-          }
-          if (item.stream) {
-            console.log(item.stream.connection.data);
-            setPartcipant([...participant, item.stream.connection.data]);
-          }
-        });
       });
 
       listenMessage();
@@ -122,7 +124,7 @@ const MRTest = (props) => {
         // First param is the token got from OpenVidu Server. Second param can be retrieved by every user on event
         // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
         mySession
-          .connect(token, { clientData: myUserName })
+          .connect(token, { 닉네임: myUserName })
           .then(async () => {
             var devices = await OV.getDevices();
             var videoDevices = devices.filter(

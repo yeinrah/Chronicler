@@ -22,7 +22,7 @@ const ParticipantBlock: React.FC<Props> = ({
   const [participant, setParticipant] = useState(participants);
   useEffect(() => {
     console.log('asdadsadasdasda');
-    setParticipant([...participant, participants]);
+    setParticipant([participants]);
     console.log(participant);
   }, [participants]);
   return (
@@ -56,11 +56,11 @@ const ParticipantBlock: React.FC<Props> = ({
           overflow: 'scroll',
         }}
       >
-        <Box>User nickname, mic on, camera on</Box>
-        {/* <Box>{participant}</Box> */}
-        {participant &&
-          participant.map((item: any) => {
-            return <Box>{item}</Box>;
+        <Box>User in videoroom</Box>
+        {participant && console.log(participant[0])}
+        {participant[0] &&
+          participant[0].map((item: any) => {
+            return <Box key="item">{item}</Box>;
           })}
       </Box>
     </ParticipantBox>
