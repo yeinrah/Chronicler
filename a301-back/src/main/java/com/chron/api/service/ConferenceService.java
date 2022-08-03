@@ -1,6 +1,7 @@
 package com.chron.api.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,72 +9,118 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.response.ConferenceRes;
-import com.chron.api.util.SecurityUtil;
 import com.chron.db.entity.Conference;
-import com.chron.db.entity.Conference_history;
+import com.chron.db.entity.ConferenceHistory;
 import com.chron.db.entity.User;
-import com.chron.db.entity.User_conference;
+import com.chron.db.entity.UserConference;
 import com.chron.db.repository.ConferenceHistoryRepository;
 import com.chron.db.repository.ConferenceRepository;
+import com.chron.db.repository.UserConferenceRepository;
 import com.chron.db.repository.UserRepository;
-import com.chron.db.repository.User_ConferenceRepository;
 
 @Service
 public class ConferenceService {
 	private ConferenceRepository conferenceRepository;
 	private UserRepository userRepository;
-	private User_ConferenceRepository userConferenceRepo;
+	private UserConferenceRepository userConferenceRepo;
 	private ConferenceHistoryRepository conferenceHistoryRepo;
+
 	@Autowired
-	public ConferenceService(ConferenceRepository conferenceRepository, UserRepository userRepository, User_ConferenceRepository userConferenceRepo, ConferenceHistoryRepository conferenceHistoryRepo) {
+	public ConferenceService(ConferenceRepository conferenceRepository, UserRepository userRepository,
+			UserConferenceRepository userConferenceRepo, ConferenceHistoryRepository conferenceHistoryRepo) {
 		this.conferenceRepository = conferenceRepository;
 		this.userRepository = userRepository;
 		this.userConferenceRepo = userConferenceRepo;
 		this.conferenceHistoryRepo = conferenceHistoryRepo;
 	}
-	//conference 만들기
+
+	// conference 만들기
 	@Transactional
 	public Conference makeConference(String conference_code, MakeConferenceReq makeConferenceReq, int id) {
 		User user = userRepository.findOneById(id);
-		Conference conference = Conference.builder().owner_id(user.getId()).conferenceCode(conference_code)
-				.title(makeConferenceReq.getTitle()).is_active(true).build();
-		
+		Conference conference = Conference.builder().ownerId(user.getId()).conferenceCode(conference_code)
+				.title(makeConferenceReq.getTitle()).isActive(true).build();
+
 		return conferenceRepository.save(conference);
 	}
 
 	@Transactional(readOnly = true)
 	public ConferenceRes getConferenceRes(String conference_code, String title, String nickname) {
 		ConferenceRes conferenceRes = new ConferenceRes();
-		
+
 		conferenceRes.setNickname(nickname);
 		conferenceRes.setTitle(title);
 		conferenceRes.setConference_code(conference_code);
 		return conferenceRes;
 	}
-	//방장 user_conference에 생성
+
+	// 방장 user_conference에 생성
 	@Transactional
-	public User_conference insertOwner(int user_id, int c_id) {
-		User_conference userConference = User_conference.builder().user_id(user_id).c_id(c_id).is_owner(true).build();
+	public UserConference insertOwner(int user_id, int c_id) {
+		UserConference userConference = UserConference.builder().userId(user_id).cId(c_id).isOwner(true).build();
 		return userConferenceRepo.save(userConference);
 	}
-	//user_conference 참가자 생성
+
+	// user_conference 참가자 생성
 	@Transactional
-	public User_conference insertParticipant(int user_id, String conference_code) {
+	public UserConference insertParticipant(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
-		User_conference userConference = User_conference.builder().user_id(user_id).c_id(conf.getC_id()).is_owner(false).build();
+		UserConference userConference = UserConference.builder().cId(conf.getCId()).userId(user_id).isOwner(false)
+				.build();
 		return userConferenceRepo.save(userConference);
 	}
-	
-	//conference_history 만들기
+
+	// conference_history 만들기
 	@Transactional
-	public Conference_history makeConferenceHistory(int user_id, String conference_code) {
+	public ConferenceHistory makeConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
-		Conference_history confh = Conference_history.builder().c_id(conf.getC_id()).user_id(user_id).action(0).inserted_time(stamp.toString()).build();
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(0)
+				.insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
 	}
-	
-	
-	
+
+	// conference_history : 회의 시작
+	@Transactional
+	public ConferenceHistory startConferenceHistory(int user_id, String conference_code) {
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		Long time = System.currentTimeMillis();
+		java.sql.Timestamp stamp = new Timestamp(time);
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(1)
+				.insertedTime(stamp.toString()).build();
+		return conferenceHistoryRepo.save(confh);
+	}
+
+	// conference_history : (방장)회의 종료
+	@Transactional
+	public ConferenceHistory endConferenceHistory(int user_id, String conference_code) {
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2).build();
+		return conferenceHistoryRepo.save(confh);
+	}
+
+	// conference_history : (일반 참가자)회의 나가기
+	@Transactional
+	public ConferenceHistory leaveConferenceHistory(int user_id, String conference_code) {
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(1).build();
+		return conferenceHistoryRepo.save(confh);
+	}
+
+	// conference_history : 참가자가 방장인지 체크
+	@Transactional
+	public Boolean isOwner(int user_id, String conference_code) {
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		int cid = conf.getCId();
+		List<UserConference> userConfList = userConferenceRepo.findConferenceBycId(cid);
+
+		for (UserConference userConf : userConfList) {
+			if (userConf.getUserId() == user_id) {
+				return userConf.isOwner();
+			}
+		}
+		return false;
+	}
+
 }

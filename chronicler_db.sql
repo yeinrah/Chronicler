@@ -6,7 +6,7 @@ USE `chronicler`;
 
 -- 회원 테이블
 CREATE TABLE user (
- id INTEGER auto_increment,
+ u_id INTEGER auto_increment,
  nickname VARCHAR(32),
  password VARCHAR(255),
  email VARCHAR(255),  
@@ -19,7 +19,7 @@ CREATE TABLE user (
 CREATE TABLE conference (
 c_id INTEGER auto_increment,
 owner_id Integer,
-conference_code VARCHAR(32),
+conference_code VARCHAR(16),
 title VARCHAR(50),
 description TEXT,
 is_active BOOLEAN NOT NULL default 0,

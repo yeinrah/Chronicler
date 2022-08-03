@@ -17,12 +17,12 @@ public class Conference {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "c_id")
-	private Integer c_id;
+	private Integer cId;
 
 	@Column(name = "owner_id")
-	private Integer owner_id;
+	private Integer ownerId;
 
-	@Column(name = "conferenceCode", length = 32)
+	@Column(name = "conference_code", length = 32)
 	private String conferenceCode;
 
 	@Column(name = "title", length = 50)
@@ -32,9 +32,5 @@ public class Conference {
 	private String description;
 	@NotNull
 	@Column(name = "is_active")
-	private boolean is_active;
-
-//	@Builder.Default
-//	@OneToMany(mappedBy = "room")
-//	private Set<Game> games = new LinkedHashSet<Game>();
+	private boolean isActive;
 }

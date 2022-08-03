@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,23 +20,23 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Conference_history {
+public class ConferenceHistory {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ch_id")
-	private Integer ch_id;
+	private Integer chId;
 	
 	@Column(name = "c_id")
-	private Integer c_id;
+	private Integer cId;
 	
 	@Column(name = "user_id")
-	private Integer user_id;
+	private Integer userId;
 	
 	@Column(name = "action")
 	private Integer action;
 	
 	@Column(name = "inserted_time")
-	private String inserted_time;
+	private String insertedTime;
 	
 }
