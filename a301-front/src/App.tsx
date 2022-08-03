@@ -24,6 +24,7 @@ import {
 import MRTest from './Pages/MRTest/MRTest';
 import { useRecoilState } from 'recoil';
 import showNavState from './recoil/atoms/showNavState';
+// import MRTest2 from './Pages/MRTest/MRTest2';
 function App() {
   const [isShownNavState, setIsShownNavState] =
     useRecoilState<any>(showNavState);

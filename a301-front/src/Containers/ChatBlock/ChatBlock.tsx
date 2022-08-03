@@ -7,21 +7,31 @@ import {
   Button,
   TextField,
 } from '@mui/material';
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import React, { useEffect, useState } from 'react';
+>>>>>>> 39f02675096c2232e1b82e156b106c90ccf5e44b
 import styles from './ChatBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
   openChat: boolean;
   openParticipant: boolean;
+<<<<<<< HEAD
   myUserName: string;
   mainStreamManager: any;
   session: any;
+=======
+  sendMessage: Function;
+  message: string;
+>>>>>>> 39f02675096c2232e1b82e156b106c90ccf5e44b
 }
 
 const ChatBlock: React.FC<Props> = ({
   openChat,
   openParticipant,
+<<<<<<< HEAD
   myUserName,
   mainStreamManager,
   session,
@@ -29,13 +39,20 @@ const ChatBlock: React.FC<Props> = ({
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
 
+=======
+  sendMessage,
+  message,
+}) => {
+>>>>>>> 39f02675096c2232e1b82e156b106c90ccf5e44b
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       phone: data.get('comment'),
     });
+    sendMessage(data.get('comment'));
   };
+<<<<<<< HEAD
 
   const sendMessage = () => {
     console.log(message);
@@ -56,6 +73,12 @@ const ChatBlock: React.FC<Props> = ({
     setMessage('');
   };
 
+=======
+  const [messages, setMessages] = useState<any>([{}]);
+  useEffect(() => {
+    if (message) setMessages([...messages, JSON.parse(message)]);
+  }, [message]);
+>>>>>>> 39f02675096c2232e1b82e156b106c90ccf5e44b
   const ChatBox = styled(Box)({
     padding: '1px',
     border: '1px solid black',
@@ -96,6 +119,7 @@ const ChatBlock: React.FC<Props> = ({
           overflow: 'scroll',
         }}
       >
+<<<<<<< HEAD
         {messageList.map((data: any, i) => (
           <Comment overflow="visible">
             <div
@@ -134,6 +158,17 @@ const ChatBlock: React.FC<Props> = ({
             lalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalalala
           </p>
         </Comment> */}
+=======
+        {messages.map((item: any) => {
+          console.log(item);
+          return (
+            <Comment overflow="visible">
+              <h6>{item.name}</h6>
+              <p>{item.text}</p>
+            </Comment>
+          );
+        })}
+>>>>>>> 39f02675096c2232e1b82e156b106c90ccf5e44b
       </Box>
       <Box
         component="form"
@@ -151,6 +186,7 @@ const ChatBlock: React.FC<Props> = ({
           placeholder="Write your comment"
           inputProps={{ style: { color: 'var(--fontBase-color)' } }}
           sx={{ color: 'var(--eleBase-color)' }}
+<<<<<<< HEAD
           value={message}
           onChange={(event) => {
             event.preventDefault();
@@ -159,6 +195,9 @@ const ChatBlock: React.FC<Props> = ({
           onKeyUp={(event) => {
             if (event.key === 'Enter') sendMessage();
           }}
+=======
+          autoFocus
+>>>>>>> 39f02675096c2232e1b82e156b106c90ccf5e44b
         />
       </Box>
     </ChatBox>
