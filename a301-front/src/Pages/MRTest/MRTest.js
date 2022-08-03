@@ -8,6 +8,7 @@ import {
   ChatBlock,
   UserVideoComponent,
 } from "../../Containers";
+import destroySessionApi from "../../Api/destroySessionApi";
 import { Typography, TextField, Stack, Alert } from "@mui/material";
 import { Abc } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
@@ -201,6 +202,17 @@ const MRTest = (props) => {
     setMainStreamManager(undefined);
     setPublisher(undefined);
   };
+  // const destroySession = () => {
+  //   destroySessionApi
+  //     .delete<any>('/userInfo/login', null, {
+  //     })
+  //     .then((item) => {
+  //     })
+  //     .catch((e) => {
+  //     });
+  //   };
+  // };
+
   const getToken = () => {
     return createSession(mySessionId).then((sessionId) =>
       createToken(sessionId)
@@ -396,11 +408,13 @@ const MRTest = (props) => {
                 people={people}
                 openChat={openChat}
                 openParticipant={openParticipant}
+                setOpenParticipant={setOpenParticipant}
               />
               <ChatBlock
                 sendMessage={sendMessage}
                 message={message}
                 openChat={openChat}
+                setOpenChat={setOpenChat}
                 openParticipant={openParticipant}
               />
             </Stack>
@@ -415,6 +429,7 @@ const MRTest = (props) => {
             setMicOn={onSetMicOn}
             setCameraOn={onSetCameraOn}
             leaveSession={leaveSession}
+            // destroySession={destroySession}
           />
         </div>
       ) : null}

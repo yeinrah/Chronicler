@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
   openChat: boolean;
+  setOpenChat: React.Dispatch<React.SetStateAction<boolean>>;
   openParticipant: boolean;
 
   sendMessage: Function;
@@ -23,6 +24,7 @@ interface Props {
 
 const ChatBlock: React.FC<Props> = ({
   openChat,
+  setOpenChat,
   openParticipant,
 
   sendMessage,
@@ -82,7 +84,10 @@ const ChatBlock: React.FC<Props> = ({
           }}
         >
           <Typography variant="h6">Chat</Typography>
-          <CloseIcon />
+          <CloseIcon
+            onClick={() => setOpenChat(false)}
+            sx={{ cursor: 'pointer' }}
+          />
         </Toolbar>
       </AppBar>
       <Box

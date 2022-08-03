@@ -7,12 +7,14 @@ interface Props {
   people: number;
   openChat: boolean;
   openParticipant: boolean;
+  setOpenParticipant: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ParticipantBlock: React.FC<Props> = ({
   people,
   openChat,
   openParticipant,
+  setOpenParticipant,
 }) => {
   const ParticipantBox = styled(Box)({
     padding: '1px',
@@ -40,7 +42,10 @@ const ParticipantBlock: React.FC<Props> = ({
           }}
         >
           <Typography variant="h6">Participants({people + 1})</Typography>
-          <CloseIcon />
+          <CloseIcon
+            onClick={() => setOpenParticipant(false)}
+            sx={{ cursor: 'pointer' }}
+          />
         </Toolbar>
       </AppBar>
       <Box

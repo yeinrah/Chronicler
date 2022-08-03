@@ -25,6 +25,7 @@ interface Props {
   setMicOn: React.Dispatch<React.SetStateAction<boolean>>;
   setCameraOn: React.Dispatch<React.SetStateAction<boolean>>;
   leaveSession: any;
+  // destroySession: any;
 }
 
 const MeetingFooter: React.FC<Props> = ({
@@ -37,6 +38,7 @@ const MeetingFooter: React.FC<Props> = ({
   setMicOn,
   setCameraOn,
   leaveSession,
+  // destroySession,
 }) => {
   const FootBar = styled(Toolbar)({
     display: 'flex',
