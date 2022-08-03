@@ -26,6 +26,9 @@
 .stream-container-less {
   width: calc(100% / 3);
 }
+.stream-container-dual {
+  width: calc(100% / 2);
+}
 .btn {
   font-weight: bold;
   padding: 2px;

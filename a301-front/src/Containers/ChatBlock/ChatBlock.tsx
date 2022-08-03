@@ -8,7 +8,7 @@ import {
   TextField,
 } from '@mui/material';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './ChatBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
@@ -28,6 +28,7 @@ const ChatBlock: React.FC<Props> = ({
   sendMessage,
   message,
 }) => {
+  const messageRef: React.MutableRefObject<any> = useRef();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,8 +36,18 @@ const ChatBlock: React.FC<Props> = ({
       phone: data.get('comment'),
     });
     sendMessage(data.get('comment'));
+    console.log('asdasdasdasdasdasdasdasdasdasdasdasd');
+    console.log(messageRef);
+    if (messageRef.current) {
+      console.log(messageRef.current);
+      // messageRef.current.scrollIntoView({
+      //   behavior: 'smooth',
+      //   block: 'end',
+      //   inline: 'nearest',
+      // });
+      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+    }
   };
-
   const [messages, setMessages] = useState<any>([{}]);
   useEffect(() => {
     if (message) setMessages([...messages, JSON.parse(message)]);
@@ -75,6 +86,7 @@ const ChatBlock: React.FC<Props> = ({
         </Toolbar>
       </AppBar>
       <Box
+        ref={messageRef}
         sx={{
           color: 'var(--eleBase-color)',
           padding: '10px',

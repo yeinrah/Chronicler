@@ -349,7 +349,9 @@ const MRTest = (props) => {
                 <div
                   className={
                     people < 6
-                      ? styles["stream-container-less"]
+                      ? people < 2
+                        ? styles["stream-container-dual"]
+                        : styles["stream-container-less"]
                       : styles["stream-container-many"]
                   }
                   onClick={() => {
@@ -369,7 +371,9 @@ const MRTest = (props) => {
                   key={i}
                   className={
                     people < 6
-                      ? styles["stream-container-less"]
+                      ? people < 2
+                        ? styles["stream-container-dual"]
+                        : styles["stream-container-less"]
                       : styles["stream-container-many"]
                   }
                   onClick={() => handleMainVideoStream(sub)}
