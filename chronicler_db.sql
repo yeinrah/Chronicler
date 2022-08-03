@@ -1,15 +1,15 @@
-DROP DATABASE IF EXISTS chronicler;
+DROP DATABASE IF EXISTS `chronicler`;
 
-CREATE DATABASE IF NOT EXISTS chronicler collate utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `chronicler` collate utf8mb4_general_ci;
 
-USE chronicler;
+USE `chronicler`;
 
 -- 회원 테이블
 CREATE TABLE user (
  u_id INTEGER auto_increment,
  nickname VARCHAR(32),
  password VARCHAR(255),
- email VARCHAR(255),
+ email VARCHAR(255),  
  image INTEGER DEFAULT 0,
  phone VARCHAR(11),
  PRIMARY KEY(u_id)
@@ -46,24 +46,24 @@ REFERENCES conference(owner_id)
 CREATE TABLE conference_history (
 ch_id INTEGER auto_increment,
 c_id Integer,
-user_id Integer,
+u_id Integer,
 action SMALLINT,
 inserted_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(ch_id),
 FOREIGN KEY(c_id)
 REFERENCES conference(c_id),
-FOREIGN KEY(user_id)
+FOREIGN KEY(u_id)
 REFERENCES user(u_id)
 );
 
 -- 회원_회의 테이블
 CREATE TABLE user_conference (
 id INTEGER NOT NULL auto_increment,
-user_id Integer NOT NULL,
+u_id Integer NOT NULL,
 c_id Integer NOT NULL,
 is_owner BOOLEAN NOT NULL default 0,
 PRIMARY KEY(id),
-FOREIGN KEY(user_id)
+FOREIGN KEY(u_id)
 REFERENCES user(u_id),
 FOREIGN KEY(c_id)
 REFERENCES conference(c_id)

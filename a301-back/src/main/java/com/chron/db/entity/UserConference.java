@@ -30,7 +30,7 @@ public class UserConference {
 	@Column(name = "id")
 	private int id;
 
-	@Column(name = "user_id")
+	@Column(name = "u_id")
 	private int userId;
 
 	@ManyToOne
