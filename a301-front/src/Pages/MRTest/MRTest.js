@@ -10,6 +10,8 @@ import {
 } from "../../Containers";
 import { Typography, TextField, Stack, Alert } from "@mui/material";
 import { Abc } from "@mui/icons-material";
+import { useRecoilState } from "recoil";
+import showNavState from "../../recoil/atoms/showNavState";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -30,11 +32,14 @@ const MRTest = (props) => {
   const [currentVideoDevice, setCurrentVideoDevice] = useState();
   const [OV, setOV] = useState(undefined);
   const [message, setMessage] = useState();
+  const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
   // let OV;
   useEffect(() => {
     window.addEventListener("beforeunload", beforeunload);
+    setIsShownNavState(false);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
+      setIsShownNavState(true);
     };
   }, []);
   useEffect(() => {
@@ -134,6 +139,7 @@ const MRTest = (props) => {
   };
   const beforeunload = () => {
     leaveSession();
+    setIsShownNavState(true);
   };
   const onSetMicOn = (e) => {
     setMicOn(e);
@@ -187,39 +193,6 @@ const MRTest = (props) => {
     setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setMainStreamManager(undefined);
     setPublisher(undefined);
-  };
-  const switchCamera = async () => {
-    try {
-      const devices = await OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: false,
-            publishVideo: false,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await session.unpublish(mainStreamManager);
-          await session.publish(newPublisher);
-          setCurrentVideoDevice(newVideoDevice);
-          setMainStreamManager(newPublisher);
-          setPublisher(newPublisher);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
   const getToken = () => {
     return createSession(mySessionId).then((sessionId) =>
