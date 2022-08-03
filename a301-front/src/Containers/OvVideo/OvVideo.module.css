@@ -1,4 +1,10 @@
-/* .singleVideo {
-  height: 300px;
-  width: 400px;
-} */
+.singleVideo {
+  width: 100%;
+  height: 100%;
+}
+.labeledVideo {
+}
+.label {
+  font-family: sans-serif;
+  color: white;
+}

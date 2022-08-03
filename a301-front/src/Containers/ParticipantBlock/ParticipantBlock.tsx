@@ -4,11 +4,16 @@ import styles from './ParticipantBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
+  people: number;
   openChat: boolean;
   openParticipant: boolean;
 }
 
-const ParticipantBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
+const ParticipantBlock: React.FC<Props> = ({
+  people,
+  openChat,
+  openParticipant,
+}) => {
   const ParticipantBox = styled(Box)({
     padding: '1px',
     border: '1px solid black',
@@ -34,7 +39,7 @@ const ParticipantBlock: React.FC<Props> = ({ openChat, openParticipant }) => {
             backgroundColor: 'var(--fontAccent-color)',
           }}
         >
-          <Typography variant="h6">Participants(#)</Typography>
+          <Typography variant="h6">Participants({people + 1})</Typography>
           <CloseIcon />
         </Toolbar>
       </AppBar>

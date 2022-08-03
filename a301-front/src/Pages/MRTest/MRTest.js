@@ -30,11 +30,13 @@ const MRTest = (props) => {
   const [currentVideoDevice, setCurrentVideoDevice] = useState();
   const [OV, setOV] = useState(undefined);
   const [message, setMessage] = useState();
+  const [people, setPeople] = useState(subscribers.length);
   // let OV;
   useEffect(() => {
     window.addEventListener("beforeunload", beforeunload);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
+      leaveSession();
     };
   }, []);
   useEffect(() => {
@@ -54,6 +56,7 @@ const MRTest = (props) => {
       console.log(event.data);
     });
   };
+
   const listenScriber = () => {
     if (session) {
       var mySession = session;
@@ -68,6 +71,7 @@ const MRTest = (props) => {
         subscribersNow.push(subscriber1);
         // Update the state with the new subscribers
         setSubscribers([...subscribersNow]);
+        setPeople(subscribers.length);
         // setMyUserName("haaaa");
       });
       listenMessage();
@@ -133,6 +137,7 @@ const MRTest = (props) => {
   const beforeunload = () => {
     leaveSession();
   };
+
   const onSetMicOn = (e) => {
     setMicOn(e);
     publisher.publishAudio(e);
@@ -159,6 +164,7 @@ const MRTest = (props) => {
       subscribersNow.splice(index, 1);
       setSubscribers(subscribersNow);
     }
+    setPeople(subscribers.length);
   };
   const joinSession = (event) => {
     event.preventDefault();
@@ -178,126 +184,7 @@ const MRTest = (props) => {
     if (mySession) {
       mySession.disconnect();
     }
-    // return (
-    //   <>
-    //     {this.state.session === undefined ? (
-    //       <div id={styles.join} className="container">
-    //         <div
-    //           id={styles["join-dialog"]}
-    //           className="jumbotron vertical-center"
-    //         >
-    //           <Typography variant="h3" component="h2">
-    //             Join a video session
-    //           </Typography>
-    //           <br />
-    //           <form className="form-group" onSubmit={this.joinSession}>
-    //             <p>
-    //               <Typography variant="label" component="h2">
-    //                 Participant:&nbsp;
-    //                 <TextField
-    //                   className="form-control"
-    //                   type="text"
-    //                   id="userName"
-    //                   value={myUserName}
-    //                   onChange={this.handleChangeUserName}
-    //                   required
-    //                   color="success"
-    //                   size="small"
-    //                 />
-    //               </Typography>
-    //             </p>
-    //             <p>
-    //               <Typography variant="label" component="h2">
-    //                 Session:&nbsp;
-    //                 <TextField
-    //                   className="form-control"
-    //                   type="text"
-    //                   id="sessionId"
-    //                   value={mySessionId}
-    //                   onChange={this.handleChangeSessionId}
-    //                   disabled
-    //                   color="success"
-    //                   size="small"
-    //                 />
-    //               </Typography>
-    //             </p>
-    //             <p className="text-center">
-    //               <input
-    //                 className={styles.btn}
-    //                 name="commit"
-    //                 type="submit"
-    //                 value="JOIN"
-    //               />
-    //             </p>
-    //           </form>
-    //         </div>
-    //       </div>
-    //     ) : null}
 
-    //     {this.state.session !== undefined ? (
-    //       <div>
-    //         <Stack
-    //           direction="row"
-    //           justifyContent="space-between"
-    //           alignItems="center"
-    //           flexWrap="wrap"
-    //           spacing={0}
-    //           padding="10px"
-    //         >
-    //           <div id={styles["video-container"]} className="col-md-6">
-    //             {this.state.publisher !== undefined ? (
-    //               <div
-    //                 className="stream-container col-md-6 col-xs-6"
-    //                 onClick={() =>
-    //                   this.handleMainVideoStream(this.state.publisher)
-    //                 }
-    //               >
-    //                 <UserVideoComponent streamManager={this.state.publisher} />
-    //               </div>
-    //             ) : null}
-    //             {this.state.subscribers.map((sub, i) => (
-    //               <div
-    //                 key={i}
-    //                 className="stream-container col-md-6 col-xs-6"
-    //                 onClick={() => this.handleMainVideoStream(sub)}
-    //               >
-    //                 <UserVideoComponent streamManager={sub} />
-    //               </div>
-    //             ))}
-    //           </div>
-    //           <Stack
-    //             direction="column"
-    //             justifyContent="flex-start"
-    //             alignItems="flex-end"
-    //             spacing={0}
-    //           >
-    //             <ParticipantBlock
-    //               openChat={this.state.openChat}
-    //               openParticipant={this.state.openParticipant}
-    //             />
-    //             <ChatBlock
-    //               openChat={this.state.openChat}
-    //               openParticipant={this.state.openParticipant}
-    //               myUserName={this.state.myUserName}
-    //               mainStreamManager={this.state.mainStreamManager}
-    //               session={this.state.session}
-    //             />
-    //           </Stack>
-    //         </Stack>
-    //         <MeetingFooter
-    //           openChat={this.state.openChat}
-    //           openParticipant={this.state.openParticipant}
-    //           micOn={this.state.micOn}
-    //           cameraOn={this.state.cameraOn}
-    //           setOpenChat={this.setOpenChat}
-    //           setOpenParticipant={this.setOpenParticipant}
-    //           setMicOn={this.setMicOn}
-    //           setCameraOn={this.setCameraOn}
-    //           leaveSession={this.leaveSession}
-    //         />
-    //       </div>
-    //     ) : null}
-    //   </>
     setOV(null);
     setSession(undefined);
     setSubscribers([]);
@@ -305,39 +192,6 @@ const MRTest = (props) => {
     setMyUserName("Participant" + Math.floor(Math.random() * 100));
     setMainStreamManager(undefined);
     setPublisher(undefined);
-  };
-  const switchCamera = async () => {
-    try {
-      const devices = await OV.getDevices();
-      var videoDevices = devices.filter(
-        (device) => device.kind === "videoinput"
-      );
-      if (videoDevices && videoDevices.length > 1) {
-        var newVideoDevice = videoDevices.filter(
-          (device) => device.deviceId !== currentVideoDevice.deviceId
-        );
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: false,
-            publishVideo: false,
-            mirror: true,
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await session.unpublish(mainStreamManager);
-          await session.publish(newPublisher);
-          setCurrentVideoDevice(newVideoDevice);
-          setMainStreamManager(newPublisher);
-          setPublisher(newPublisher);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
   };
   const getToken = () => {
     return createSession(mySessionId).then((sessionId) =>
@@ -433,7 +287,7 @@ const MRTest = (props) => {
             <br />
             <form className="form-group" onSubmit={joinSession}>
               <p>
-                <Typography variant="label" component={"span"}>
+                <Typography variant="label" component={"h2"}>
                   Participant:&nbsp;
                   <TextField
                     className="form-control"
@@ -448,7 +302,7 @@ const MRTest = (props) => {
                 </Typography>
               </p>
               <p>
-                <Typography variant="label" component={"span"}>
+                <Typography variant="label" component={"h2"}>
                   Session:&nbsp;
                   <TextField
                     className="form-control"
@@ -474,33 +328,48 @@ const MRTest = (props) => {
           </div>
         </div>
       ) : null}
-
       {session !== undefined ? (
         <div>
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            flexWrap="wrap"
             spacing={0}
-            padding="10px"
           >
-            <div id={styles["video-container"]} className="col-md-6">
+            <div id={styles["video-container"]}>
               {publisher !== undefined ? (
                 <div
-                  className="stream-container col-md-6 col-xs-6"
-                  onClick={() => handleMainVideoStream(publisher)}
+                  className={
+                    people < 6
+                      ? styles["stream-container-less"]
+                      : styles["stream-container-many"]
+                  }
+                  onClick={() => {
+                    handleMainVideoStream(publisher);
+                    console.log(people);
+                    console.log(typeof people);
+                  }}
                 >
-                  <UserVideoComponent streamManager={publisher} />
+                  <UserVideoComponent
+                    streamManager={publisher}
+                    people={subscribers.length}
+                  />
                 </div>
               ) : null}
               {subscribers.map((sub, i) => (
                 <div
                   key={i}
-                  className="stream-container col-md-6 col-xs-6"
+                  className={
+                    people < 6
+                      ? styles["stream-container-less"]
+                      : styles["stream-container-many"]
+                  }
                   onClick={() => handleMainVideoStream(sub)}
                 >
-                  <UserVideoComponent streamManager={sub} />
+                  <UserVideoComponent
+                    streamManager={sub}
+                    people={subscribers.length}
+                  />
                 </div>
               ))}
             </div>
@@ -509,8 +378,10 @@ const MRTest = (props) => {
               justifyContent="flex-start"
               alignItems="flex-end"
               spacing={0}
+              height="80vh"
             >
               <ParticipantBlock
+                people={people}
                 openChat={openChat}
                 openParticipant={openParticipant}
               />
@@ -538,7 +409,6 @@ const MRTest = (props) => {
     </>
   );
 };
-
 /**
  * --------------------------
  * SERVER-SIDE RESPONSIBILITY

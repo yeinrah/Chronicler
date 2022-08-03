@@ -15,8 +15,17 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+  font-weight: bold;
+  height: 80vh;
+  width: 80vw;
 }
 
+.stream-container-many {
+  width: calc(100% / 5);
+}
+.stream-container-less {
+  width: calc(100% / 3);
+}
 .btn {
   font-weight: bold;
   padding: 2px;

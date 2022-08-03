@@ -44,12 +44,12 @@ const MeetingRoom = () => {
             openChat={openChat}
             openParticipant={openParticipant}
           />
-          <ChatBlock
+          {/* <ChatBlock
             message={''}
             sendMessage={() => {}}
             openChat={openChat}
             openParticipant={openParticipant}
-          />
+          /> */}
         </Stack>
       </Stack>
       {/* <MeetingFooter

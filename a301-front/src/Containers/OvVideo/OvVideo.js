@@ -19,13 +19,23 @@ export default class OpenViduVideoComponent extends Component {
     }
   }
 
+  getNicknameTag() {
+    // Gets the nickName of the user
+    return JSON.parse(this.props.streamManager.stream.connection.data)
+      .clientData;
+  }
+
   render() {
     return (
-      <video
-        className={styles.singleVideo}
-        autoPlay={true}
-        ref={this.videoRef}
-      />
+      <div className={styles.labeledVideo}>
+        <p className={styles.label}>{this.getNicknameTag()}</p>
+        <video
+          className={styles.singleVideo}
+          autoPlay={true}
+          ref={this.videoRef}
+          label={this.getNicknameTag()}
+        />
+      </div>
     );
   }
 }
