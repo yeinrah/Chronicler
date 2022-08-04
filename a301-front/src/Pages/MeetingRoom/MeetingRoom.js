@@ -1,7 +1,7 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import React, { Component, useEffect, useState } from "react";
-import styles from "./MRTest.module.css";
+import styles from "./MeetingRoom.module.css";
 import {
   MeetingFooter,
   ParticipantBlock,
@@ -17,10 +17,10 @@ import showNavState from "../../recoil/atoms/showNavState";
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
-const MRTest = (props) => {
+const MeetingRoom = (props) => {
   const [mySessionId, setMySessionId] = useState("SessionA");
   const [myUserName, setMyUserName] = useState(
-    "Participant" + Math.floor(Math.random() * 100)
+    "Participant" + Math.floor(Math.random() * 10000)
   );
   const [session, setSession] = useState(undefined);
   const [mainStreamManager, setMainStreamManager] = useState(undefined);
@@ -226,7 +226,7 @@ const MRTest = (props) => {
     setSession(undefined);
     setSubscribers([]);
     setMySessionId("SessionA");
-    setMyUserName("Participant" + Math.floor(Math.random() * 100));
+    setMyUserName("Participant" + Math.floor(Math.random() * 10000));
     setMainStreamManager(undefined);
     setPublisher(undefined);
   };
@@ -486,4 +486,4 @@ const MRTest = (props) => {
  *   3) The Connection.token must be consumed in Session.connect() method
  */
 
-export default MRTest;
+export default MeetingRoom;

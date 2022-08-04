@@ -61,11 +61,11 @@ const ParticipantBlock: React.FC<Props> = ({
           overflow: 'scroll',
         }}
       >
-        <Box>User in videoroom</Box>
-        {participant && console.log(participant[0])}
+        <Box>참가자 명단</Box>
         {participant[0] &&
           participant[0].map((item: any) => {
-            return <Box key="item">{item}</Box>;
+            let nickname = item.slice(8, item.length - 2);
+            return <Box key="item">{nickname}</Box>;
           })}
       </Box>
     </ParticipantBox>
