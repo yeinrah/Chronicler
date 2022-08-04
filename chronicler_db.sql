@@ -6,25 +6,25 @@ USE `chronicler`;
 
 -- 회원 테이블
 CREATE TABLE user (
- id INTEGER auto_increment,
+ u_id INTEGER auto_increment,
  nickname VARCHAR(32),
  password VARCHAR(255),
  email VARCHAR(255),  
  image INTEGER DEFAULT 0,
  phone VARCHAR(11),
- PRIMARY KEY(id)
+ PRIMARY KEY(u_id)
 );
 
 -- 회의 테이블
 CREATE TABLE conference (
 c_id INTEGER auto_increment,
 owner_id Integer,
+conference_code VARCHAR(16),
 title VARCHAR(50),
 description TEXT,
-is_active BOOLEAN NOT NULL default 0,
 PRIMARY KEY(c_id),
 FOREIGN KEY(owner_id)
-REFERENCES user(id)
+REFERENCES user(u_id)
 );
 
 -- 회의록 테이블
@@ -45,25 +45,25 @@ REFERENCES conference(owner_id)
 CREATE TABLE conference_history (
 ch_id INTEGER auto_increment,
 c_id Integer,
-user_id Integer,
+u_id Integer,
 action SMALLINT,
-inserted_time DATETIME,
+inserted_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(ch_id),
 FOREIGN KEY(c_id)
 REFERENCES conference(c_id),
-FOREIGN KEY(user_id)
-REFERENCES user(id)
+FOREIGN KEY(u_id)
+REFERENCES user(u_id)
 );
 
 -- 회원_회의 테이블
 CREATE TABLE user_conference (
-id INTEGER auto_increment,
-user_id Integer,
-c_id Integer,
+id INTEGER NOT NULL auto_increment,
+u_id Integer NOT NULL,
+c_id Integer NOT NULL,
 is_owner BOOLEAN NOT NULL default 0,
 PRIMARY KEY(id),
-FOREIGN KEY(user_id)
-REFERENCES user(id),
+FOREIGN KEY(u_id)
+REFERENCES user(u_id),
 FOREIGN KEY(c_id)
 REFERENCES conference(c_id)
 );
