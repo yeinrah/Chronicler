@@ -83,7 +83,7 @@ const MeetingRoom = (props) => {
   useEffect(() => {}, [participant]);
   const listenMessage = () => {
     session.on("signal:chat", (event) => {
-      setMessage(event.data);
+      setMessage([event.data]);
     });
   };
   const listenParticipant = () => {
@@ -229,6 +229,7 @@ const MeetingRoom = (props) => {
     setMyUserName("Participant" + Math.floor(Math.random() * 10000));
     setMainStreamManager(undefined);
     setPublisher(undefined);
+    setPartcipant([]);
   };
   // const destroySession = () => {
   //   destroySessionApi
@@ -321,6 +322,7 @@ const MeetingRoom = (props) => {
       type: "chat",
     });
     console.log(session);
+    console.log("message send");
   };
   const sendParticipant = () => {
     session.signal({
