@@ -34,31 +34,28 @@ const ChatBlock: React.FC<Props> = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      phone: data.get('comment'),
-    });
     sendMessage(data.get('comment'));
-    console.log('asdasdasdasdasdasdasdasdasdasdasdasd');
-    console.log(messageRef);
-    if (messageRef.current) {
-      console.log(messageRef.current);
-      // messageRef.current.scrollIntoView({
-      //   behavior: 'smooth',
-      //   block: 'end',
-      //   inline: 'nearest',
-      // });
-      messageRef.current.scrollTop = messageRef.current.scrollHeight;
-    }
+    inputMessage.current.value = '';
   };
   const [messages, setMessages] = useState<any>([{}]);
+  const inputMessage = useRef<any>();
   useEffect(() => {
     if (message) setMessages([...messages, JSON.parse(message)]);
   }, [message]);
 
+  useEffect(() => {
+    messageRef.current.scrollTo({
+      top: messageRef.current.scrollHeight,
+    });
+  }, [messages]);
+  useEffect(() => {
+    inputMessage.current.focus();
+  }, [openChat]);
   const ChatBox = styled(Box)({
     padding: '1px',
     border: '1px solid black',
     margin: '1px',
+    width: '20vw',
   });
 
   const Comment = styled(Box)({
@@ -66,8 +63,7 @@ const ChatBlock: React.FC<Props> = ({
   });
 
   return (
-    <ChatBox
-      width="20vw"
+    <div
       className={
         openChat
           ? openParticipant
@@ -96,14 +92,14 @@ const ChatBlock: React.FC<Props> = ({
           color: 'var(--eleBase-color)',
           padding: '10px',
           height: '90%',
-          overflow: 'scroll',
+          overflow: 'auto',
+          scrollbarWidth: 'none',
         }}
       >
-        {messages.map((item: any) => {
-          console.log(item);
+        {messages.map((item: any, index: any) => {
           return (
-            <Comment overflow="visible">
-              <h6>{item.name}</h6>
+            <Comment key={index}>
+              <h4>{item.name}</h4>
               <p>{item.text}</p>
             </Comment>
           );
@@ -125,10 +121,11 @@ const ChatBlock: React.FC<Props> = ({
           placeholder="Write your comment"
           inputProps={{ style: { color: 'var(--fontBase-color)' } }}
           sx={{ color: 'var(--eleBase-color)' }}
+          inputRef={inputMessage}
           autoFocus
         />
       </Box>
-    </ChatBox>
+    </div>
   );
 };
 

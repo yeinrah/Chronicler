@@ -337,7 +337,7 @@ const MyPage = () => {
                 src={profileImages[index]}
                 alt="images"
                 width="60rem"
-                key={element}
+                key={index}
                 className={styles.profileImg}
                 onMouseEnter={() => {}}
                 onClick={() => {
