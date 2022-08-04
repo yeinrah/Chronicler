@@ -25,8 +25,7 @@ interface Props {
   setMicOn: React.Dispatch<React.SetStateAction<boolean>>;
   setCameraOn: React.Dispatch<React.SetStateAction<boolean>>;
   leaveSession: any;
-  publishAudio: any;
-  publishVideo: any;
+  // destroySession: any;
 }
 
 const MeetingFooter: React.FC<Props> = ({
@@ -39,8 +38,7 @@ const MeetingFooter: React.FC<Props> = ({
   setMicOn,
   setCameraOn,
   leaveSession,
-  publishAudio,
-  publishVideo,
+  // destroySession,
 }) => {
   const FootBar = styled(Toolbar)({
     display: 'flex',
@@ -58,7 +56,6 @@ const MeetingFooter: React.FC<Props> = ({
             className={micOn ? styles.micCameraBtn : styles.micCameraBtnOff}
             onClick={() => {
               setMicOn(!micOn);
-              publishAudio(!micOn);
             }}
           >
             <MicIcon />
@@ -73,8 +70,8 @@ const MeetingFooter: React.FC<Props> = ({
             color="inherit"
             className={cameraOn ? styles.micCameraBtn : styles.micCameraBtnOff}
             onClick={() => {
+              console.log('??????????????');
               setCameraOn(!cameraOn);
-              publishVideo(!cameraOn);
             }}
           >
             <VideocamIcon />

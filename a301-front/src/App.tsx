@@ -21,7 +21,6 @@ import {
   FindPwCard,
   VideoPlayer,
 } from './Containers';
-import MRTest from './Pages/MRTest/MRTest';
 import { useRecoilState } from 'recoil';
 import showNavState from './recoil/atoms/showNavState';
 function App() {
@@ -39,7 +38,6 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/MeetingRoom" element={<MeetingRoom />} />
-        <Route path="/MRTest" element={<MRTest />} />
       </Routes>
     </div>
   );
