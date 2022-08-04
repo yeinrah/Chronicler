@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.response.ConferenceRes;
+import com.chron.db.entity.Chronicle;
 import com.chron.db.entity.Conference;
 import com.chron.db.entity.ConferenceHistory;
 import com.chron.db.entity.User;
 import com.chron.db.entity.UserConference;
+import com.chron.db.repository.ChronicleRepository;
 import com.chron.db.repository.ConferenceHistoryRepository;
 import com.chron.db.repository.ConferenceRepository;
 import com.chron.db.repository.UserConferenceRepository;
@@ -24,14 +26,16 @@ public class ConferenceService {
 	private UserRepository userRepository;
 	private UserConferenceRepository userConferenceRepo;
 	private ConferenceHistoryRepository conferenceHistoryRepo;
+	private ChronicleRepository chronicleRepo;
 
 	@Autowired
 	public ConferenceService(ConferenceRepository conferenceRepository, UserRepository userRepository,
-			UserConferenceRepository userConferenceRepo, ConferenceHistoryRepository conferenceHistoryRepo) {
+			UserConferenceRepository userConferenceRepo, ConferenceHistoryRepository conferenceHistoryRepo, ChronicleRepository chronicleRepo) {
 		this.conferenceRepository = conferenceRepository;
 		this.userRepository = userRepository;
 		this.userConferenceRepo = userConferenceRepo;
 		this.conferenceHistoryRepo = conferenceHistoryRepo;
+		this.chronicleRepo = chronicleRepo;
 	}
 
 	// conference 생성
@@ -125,5 +129,20 @@ public class ConferenceService {
 		}
 		return false;
 	}
-
+	// 회의 종료하면 회의록 생성하는 로직
+	@Transactional
+	public Chronicle makeChronicle(int user_id, String conference_code) {
+		//회의 데이터 가져옴
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		int confCid = conf.getCId();
+		String startTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 0).getInsertedTime();
+		String endTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 2).getInsertedTime();
+		Long time = System.currentTimeMillis();
+		java.sql.Timestamp stamp = new Timestamp(time);
+		
+		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data("회의록내용들어올곳").time(stamp.toString()).
+				callStartTime(startTime).callEndTime(endTime).build();
+		return chronicleRepo.save(chronicle);
+	}
+	
 }

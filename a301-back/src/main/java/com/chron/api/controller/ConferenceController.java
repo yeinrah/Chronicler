@@ -86,14 +86,16 @@ public class ConferenceController {
 		int u_id = leaveConferenceReq.getId();
 		
 		// 참가자 ID가 방장 ID인지 체크
-		if (conferenceService.isOwner(u_id, conference_code))
+		if (conferenceService.isOwner(u_id, conference_code)) {
 			conferenceService.endConferenceHistory(u_id, conference_code);
+		//회의록 제작
+			conferenceService.makeChronicle(u_id, conference_code);
+		}
 		else
 			conferenceService.leaveConferenceHistory(u_id, conference_code);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	// 회의록 구현하기
-
+	
 }
