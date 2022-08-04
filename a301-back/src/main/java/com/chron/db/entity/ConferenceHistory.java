@@ -30,7 +30,7 @@ public class ConferenceHistory {
 	@Column(name = "c_id")
 	private Integer cId;
 	
-	@Column(name = "user_id")
+	@Column(name = "u_id")
 	private Integer userId;
 	
 	@Column(name = "action")

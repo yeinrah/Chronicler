@@ -94,9 +94,9 @@ public class ConferenceService {
 	// conference_history : (방장)회의 종료
 	@Transactional
 	public ConferenceHistory endConferenceHistory(int user_id, String conference_code) {
-		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2).insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
 	}
@@ -104,8 +104,10 @@ public class ConferenceService {
 	// conference_history : (일반 참가자)회의 나가기
 	@Transactional
 	public ConferenceHistory leaveConferenceHistory(int user_id, String conference_code) {
+		Long time = System.currentTimeMillis();
+		java.sql.Timestamp stamp = new Timestamp(time);
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
-		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(1).build();
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(1).insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
 	}
 
