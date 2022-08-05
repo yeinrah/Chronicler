@@ -1,5 +1,5 @@
 import { AppBar, Box, styled, Toolbar, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ParticipantBlock.module.css';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -8,12 +8,14 @@ interface Props {
   openChat: boolean;
   openParticipant: boolean;
   setOpenParticipant: React.Dispatch<React.SetStateAction<boolean>>;
+  participants: any;
 }
 
 const ParticipantBlock: React.FC<Props> = ({
   people,
   openChat,
   openParticipant,
+  participants,
   setOpenParticipant,
 }) => {
   const ParticipantBox = styled(Box)({
@@ -21,7 +23,10 @@ const ParticipantBlock: React.FC<Props> = ({
     border: '1px solid black',
     margin: '1px',
   });
-
+  const [participant, setParticipant] = useState(participants);
+  useEffect(() => {
+    setParticipant([participants]);
+  }, [participants]);
   return (
     <ParticipantBox
       width="20vw"
@@ -56,14 +61,12 @@ const ParticipantBlock: React.FC<Props> = ({
           overflow: 'scroll',
         }}
       >
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
-        <Box>User nickname, mic on, camera on</Box>
+        <Box>참가자 명단</Box>
+        {participant[0] &&
+          participant[0].map((item: any) => {
+            let nickname = item.slice(8, item.length - 2);
+            return <Box key="item">{nickname}</Box>;
+          })}
       </Box>
     </ParticipantBox>
   );

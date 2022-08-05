@@ -3,7 +3,9 @@
 }
 .onlyChat {
   height: 80vh;
+  width: 20vw;
 }
 .withParticipant {
   height: 50vh;
+  width: 20vw;
 }
