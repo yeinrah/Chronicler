@@ -236,8 +236,15 @@ const MeetingRoom = (props) => {
   //     .delete<any>('/userInfo/login', null, {
   //     })
   //     .then((item) => {
+  //       navigate('/');
   //     })
   //     .catch((e) => {
+  //       console.log(e);
+  //       Swal.fire({
+  //         icon: 'error',
+  //         title: 'Oops...',
+  //         text: 'fail destroying session',
+  //       });
   //     });
   //   };
   // };

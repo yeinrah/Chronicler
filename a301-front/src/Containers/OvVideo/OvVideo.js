@@ -21,8 +21,7 @@ export default class OpenViduVideoComponent extends Component {
 
   getNicknameTag() {
     // Gets the nickName of the user
-    return JSON.parse(this.props.streamManager.stream.connection.data)
-      .clientData;
+    return JSON.parse(this.props.streamManager.stream.connection.data).닉네임;
   }
 
   render() {
