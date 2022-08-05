@@ -368,8 +368,12 @@ const MRTest = (props) => {
                   }
                   onClick={() => {
                     handleMainVideoStream(publisher);
+                    console.log(
+                      "ADSFHAHWDJBJKNASDVBANSIlFKJHVBAWENKLDFBVFNeklsdjkxcvzsdbefnio"
+                    );
                     console.log(people);
                     console.log(typeof people);
+                    console.log(subscribers);
                   }}
                 >
                   <UserVideoComponent
