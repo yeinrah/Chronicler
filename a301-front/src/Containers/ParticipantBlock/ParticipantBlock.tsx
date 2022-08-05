@@ -61,7 +61,6 @@ const ParticipantBlock: React.FC<Props> = ({
           overflow: 'scroll',
         }}
       >
-        <Box>참가자 명단</Box>
         {participant[0] &&
           participant[0].map((item: any) => {
             let nickname = item.slice(8, item.length - 2);
