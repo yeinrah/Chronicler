@@ -28,10 +28,12 @@
 - MySQL 5.7.37
 ----------------------------
 - [ ]  WebRTC
-- Openvidu
+- Openvidu-insecure-react
 ----------------------------
 - [ ]  STT(Speech-to-Text)
 - Google Cloud Speech-to-Text
+- vito
+- window 객체
 ----------------------------
 - [ ]  CI/CD
 - Docker
