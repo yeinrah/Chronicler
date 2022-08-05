@@ -237,7 +237,6 @@ const MeetingRoom = (props) => {
       mySession.disconnect();
     }
     // session.unpublish(publisher);
-    destroySession();
     setOV(null);
     setSession(undefined);
     setSubscribers([]);
@@ -506,7 +505,7 @@ const MeetingRoom = (props) => {
             setMicOn={onSetMicOn}
             setCameraOn={onSetCameraOn}
             leaveSession={leaveSession}
-            // destroySession={destroySession}
+            destroySession={destroySession}
           />
         </div>
       ) : null}
