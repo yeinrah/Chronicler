@@ -39,3 +39,7 @@
 .btn:hover {
   border-color: #1abd61;
 }
+.text-center {
+  display: flex;
+  justify-content: space-between;
+}

@@ -13,6 +13,7 @@ import { Typography, TextField, Stack, Alert } from "@mui/material";
 import { Abc } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
 import showNavState from "../../recoil/atoms/showNavState";
+import { useNavigate } from "react-router-dom";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -35,8 +36,9 @@ const MeetingRoom = (props) => {
   const [message, setMessage] = useState();
   const [people, setPeople] = useState(subscribers.length);
   const [participant, setPartcipant] = useState([]);
+  // const [endSession, setEndSession] = useState(false);
   const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
-
+  const navigate = useNavigate();
   // let OV;
   useEffect(() => {
     window.addEventListener("beforeunload", beforeunload);
@@ -86,6 +88,11 @@ const MeetingRoom = (props) => {
       setMessage([event.data]);
     });
   };
+  // useEffect(() => {
+  //   if (endSession) {
+  //     navigate("/");
+  //   }
+  // }, [endSession]);
   const listenParticipant = () => {
     session.on("signal:participant", (event) => {
       setPartcipant(event.data);
@@ -99,6 +106,7 @@ const MeetingRoom = (props) => {
       // --- 3) Specify the actions when events take place in the session ---
       // On every new Stream received...
       console.log("statrt!!!!!!!!!!!!!!!!!");
+      console.log(session);
       mySession.on("streamCreated", (event) => {
         // Subscribe to the Stream to receive it. Second parameter is undefined
         // so OpenVidu doesn't create an HTML video by its own
@@ -114,6 +122,8 @@ const MeetingRoom = (props) => {
       // On every Stream destroyed...
       mySession.on("streamDestroyed", (event) => {
         // Remove the stream from 'subscribers' array
+        // setEndSession(true);
+        leaveSession();
         deleteSubscriber(event.stream.streamManager);
       });
 
@@ -154,7 +164,7 @@ const MeetingRoom = (props) => {
             // --- 6) Publish your stream ---
 
             mySession.publish(publisher);
-
+            console.log(publisher);
             // Set the main video in the page to display our webcam and store our Publisher
             setCurrentVideoDevice(videoDevices[0]);
             setMainStreamManager(publisher);
@@ -219,9 +229,15 @@ const MeetingRoom = (props) => {
     const mySession = session;
 
     if (mySession) {
+      // console.log("zzzzzzzzzzzzzzzzzzz");
+      // console.log(mainStreamManager);
+      console.log(mySessionId);
+      console.log("zzzzzzzzzzzzzzzzz");
+      console.log(mySession.stream);
       mySession.disconnect();
     }
-
+    // session.unpublish(publisher);
+    destroySession();
     setOV(null);
     setSession(undefined);
     setSubscribers([]);
@@ -231,23 +247,24 @@ const MeetingRoom = (props) => {
     setPublisher(undefined);
     setPartcipant([]);
   };
-  // const destroySession = () => {
-  //   destroySessionApi
-  //     .delete<any>('/userInfo/login', null, {
-  //     })
-  //     .then((item) => {
-  //       navigate('/');
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: 'Oops...',
-  //         text: 'fail destroying session',
-  //       });
-  //     });
-  //   };
-  // };
+  const destroySession = () => {
+    axios
+      .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
+        headers: {
+          Authorization:
+            "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        navigate("/");
+        console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
+      })
+      .catch((e) => {
+        console.log("error!!!!");
+        console.log(e);
+      });
+  };
 
   const getToken = () => {
     return createSession(mySessionId).then((sessionId) =>
@@ -382,12 +399,21 @@ const MeetingRoom = (props) => {
                   />
                 </Typography>
               </p>
-              <p className="text-center">
+              <p className={styles["text-center"]}>
                 <input
                   className={styles.btn}
                   name="commit"
                   type="submit"
                   value="JOIN"
+                />
+                <input
+                  className={styles.btn}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                  name="commit"
+                  type="button"
+                  value="Back"
                 />
               </p>
             </form>
