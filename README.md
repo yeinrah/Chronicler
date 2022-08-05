@@ -39,3 +39,26 @@
 - Docker
 - NGINX
 - AWS EC2
+
+<hr>
+
+# Docker command
+
+DB :
+
+```docker
+docker pull yeinrah/mysql:5.7.37
+```
+
+BE : 
+
+```docker
+docker pull yeinrah/chronicler-back
+```
+
+FE :
+```docker
+docker pull yeinrah/chronicler-front
+```
+
+<hr>
