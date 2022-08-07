@@ -56,7 +56,7 @@ public class Recognize {
 	      return;
 	    }
 	    String command = args[0];
-	    String path = args.length > 1 ? args[1] : "";
+	    String path = args.length > 1 ? args[1] : "micstreamrecognize";
 
 	    // Use command and GCS path pattern to invoke transcription.
 	    if (command.equals("syncrecognize")) {
