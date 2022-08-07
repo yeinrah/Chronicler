@@ -24,6 +24,7 @@ interface Props {
   setOpenParticipant: React.Dispatch<React.SetStateAction<boolean>>;
   setMicOn: React.Dispatch<React.SetStateAction<boolean>>;
   setCameraOn: React.Dispatch<React.SetStateAction<boolean>>;
+  subtitle: any;
   leaveSession: any;
   destroySession: any;
 }
@@ -37,6 +38,7 @@ const MeetingFooter: React.FC<Props> = ({
   setOpenParticipant,
   setMicOn,
   setCameraOn,
+  subtitle,
   leaveSession,
   destroySession,
 }) => {
@@ -89,7 +91,7 @@ const MeetingFooter: React.FC<Props> = ({
         </Tooltip>
         <Box sx={{ flexGrow: 0.8 }} />
         <Box component="div" sx={{ display: 'inline' }}>
-          This is subtitle
+          {subtitle}
         </Box>
         <Box sx={{ flexGrow: 1 }} />
         <Tooltip
