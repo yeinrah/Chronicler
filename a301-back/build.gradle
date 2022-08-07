@@ -52,9 +52,7 @@ dependencies {
     implementation platform('com.google.cloud:libraries-bom:26.0.0')
 	implementation 'com.google.cloud:google-cloud-speech'
 	// https://mvnrepository.com/artifact/com.aspose/aspose-words 이건 안됐음
-	implementation("com.aspose:aspose-words:14.7.0")
-	// https://mvnrepository.com/artifact/com.aspose/aspose.words 2번째
-	implementation 'com.aspose:aspose.words:11.1.0'
+	implementation("com.aspose:aspose-words:22.7.0")
 	
 }
 

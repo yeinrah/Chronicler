@@ -86,7 +86,7 @@ public class ConferenceController {
 		if (conferenceService.isOwner(u_id, conference_code)) {
 			conferenceService.endConferenceHistory(u_id, conference_code);
 		//회의록 제작
-			conferenceService.makeChronicle(u_id, conference_code);
+			conferenceService.makeChronicle(u_id, conference_code, leaveConferenceReq.getChronicleData());
 		}
 		else
 			conferenceService.leaveConferenceHistory(u_id, conference_code);

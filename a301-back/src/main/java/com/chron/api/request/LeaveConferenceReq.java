@@ -15,5 +15,8 @@ public class LeaveConferenceReq {
 	@ApiModelProperty(name = "회원ID", example = "22")
 	@NotNull(message = "회원ID를 입력하세요.")
 	private Integer id;
+	
+	@ApiModelProperty(name = "회의록 데이터", example = "회의_데이터")
+	private String chronicleData;
 
 }
