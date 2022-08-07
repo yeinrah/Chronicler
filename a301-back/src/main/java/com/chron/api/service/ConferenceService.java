@@ -40,10 +40,10 @@ public class ConferenceService {
 
 	// conference 생성
 	@Transactional
-	public Conference makeConference(String conference_code, MakeConferenceReq makeConferenceReq, int id) {
+	public Conference makeConference(String conference_code, int id) {
 		User user = userRepository.findOneById(id);
 		Conference conference = Conference.builder().ownerId(user.getId()).conferenceCode(conference_code)
-				.title(makeConferenceReq.getTitle()).build();
+				.build();
 		return conferenceRepository.save(conference);
 	}
 
