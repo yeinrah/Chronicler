@@ -17,6 +17,7 @@ import com.chron.api.response.ConferenceRes;
 import com.chron.api.service.ConferenceService;
 import com.chron.api.util.RandomNumberUtil;
 import com.chron.db.entity.Conference;
+import com.chron.docx.Aspose;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,13 +30,15 @@ import io.swagger.annotations.ApiResponses;
 public class ConferenceController {
 
 	private ConferenceService conferenceService;
+	private Aspose aspose;
 
 	// 회의 관리
 //	private Map<String, Integer> mapSessions = new ConcurrentHashMap<>();
 
 	@Autowired
-	public ConferenceController(ConferenceService conferenceService) {
+	public ConferenceController(ConferenceService conferenceService, Aspose aspose) {
 		this.conferenceService = conferenceService;
+		this.aspose = aspose;
 	}
 
 	// 회의 생성
@@ -79,7 +82,7 @@ public class ConferenceController {
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 404, message = "회의 정보가 없습니다."),
 			@ApiResponse(code = 500, message = "서버 에러") })
 	public ResponseEntity<?> leaveConference(@PathVariable String conference_code,
-			@RequestBody LeaveConferenceReq leaveConferenceReq) {
+			@RequestBody LeaveConferenceReq leaveConferenceReq){
 		int u_id = leaveConferenceReq.getId();
 		
 		// 참가자 ID가 방장 ID인지 체크
@@ -87,6 +90,11 @@ public class ConferenceController {
 			conferenceService.endConferenceHistory(u_id, conference_code);
 		//회의록 제작
 			conferenceService.makeChronicle(u_id, conference_code, leaveConferenceReq.getChronicleData());
+			try {
+				aspose.makeChronicle(leaveConferenceReq.getChronicleData());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		else
 			conferenceService.leaveConferenceHistory(u_id, conference_code);
