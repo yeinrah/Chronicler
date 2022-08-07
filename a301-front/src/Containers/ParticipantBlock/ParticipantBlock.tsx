@@ -62,9 +62,9 @@ const ParticipantBlock: React.FC<Props> = ({
         }}
       >
         {participant[0] &&
-          participant[0].map((item: any) => {
+          participant[0].map((item: any, index: any) => {
             let nickname = item.slice(8, item.length - 2);
-            return <Box key="item">{nickname}</Box>;
+            return <Box key={index}>{nickname}</Box>;
           })}
       </Box>
     </ParticipantBox>

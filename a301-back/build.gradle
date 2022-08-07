@@ -47,6 +47,13 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	// Openvidu 의존성
     implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.22.0'
+    
+    // google stt
+    implementation platform('com.google.cloud:libraries-bom:26.0.0')
+	implementation 'com.google.cloud:google-cloud-speech'
+	// https://mvnrepository.com/artifact/com.aspose/aspose-words 이건 안됐음
+	implementation("com.aspose:aspose-words:22.7.0")
+	
 }
 
 tasks.named('test') {

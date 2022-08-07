@@ -43,22 +43,19 @@ public class ConferenceController {
 	@ApiOperation(value = "회의 생성", notes = "DB에 등록 후, 세션 이름, 닉네임 반환")
 	@ApiResponses({ @ApiResponse(code = 200, message = "회의 만들기 성공"), @ApiResponse(code = 400, message = "입력 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 500, message = "서버 에러") })
-	public ResponseEntity<ConferenceRes> makeConference(@PathVariable int u_id,
+	public ResponseEntity<String> makeConference(@PathVariable int u_id,
 			@RequestBody MakeConferenceReq makeConferenceReq) throws Exception {
-		// 세션 코드 난수 생성
-		String conference_code = RandomNumberUtil.getRandomNumber();
 
 		// DB 저장
-		Conference conf = conferenceService.makeConference(conference_code, makeConferenceReq, u_id);
+		Conference conf = conferenceService.makeConference(makeConferenceReq.getConferenceCode(), u_id);
 
 		// conference_history를 만들고 action을 0으로 했음
-		conferenceService.makeConferenceHistory(u_id, conference_code);
+		conferenceService.makeConferenceHistory(u_id, makeConferenceReq.getConferenceCode());
 
 		// 방 참가했을 때 회의_회원 테이블에 방장 데이터 넣기
 		conferenceService.insertOwner(u_id, conf.getCId());
 
-		return ResponseEntity.ok(conferenceService.getConferenceRes(conference_code, makeConferenceReq.getTitle(),
-				makeConferenceReq.getNickname()));
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
 	// 회의 참가
@@ -89,7 +86,7 @@ public class ConferenceController {
 		if (conferenceService.isOwner(u_id, conference_code)) {
 			conferenceService.endConferenceHistory(u_id, conference_code);
 		//회의록 제작
-			conferenceService.makeChronicle(u_id, conference_code);
+			conferenceService.makeChronicle(u_id, conference_code, leaveConferenceReq.getChronicleData());
 		}
 		else
 			conferenceService.leaveConferenceHistory(u_id, conference_code);

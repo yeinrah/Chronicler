@@ -13,13 +13,10 @@ import lombok.Setter;
 @ApiModel("MakeConferenceReq")
 public class MakeConferenceReq {
 
-	@ApiModelProperty(name = "닉네임", example = "harry")
-	@NotNull(message = "닉네임 칸을 채워주세요.")
-	private String nickname;
 
-	@ApiModelProperty(name = "세션 제목", example = "title")
-	@NotNull(message = "세션 제목을 채워주세요.")
-	@Size(max = 50)
-	private String title;
+	@ApiModelProperty(name = "세션 코드", example = "conference_code")
+	@NotNull(message = "세션 코드 채워주세요.")
+	@Size(max = 16)
+	private String conferenceCode;
 
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { OpenVidu } from "openvidu-browser";
+import { OpenVidu, Publisher, Subscriber } from "openvidu-browser";
 import React, { Component, useEffect, useState } from "react";
 import styles from "./MeetingRoom.module.css";
 import {
@@ -14,12 +14,18 @@ import { Abc } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
 import showNavState from "../../recoil/atoms/showNavState";
 import { useNavigate } from "react-router-dom";
+import userInfoState from "../../recoil/atoms/userInfoState";
+import roomCreate from "../../Api/roomCreate";
+import roomJoin from "../../Api/roomJoin";
+import roomLeave from "../../Api/roomLeave";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 
 const MeetingRoom = (props) => {
-  const [mySessionId, setMySessionId] = useState("SessionA");
+  const [mySessionId, setMySessionId] = useState(
+    new Date().getTime().toString(36)
+  );
   const [myUserName, setMyUserName] = useState(
     "Participant" + Math.floor(Math.random() * 10000)
   );
@@ -40,8 +46,10 @@ const MeetingRoom = (props) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [people, setPeople] = useState(subscribers.length);
   const [participant, setPartcipant] = useState([]);
+  const [isMain, setIsMain] = useState();
   // const [endSession, setEndSession] = useState(false);
   const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
+  const [myUid, setMyUid] = useRecoilState(userInfoState);
   const navigate = useNavigate();
   // let OV;
 
@@ -102,9 +110,24 @@ const MeetingRoom = (props) => {
     console.log("subscribes.change");
     let participantNow = [];
     if (session) {
+      console.log(session.streamManagers.length);
+      if (session.streamManagers.length === 1) {
+        console.log("im main");
+        setIsMain(true);
+      }
       console.log("dasdasd!!@E!@#!@#!");
       console.log(session);
       console.log(session.streamManagers);
+      console.log(session.streamManagers[0]);
+      if (session.streamManagers[0].session) {
+        // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+        setIsMain(true);
+      } else if (!session.streamManagers[0].session) {
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        setIsMain(false);
+      } else {
+        console.log("#############################");
+      }
       console.log(session.streamManagers.length);
       setPartcipant([]);
       session.streamManagers.map((item, i) => {
@@ -123,9 +146,31 @@ const MeetingRoom = (props) => {
       setPartcipant([...participantNow]);
     }
   }, [subscribers, publisher]);
-  useEffect(() => {}, [participant]);
+  useEffect(() => {
+    if (isMain) {
+      roomCreate
+        .post(`/conference/${myUid.id}`, {
+          nickname: myUserName,
+          conference_code: mySessionId,
+        })
+        .then(() => {
+          console.log("myssssssssssssssssssssssssssssssseeeesion");
+        });
+    } else if (!isMain) {
+      roomJoin
+        .post(`/conference/enter/${myUid.id}`, {
+          nickname: myUserName,
+          conference_code: mySessionId,
+        })
+        .then(() => {
+          console.log("join!!!!!!!!!!!!!!");
+        });
+    }
+  }, [isMain]);
   const listenMessage = () => {
     session.on("signal:chat", (event) => {
+      console.log("%%%%%%%%%%%%%%%%%%%");
+      console.log(event.data);
       setMessage([event.data]);
     });
   };
@@ -145,6 +190,12 @@ const MeetingRoom = (props) => {
       console.log(event.data);
     });
   };
+  const listenEndSession = () => {
+    session.on("signal:endSession", (event) => {
+      leaveSession();
+      navigate("/");
+    });
+  };
 
   const listenScriber = () => {
     if (session) {
@@ -153,6 +204,7 @@ const MeetingRoom = (props) => {
       // On every new Stream received...
       console.log("statrt!!!!!!!!!!!!!!!!!");
       console.log(session);
+
       mySession.on("streamCreated", (event) => {
         // Subscribe to the Stream to receive it. Second parameter is undefined
         // so OpenVidu doesn't create an HTML video by its own
@@ -162,15 +214,19 @@ const MeetingRoom = (props) => {
         // Update the state with the new subscribers
         setSubscribers([...subscribersNow]);
         setPeople(subscribers.length);
+        console.log("Aaaaaaaaaaaaaaaaaaaa");
+        console.log(isMain);
       });
 
       listenMessage();
       listenSpeech();
+      listenEndSession();
       // On every Stream destroyed...
       mySession.on("streamDestroyed", (event) => {
         // Remove the stream from 'subscribers' array
         // setEndSession(true);
-        leaveSession();
+
+        // leaveSession();
         deleteSubscriber(event.stream.streamManager);
       });
 
@@ -295,40 +351,37 @@ const MeetingRoom = (props) => {
     const mySession = session;
 
     if (mySession) {
-      // console.log("zzzzzzzzzzzzzzzzzzz");
-      // console.log(mainStreamManager);
-      console.log(mySessionId);
-      console.log("zzzzzzzzzzzzzzzzz");
-      console.log(mySession.stream);
+      leaveRoomApi();
       mySession.disconnect();
     }
-    // session.unpublish(publisher);
     setOV(null);
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId("SessionA");
+    setMySessionId(new Date().getTime().toString(36));
     setMyUserName("Participant" + Math.floor(Math.random() * 10000));
     setMainStreamManager(undefined);
     setPublisher(undefined);
     setPartcipant([]);
   };
   const destroySession = () => {
-    axios
-      .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
-        headers: {
-          Authorization:
-            "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
-          "Content-Type": "application/json",
-        },
-      })
-      .then(() => {
-        navigate("/");
-        console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
-      })
-      .catch((e) => {
-        console.log("error!!!!");
-        console.log(e);
-      });
+    leaveRoomApi();
+    sendEndSession();
+    // axios
+    //   .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
+    //     headers: {
+    //       Authorization:
+    //         "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then(() => {
+    //     navigate("/");
+    //     console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
+    //   })
+    //   .catch((e) => {
+    //     console.log("error!!!!");
+    //     console.log(e);
+    //   });
   };
 
   const getToken = () => {
@@ -404,9 +457,10 @@ const MeetingRoom = (props) => {
         .catch((error) => reject(error));
     });
   };
-  const sendMessage = (aaa) => {
+  const sendMessage = (text) => {
+    text = text.replace(/\"/gi, "");
     session.signal({
-      data: `{"name":"${myUserName}","text":"${aaa}"}`,
+      data: `{"name":"${myUserName}","text":"${text}"}`,
       to: [],
       type: "chat",
     });
@@ -430,6 +484,22 @@ const MeetingRoom = (props) => {
     });
     console.log(myUserName);
     console.log("send!!!!!!!!!!!!");
+  };
+  const sendEndSession = () => {
+    session.signal({
+      data: "",
+      to: [],
+      type: "endSession",
+    });
+  };
+  const leaveRoomApi = () => {
+    roomLeave
+      .put(`/conference/${mySessionId}`, {
+        id: myUid.id,
+      })
+      .then(() => {
+        console.log("leave room success");
+      });
   };
   return (
     <>
@@ -465,9 +535,10 @@ const MeetingRoom = (props) => {
                     className="form-control"
                     type="text"
                     id="sessionId"
+                    // disabled
                     value={mySessionId}
                     onChange={handleChangeSessionId}
-                    disabled
+                    required
                     color="success"
                     size="small"
                   />
@@ -514,12 +585,6 @@ const MeetingRoom = (props) => {
                   }
                   onClick={() => {
                     handleMainVideoStream(publisher);
-                    console.log(
-                      "ADSFHAHWDJBJKNASDVBANSIlFKJHVBAWENKLDFBVFNeklsdjkxcvzsdbefnio"
-                    );
-                    console.log(people);
-                    console.log(typeof people);
-                    console.log(subscribers);
                   }}
                 >
                   <UserVideoComponent
@@ -582,6 +647,7 @@ const MeetingRoom = (props) => {
             subtitle={subtitle}
             leaveSession={leaveSession}
             destroySession={destroySession}
+            isMain={isMain}
           />
         </div>
       ) : null}

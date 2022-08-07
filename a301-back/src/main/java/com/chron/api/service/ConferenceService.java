@@ -40,10 +40,10 @@ public class ConferenceService {
 
 	// conference 생성
 	@Transactional
-	public Conference makeConference(String conference_code, MakeConferenceReq makeConferenceReq, int id) {
+	public Conference makeConference(String conference_code, int id) {
 		User user = userRepository.findOneById(id);
 		Conference conference = Conference.builder().ownerId(user.getId()).conferenceCode(conference_code)
-				.title(makeConferenceReq.getTitle()).build();
+				.build();
 		return conferenceRepository.save(conference);
 	}
 
@@ -131,7 +131,7 @@ public class ConferenceService {
 	}
 	// 회의 종료하면 회의록 생성하는 로직
 	@Transactional
-	public Chronicle makeChronicle(int user_id, String conference_code) {
+	public Chronicle makeChronicle(int user_id, String conference_code, String chronicleData) {
 		//회의 데이터 가져옴
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		int confCid = conf.getCId();
@@ -140,8 +140,9 @@ public class ConferenceService {
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
 		
-		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data("회의록내용들어올곳").time(stamp.toString()).
+		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data(chronicleData).time(stamp.toString()).
 				callStartTime(startTime).callEndTime(endTime).build();
+		
 		return chronicleRepo.save(chronicle);
 	}
 	
