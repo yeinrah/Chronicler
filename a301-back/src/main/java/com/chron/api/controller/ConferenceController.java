@@ -44,13 +44,13 @@ public class ConferenceController {
 	@ApiResponses({ @ApiResponse(code = 200, message = "회의 만들기 성공"), @ApiResponse(code = 400, message = "입력 오류"),
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 500, message = "서버 에러") })
 	public ResponseEntity<String> makeConference(@PathVariable int u_id,
-			@RequestBody String conferenceCode) throws Exception {
+			@RequestBody MakeConferenceReq makeConferenceReq) throws Exception {
 
 		// DB 저장
-		Conference conf = conferenceService.makeConference(conferenceCode, u_id);
+		Conference conf = conferenceService.makeConference(makeConferenceReq.getConferenceCode(), u_id);
 
 		// conference_history를 만들고 action을 0으로 했음
-		conferenceService.makeConferenceHistory(u_id, conferenceCode);
+		conferenceService.makeConferenceHistory(u_id, makeConferenceReq.getConferenceCode());
 
 		// 방 참가했을 때 회의_회원 테이블에 방장 데이터 넣기
 		conferenceService.insertOwner(u_id, conf.getCId());
