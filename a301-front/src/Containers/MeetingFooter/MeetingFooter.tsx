@@ -26,6 +26,7 @@ interface Props {
   setCameraOn: React.Dispatch<React.SetStateAction<boolean>>;
   leaveSession: any;
   destroySession: any;
+  isMain: any;
 }
 
 const MeetingFooter: React.FC<Props> = ({
@@ -39,6 +40,7 @@ const MeetingFooter: React.FC<Props> = ({
   setCameraOn,
   leaveSession,
   destroySession,
+  isMain,
 }) => {
   const FootBar = styled(Toolbar)({
     display: 'flex',
@@ -82,11 +84,14 @@ const MeetingFooter: React.FC<Props> = ({
             <LogoutIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Close Room" placement="top" arrow>
-          <IconButton color="inherit" onClick={destroySession}>
-            <PhonelinkEraseIcon />
-          </IconButton>
-        </Tooltip>
+        {isMain && (
+          <Tooltip title="Close Room" placement="top" arrow>
+            <IconButton color="inherit" onClick={destroySession}>
+              <PhonelinkEraseIcon />
+            </IconButton>
+          </Tooltip>
+        )}
+
         <Box sx={{ flexGrow: 0.8 }} />
         <Box component="div" sx={{ display: 'inline' }}>
           This is subtitle
