@@ -40,7 +40,9 @@ const ChatBlock: React.FC<Props> = ({
   const [messages, setMessages] = useState<any>([{}]);
   const inputMessage = useRef<any>();
   useEffect(() => {
-    if (message) setMessages([...messages, JSON.parse(message)]);
+    if (message) {
+      setMessages([...messages, JSON.parse(message)]);
+    }
   }, [message]);
 
   useEffect(() => {
