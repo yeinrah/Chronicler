@@ -28,12 +28,37 @@
 - MySQL 5.7.37
 ----------------------------
 - [ ]  WebRTC
-- Openvidu
+- Openvidu-insecure-react
 ----------------------------
 - [ ]  STT(Speech-to-Text)
 - Google Cloud Speech-to-Text
+- vito
+- window 객체
 ----------------------------
 - [ ]  CI/CD
 - Docker
 - NGINX
 - AWS EC2
+
+<hr>
+
+# Docker command
+
+DB :
+
+```docker
+docker pull yeinrah/mysql:5.7.37
+```
+
+BE : 
+
+```docker
+docker pull yeinrah/chronicler-back
+```
+
+FE :
+```docker
+docker pull yeinrah/chronicler-front
+```
+
+<hr>

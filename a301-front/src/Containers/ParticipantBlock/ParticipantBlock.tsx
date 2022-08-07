@@ -57,7 +57,7 @@ const ParticipantBlock: React.FC<Props> = ({
         sx={{
           color: 'var(--eleBase-color)',
           padding: '10px',
-          height: '100%',
+          height: '65%',
           overflow: 'scroll',
         }}
       >
