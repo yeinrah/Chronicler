@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './MainNonLog.module.css';
 import { Card, CardContent, Typography } from '@mui/material';
 import MainStack from '../../Components/MainStack';
@@ -10,6 +10,7 @@ import userLoginedState from '../../recoil/atoms/userLoginedState';
 import InputText from '../../Components/InputText';
 const MainNonLog: React.FC = () => {
   const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
+  const [inputCode, setInputCode] = useState<any>();
   const navigate = useNavigate();
   return (
     <>
@@ -58,12 +59,24 @@ const MainNonLog: React.FC = () => {
                 variant="contained"
                 onClick={() => {
                   navigate('/MeetingRoom');
-                  console.log('hihi');
                 }}
               >
                 새회의
               </MainBtn>
-              <InputText id="outlined-basic" label={'초대링크를 입력하세요.'} />
+              <InputText
+                id="outlined-basic"
+                label={'초대코드를 입력하세요.'}
+                onChange={(e) => {
+                  // console.log(e.target.value);
+                  setInputCode(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    console.log(e);
+                    navigate('/MeetingRoom', { state: inputCode });
+                  }
+                }}
+              />
             </CardOfBtn>
           </Card>
         )}
