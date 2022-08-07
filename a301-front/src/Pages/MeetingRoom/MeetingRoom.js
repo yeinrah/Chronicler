@@ -52,7 +52,9 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     window.addEventListener("beforeunload", beforeunload);
     setIsShownNavState(false);
-    setMySessionId(state);
+    // console.log("abbbbbbbbbbbbbbbaaaaaaaaaaaaaa");
+    // console.log(state);
+    if (state) setMySessionId(state);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
       leaveSession();
@@ -302,7 +304,7 @@ const MeetingRoom = (props) => {
     setOV(null);
     setSession(undefined);
     setSubscribers([]);
-    setMySessionId(new Date().getTime().toString(36));
+    setMySessionId(mySessionId);
     setMyUserName("Participant" + Math.floor(Math.random() * 10000));
     setMainStreamManager(undefined);
     setPublisher(undefined);
