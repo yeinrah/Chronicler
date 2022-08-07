@@ -117,6 +117,16 @@ const MeetingRoom = (props) => {
         deleteSubscriber(event.stream.streamManager);
       });
 
+      mySession.on("publisherStartSpeaking", (event) => {
+        console.log(
+          "User " + event.connection.connectionId + " start speaking"
+        );
+      });
+
+      mySession.on("publisherStopSpeaking", (event) => {
+        console.log("User " + event.connection.connectionId + " stop speaking");
+      });
+
       // On every asynchronous exception...
       mySession.on("exception", (exception) => {
         console.warn(exception);
