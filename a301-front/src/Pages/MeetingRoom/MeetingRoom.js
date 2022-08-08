@@ -115,35 +115,42 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     // console.log(`speechRecords: ${speechRecords}`);
     // console.log(speechRecords[speechRecords.length - 1].text);
-    // if (speechRecord) {
-    //   if (speechRecords[speechRecords.length - 1]) {
-    //     if (
-    //       JSON.parse(speechRecord).text.includes(
-    //         speechRecords[speechRecords.length - 1].text
-    //       )
-    //     ) {
-    //       setSpeechRecords([
-    //         ...speechRecords.slice(0, -1),
-    //         JSON.parse(speechRecord),
-    //       ]);
-    //     }
-    //     // if (speechRecords[speechRecords.length - 1]) {
-    //     //   console.log(speechRecords[speechRecords.length - 1].text);
-    //     //   console.log(typeof speechRecords[speechRecords.length - 1].text);
-    //     //   console.log(speechRecords[speechRecords.length - 1].text[1]);
-    //     // }
-    //     // if (speechRecord) {
-    //     //   console.log(JSON.parse(speechRecord).text);
-    //     //   console.log(JSON.parse(speechRecord).text[0]);
-    //     // }
-    //   } else {
-    //     setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
-    //   }
-
-    // }
     if (speechRecord) {
-      setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+      console.log(speechRecords[speechRecords.length - 1]);
+      if (speechRecords[speechRecords.length - 1]) {
+        if (
+          JSON.parse(speechRecord).text.includes(
+            speechRecords[speechRecords.length - 1].text
+          ) ||
+          JSON.parse(speechRecord).text[0] ===
+            speechRecords[speechRecords.length - 1].text[0] ||
+          JSON.parse(speechRecord).text[1] ===
+            speechRecords[speechRecords.length - 1].text[1]
+        ) {
+          console.log(speechRecords[speechRecords.length - 1].text);
+          setSpeechRecords([
+            ...speechRecords.slice(0, -1),
+            JSON.parse(speechRecord),
+          ]);
+        } else {
+          setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+        }
+        // if (speechRecords[speechRecords.length - 1]) {
+        //   console.log(speechRecords[speechRecords.length - 1].text);
+        //   console.log(typeof speechRecords[speechRecords.length - 1].text);
+        //   console.log(speechRecords[speechRecords.length - 1].text[1]);
+        // }
+        // if (speechRecord) {
+        //   console.log(JSON.parse(speechRecord).text);
+        //   console.log(JSON.parse(speechRecord).text[0]);
+        // }
+      } else {
+        setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+      }
     }
+    // if (speechRecord) {
+    //   setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+    // }
   }, [speechRecord]);
 
   useEffect(() => {
