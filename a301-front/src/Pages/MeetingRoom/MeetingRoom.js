@@ -42,7 +42,7 @@ const MeetingRoom = (props) => {
   const [message, setMessage] = useState();
   const [subtitle, setSubtitle] = useState();
   const [speechRecord, setSpeechRecord] = useState();
-  const [speechRecords, setSpeechRecords] = useState([{}]);
+  const [speechRecords, setSpeechRecords] = useState([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [people, setPeople] = useState(subscribers.length);
   const [participant, setPartcipant] = useState([]);
@@ -91,10 +91,11 @@ const MeetingRoom = (props) => {
         // setSpeechRecord(speechRecord + transcript["0"]);
         console.log("asdasdasdsadsadsa");
         setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
-        console.log(`speechRecord: ${speechRecord}`);
+        console.log(`speechRecord: ${JSON.parse(speechRecord)}`);
         console.log(`speechRecords: ${speechRecords}`);
-        // setSubtitle(speechRecord["text"]);
-        setSubtitle(transcript["0"]);
+        console.log(speechRecords[-1][-1]);
+        setSubtitle(JSON.parse(speechRecord).text);
+        // setSubtitle(transcript["0"]);
       });
       recognition.start();
     }
@@ -308,6 +309,7 @@ const MeetingRoom = (props) => {
   const onSetMicOn = (e) => {
     setMicOn(e);
     publisher.publishAudio(e);
+    setSubtitle("");
   };
   const onSetCameraOn = (e) => {
     setCameraOn(e);
@@ -481,16 +483,6 @@ const MeetingRoom = (props) => {
     });
     console.log(session);
     console.log("speech send");
-  };
-
-  const sendParticipant = () => {
-    session.signal({
-      data: `{"name":"${myUserName}"}`,
-      to: [],
-      type: "participant",
-    });
-    console.log(myUserName);
-    console.log("send!!!!!!!!!!!!");
   };
   const sendEndSession = () => {
     session.signal({
