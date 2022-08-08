@@ -11,13 +11,14 @@ public class Aspose {
 	public void makeChronicle(String data) throws Exception{
 		Document doc = new Document();
 
-		Comment comment = new Comment(doc);
-		comment.setAuthor("John Doe");
-		comment.setInitial("JD");
-		comment.setDateTime(new Date());
-		comment.setText("Quisque fringilla leo.");
+//		Comment comment = new Comment(doc);
+//		comment.setAuthor("John Doe");
+//		comment.setInitial("JD");
+//		comment.setDateTime(new Date());
+//		comment.setText("Quisque fringilla leo.");
 		
 		Table table = new Table(doc);
+		table.setAlignment(TableAlignment.CENTER);	//table 가운데 정렬
 		doc.getFirstSection().getBody().appendChild(table);
 		// Tables contain rows, which contain cells, which may have paragraphs
 		// with typical elements such as runs, shapes, and even other tables.
@@ -42,12 +43,12 @@ public class Aspose {
 		paragraph.appendChild(run);
 		
 		Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-		para.appendChild(new CommentRangeStart(doc, comment.getId()));
+//		para.appendChild(new CommentRangeStart(doc, comment.getId()));
 		para.appendChild(new Run(doc, data));
-		para.appendChild(new CommentRangeEnd(doc, comment.getId()));
-		para.appendChild(comment);
+//		para.appendChild(new CommentRangeEnd(doc, comment.getId()));
+//		para.appendChild(comment);
 
-		comment.addReply("Jane Doe", "JD", new Date(), "Pellentesque vel sapien justo.");
+//		comment.addReply("Jane Doe", "JD", new Date(), "Pellentesque vel sapien justo.");
 
 		doc.save("회의록_작성_완료!.docx");
 	}

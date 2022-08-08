@@ -33,13 +33,13 @@ public class UserConference {
 	@Column(name = "u_id")
 	private int userId;
 
-	@ManyToOne
-	@JoinColumn(name = "u_id", insertable = false, updatable = false)
-	private User user;
+//	@ManyToOne
+//	@JoinColumn(name = "u_id", insertable = false, updatable = false)
+//	private User user;
 
-	@ManyToOne
-	@JoinColumn(name = "c_id", insertable = false, updatable = false)
-	private Conference conference;
+//	@ManyToOne
+//	@JoinColumn(name = "c_id", insertable = false, updatable = false)
+//	private Conference conference;
 
 	@Column(name = "c_id")
 	private int cId;
