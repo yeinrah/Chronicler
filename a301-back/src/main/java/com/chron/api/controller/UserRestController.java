@@ -75,7 +75,7 @@ public class UserRestController {
 				result.put("message", "로그인에 성공하였습니다.");
 				loginUser.setPassword("");
 				result.put("loginUser", loginUser);
-				
+
 				status = HttpStatus.ACCEPTED;
 			}
 			// 실패했을 경우
@@ -112,6 +112,7 @@ public class UserRestController {
 		userService.updateImage(id, updateImageReq);
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
+
 	@PatchMapping("/updatePhone/{id}")
 	@ApiOperation(value = "핸드폰 번호 수정", notes = "핸드폰 번호 수정")
 	public ResponseEntity<?> updatePhone(@PathVariable Integer id, @Valid @RequestBody UpdatePhoneReq updatePhoneReq)
@@ -137,7 +138,7 @@ public class UserRestController {
 	@GetMapping("/mypage/{id}")
 	@ApiOperation(value = "회원 정보 조회", notes = "id를 통해 마이페이지를 조회한다.")
 	public ResponseEntity<?> findUser(@PathVariable Integer id) throws Exception {
-		User user = userService.findUser(id);
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		HashMap<String, Object> user = userService.findUser(id);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 }

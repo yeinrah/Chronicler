@@ -1,5 +1,8 @@
 package com.chron.api.service;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,7 +13,9 @@ import com.chron.api.request.UpdateNicknameReq;
 import com.chron.api.request.UpdatePasswordReq;
 import com.chron.api.request.UpdatePhoneReq;
 import com.chron.api.request.UserRegisterReq;
+import com.chron.db.entity.ConferenceHistory;
 import com.chron.db.entity.User;
+import com.chron.db.repository.ConferenceHistoryRepository;
 import com.chron.db.repository.UserRepository;
 
 @Service
@@ -21,12 +26,15 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	// id / nickname / password / email / image / phone
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	private ConferenceHistoryRepository confernecHistoryRepository;
+
+	@Autowired
+	public UserService(UserRepository userRepository, ConferenceHistoryRepository confernecHistoryRepository) {
 		super();
 		this.userRepository = userRepository;
+		this.confernecHistoryRepository = confernecHistoryRepository;
 	}
 
 	// 회원가입
@@ -47,9 +55,9 @@ public class UserService {
 		if (!encoder.matches(pw, loginUser.getPassword()))
 			throw new IllegalStateException("이메일 또는 비밀번호가 틀립니다.");
 		else {
-			
+
 		}
-			return loginUser;
+		return loginUser;
 	}
 
 	// 이메일 찾기
@@ -90,6 +98,7 @@ public class UserService {
 		user.setNickname(updateNicknameReq.getNickname());
 		return userRepository.save(user);
 	}
+
 	// 핸드폰 번호 수정
 	@Transactional
 	public User updatePhone(Integer id, UpdatePhoneReq phone) throws Exception {
@@ -116,11 +125,15 @@ public class UserService {
 
 	// 회원 정보 조회
 	@Transactional
-	public User findUser(Integer id) throws Exception {
+	public HashMap<String, Object> findUser(Integer id) throws Exception {
 		User user = userRepository.findOneById(id);
+		List<ConferenceHistory> confh = confernecHistoryRepository.findByUserId(id);
 		if (user == null) {
 			throw new IllegalStateException("회원 정보 조회에 실패했습니다.");
 		}
-		return user;
+		HashMap<String, Object> result = new HashMap<String, Object>();
+		result.put("user", user);
+		result.put("history", confh);
+		return result;
 	}
 }
