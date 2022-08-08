@@ -89,7 +89,7 @@ const MeetingRoom = (props) => {
         sendSpeechRecord(transcript["0"]);
         // console.log(speechRecord + transcript["0"]);
         // setSpeechRecord(speechRecord + transcript["0"]);
-        setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+
         // console.log(`speechRecord: ${JSON.parse(speechRecord)}`);
         // console.log(`speechRecords: ${speechRecords}`);
 
@@ -114,9 +114,7 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     // console.log(`speechRecords: ${speechRecords}`);
     // console.log(speechRecords[speechRecords.length - 1].text);
-    if (speechRecords[speechRecords.length - 1]) {
-      setSubtitle(speechRecords[speechRecords.length - 1].text);
-    }
+    setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
   }, [speechRecord]);
 
   useEffect(() => {
