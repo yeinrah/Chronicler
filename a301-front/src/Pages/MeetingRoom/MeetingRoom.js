@@ -92,8 +92,7 @@ const MeetingRoom = (props) => {
         setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
         // console.log(`speechRecord: ${JSON.parse(speechRecord)}`);
         // console.log(`speechRecords: ${speechRecords}`);
-        console.log(speechRecords[speechRecords.length - 1].text);
-        setSubtitle(speechRecords[speechRecords.length - 1].text);
+
         // setSubtitle(transcript["0"]);
       });
       recognition.start();
@@ -105,6 +104,20 @@ const MeetingRoom = (props) => {
       setSubtitle("");
     };
   }, [isSpeaking]);
+  useEffect(() => {
+    // console.log(speechRecords[speechRecords.length - 1].text);
+    if (speechRecords[speechRecords.length - 1]) {
+      setSubtitle(speechRecords[speechRecords.length - 1].text);
+    }
+  }, [speechRecords]);
+
+  useEffect(() => {
+    // console.log(`speechRecords: ${speechRecords}`);
+    // console.log(speechRecords[speechRecords.length - 1].text);
+    if (speechRecords[speechRecords.length - 1]) {
+      setSubtitle(speechRecords[speechRecords.length - 1].text);
+    }
+  }, [speechRecord]);
 
   useEffect(() => {
     listenScriber();
@@ -178,7 +191,8 @@ const MeetingRoom = (props) => {
   };
   const listenSpeech = () => {
     session.on("signal:speech", (event) => {
-      setSpeechRecord([event.data]);
+      setSpeechRecord(event.data);
+      console.log(event.data);
     });
   };
 
