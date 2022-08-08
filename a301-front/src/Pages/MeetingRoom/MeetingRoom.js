@@ -597,6 +597,7 @@ const MeetingRoom = (props) => {
   const destroySessionApi = () => {
     destroySessionApi
       .put(`/conference/${mySessionId}`, {
+        // chronicleData: ,
         id: myUid.id,
       })
       .then(() => {
