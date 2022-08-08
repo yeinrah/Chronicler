@@ -89,12 +89,11 @@ const MeetingRoom = (props) => {
         sendSpeechRecord(transcript["0"]);
         // console.log(speechRecord + transcript["0"]);
         // setSpeechRecord(speechRecord + transcript["0"]);
-        console.log("asdasdasdsadsadsa");
         setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
-        console.log(`speechRecord: ${JSON.parse(speechRecord)}`);
-        console.log(`speechRecords: ${speechRecords}`);
-        console.log(speechRecords[-1][-1]);
-        setSubtitle(JSON.parse(speechRecord).text);
+        // console.log(`speechRecord: ${JSON.parse(speechRecord)}`);
+        // console.log(`speechRecords: ${speechRecords}`);
+        console.log(speechRecords[speechRecords.length - 1].text);
+        setSubtitle(speechRecords[speechRecords.length - 1].text);
         // setSubtitle(transcript["0"]);
       });
       recognition.start();
@@ -309,7 +308,6 @@ const MeetingRoom = (props) => {
   const onSetMicOn = (e) => {
     setMicOn(e);
     publisher.publishAudio(e);
-    setSubtitle("");
   };
   const onSetCameraOn = (e) => {
     setCameraOn(e);
