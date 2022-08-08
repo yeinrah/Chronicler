@@ -26,6 +26,6 @@ public class Conference {
 	@Column(name = "conference_code", length = 32)
 	private String conferenceCode;
 
-	@OneToMany(mappedBy = "conference")
-	private List<UserConference> userconf = new ArrayList<UserConference>();
+//	@OneToMany(mappedBy = "conference")
+//	private List<UserConference> userconf = new ArrayList<UserConference>();
 }

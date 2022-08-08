@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
-@RequestMapping("/userInfo")
+@RequestMapping("/api/userInfo")
 public class UserRestController {
 	private UserService userService;
 
