@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 
 @Api(value = "회의 방 관리 API", tags = { "Conference" })
 @RestController
-@RequestMapping("/conference")
+@RequestMapping("/api/conference")
 public class ConferenceController {
 
 	private ConferenceService conferenceService;

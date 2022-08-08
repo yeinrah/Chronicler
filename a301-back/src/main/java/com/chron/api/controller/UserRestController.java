@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
-@RequestMapping("/userInfo")
+@RequestMapping("/api/userInfo")
 public class UserRestController {
 	private UserService userService;
 
@@ -85,7 +85,7 @@ public class UserRestController {
 			}
 		} catch (Exception e) {
 			result.put("message", "예외가 발생했습니다");
-			status = HttpStatus.FORBIDDEN;
+			status = HttpStatus.BAD_REQUEST;
 		}
 		return new ResponseEntity<Map<String, Object>>(result, status);
 	}
