@@ -114,7 +114,8 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     // console.log(`speechRecords: ${speechRecords}`);
     // console.log(speechRecords[speechRecords.length - 1].text);
-    setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+    if (speechRecord)
+      setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
   }, [speechRecord]);
 
   useEffect(() => {
