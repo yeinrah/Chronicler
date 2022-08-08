@@ -76,6 +76,7 @@ const MeetingRoom = (props) => {
     if (micOn) {
       recognition.interimResults = true;
       recognition.continuous = true;
+      let temp = "";
 
       recognition.addEventListener("result", (e) => {
         const transcript = Array.from(e.results)
@@ -114,34 +115,34 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     // console.log(`speechRecords: ${speechRecords}`);
     // console.log(speechRecords[speechRecords.length - 1].text);
+    // if (speechRecord) {
+    //   if (speechRecords[speechRecords.length - 1]) {
+    //     if (
+    //       JSON.parse(speechRecord).text.includes(
+    //         speechRecords[speechRecords.length - 1].text
+    //       )
+    //     ) {
+    //       setSpeechRecords([
+    //         ...speechRecords.slice(0, -1),
+    //         JSON.parse(speechRecord),
+    //       ]);
+    //     }
+    //     // if (speechRecords[speechRecords.length - 1]) {
+    //     //   console.log(speechRecords[speechRecords.length - 1].text);
+    //     //   console.log(typeof speechRecords[speechRecords.length - 1].text);
+    //     //   console.log(speechRecords[speechRecords.length - 1].text[1]);
+    //     // }
+    //     // if (speechRecord) {
+    //     //   console.log(JSON.parse(speechRecord).text);
+    //     //   console.log(JSON.parse(speechRecord).text[0]);
+    //     // }
+    //   } else {
+    //     setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+    //   }
+
+    // }
     if (speechRecord) {
-      if (speechRecords[speechRecords.length - 1]) {
-        let i = speechRecords.length - 1;
-        // if (speechRecords[speechRecords.length - 1]) {
-        //   console.log(speechRecords[speechRecords.length - 1].text);
-        //   console.log(typeof speechRecords[speechRecords.length - 1].text);
-        //   console.log(speechRecords[speechRecords.length - 1].text[1]);
-        // }
-        // if (speechRecord) {
-        //   console.log(JSON.parse(speechRecord).text);
-        //   console.log(JSON.parse(speechRecord).text[0]);
-        // }
-        while (true) {
-          if (
-            speechRecords[i].text[0] === JSON.parse(speechRecord).text[0] &&
-            speechRecords[i].text[1] === JSON.parse(speechRecord).text[1]
-          ) {
-            setSpeechRecords([
-              speechRecords.slice(0, -1),
-              JSON.parse(speechRecord),
-            ]);
-            break;
-          } else {
-            setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
-          }
-          i -= 1;
-        }
-      }
+      setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
     }
   }, [speechRecord]);
 
