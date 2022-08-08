@@ -32,6 +32,8 @@ c_id Integer,
 owner_id Integer,
 chronicle_data LONGTEXT,
 time TIMESTAMP,
+call_start_time DATETIME,
+call_end_time DATETIME,
 PRIMARY KEY(clist_id),
 FOREIGN KEY(c_id)
 REFERENCES conference(c_id),
