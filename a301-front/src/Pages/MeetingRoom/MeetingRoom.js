@@ -43,6 +43,7 @@ const MeetingRoom = (props) => {
   const [subtitle, setSubtitle] = useState();
   const [speechRecord, setSpeechRecord] = useState();
   const [speechRecords, setSpeechRecords] = useState([]);
+  const [finalRecords, setFinalRecords] = useState([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [people, setPeople] = useState(subscribers.length);
   const [participant, setPartcipant] = useState([]);
@@ -291,7 +292,6 @@ const MeetingRoom = (props) => {
       mySession.on("publisherStopSpeaking", (event) => {
         console.log("User " + event.connection.connectionId + " stop speaking");
         setIsSpeaking(false);
-        onSetMicOn(false);
         window.webkitSpeechRecognition().stop();
       });
 
@@ -420,6 +420,49 @@ const MeetingRoom = (props) => {
     setPartcipant([]);
   };
   const destroySession = () => {
+    console.log("실행되나되나되나되나되나");
+    console.log(speechRecords);
+    console.log(
+      speechRecords.filter(
+        (item, idx) =>
+          (idx < speechRecords.length - 1 &&
+            item.text.length > 2 &&
+            !speechRecords[idx + 1].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 1].text[0] === item.text[0] &&
+              speechRecords[idx + 1].text[1] === item.text[1]
+            ) &&
+            idx < speechRecords.length - 2 &&
+            !speechRecords[idx + 2].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 2].text[0] === item.text[0] &&
+              speechRecords[idx + 2].text[1] === item.text[1]
+            )) ||
+          idx === speechRecords.length - 1 ||
+          idx === speechRecords.length - 2
+      )
+    );
+    setFinalRecords(
+      speechRecords.filter(
+        (item, idx) =>
+          (idx < speechRecords.length - 1 &&
+            item.text.length > 2 &&
+            !speechRecords[idx + 1].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 1].text[0] === item.text[0] &&
+              speechRecords[idx + 1].text[1] === item.text[1]
+            ) &&
+            idx < speechRecords.length - 2 &&
+            !speechRecords[idx + 2].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 2].text[0] === item.text[0] &&
+              speechRecords[idx + 2].text[1] === item.text[1]
+            )) ||
+          idx === speechRecords.length - 1 ||
+          idx === speechRecords.length - 2
+      )
+    );
+    console.log(finalRecords);
     leaveRoomApi();
     sendEndSession();
     // axios
