@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
@@ -33,6 +31,13 @@ public class UserConference {
 	@Column(name = "u_id")
 	private int userId;
 
+	@Column(name = "c_id")
+	private int cId;
+
+	@NotNull
+	@Column(name = "is_owner", nullable = false)
+	private boolean isOwner;
+	
 //	@ManyToOne
 //	@JoinColumn(name = "u_id", insertable = false, updatable = false)
 //	private User user;
@@ -40,11 +45,4 @@ public class UserConference {
 //	@ManyToOne
 //	@JoinColumn(name = "c_id", insertable = false, updatable = false)
 //	private Conference conference;
-
-	@Column(name = "c_id")
-	private int cId;
-
-	@NotNull
-	@Column(name = "is_owner", nullable = false)
-	private boolean isOwner;
 }
