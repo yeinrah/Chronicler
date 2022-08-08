@@ -40,6 +40,10 @@ const MeetingRoom = (props) => {
   const [currentVideoDevice, setCurrentVideoDevice] = useState();
   const [OV, setOV] = useState(undefined);
   const [message, setMessage] = useState();
+  const [subtitle, setSubtitle] = useState();
+  const [speechRecord, setSpeechRecord] = useState();
+  const [speechRecords, setSpeechRecords] = useState([{}]);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [people, setPeople] = useState(subscribers.length);
   const [participant, setPartcipant] = useState([]);
   const [isMain, setIsMain] = useState();
@@ -66,6 +70,42 @@ const MeetingRoom = (props) => {
       setSession(OV.initSession());
     }
   }, [OV]);
+  useEffect(() => {
+    let SpeechRecognition = window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    if (isSpeaking) {
+      recognition.interimResults = true;
+      recognition.continuous = true;
+
+      recognition.addEventListener("result", (e) => {
+        const transcript = Array.from(e.results)
+          .map((result) => result[0])
+          .map((result) => result.transcript);
+
+        // convert_text.innerHTML = transcript;
+        console.log(transcript);
+        console.log(typeof transcript);
+        console.log(transcript["0"]);
+        sendSpeechRecord(transcript["0"]);
+        // console.log(speechRecord + transcript["0"]);
+        // setSpeechRecord(speechRecord + transcript["0"]);
+        console.log("asdasdasdsadsadsa");
+        setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+        console.log(`speechRecord: ${speechRecord}`);
+        console.log(`speechRecords: ${speechRecords}`);
+        // setSubtitle(speechRecord["text"]);
+        setSubtitle(transcript["0"]);
+      });
+      recognition.start();
+    }
+    return () => {
+      recognition.stop();
+      // console.log(subtitle);
+      // setSpeechRecord(subtitle);
+      setSubtitle("");
+    };
+  }, [isSpeaking]);
+
   useEffect(() => {
     listenScriber();
   }, [session]);
@@ -136,6 +176,12 @@ const MeetingRoom = (props) => {
       setMessage([event.data]);
     });
   };
+  const listenSpeech = () => {
+    session.on("signal:speech", (event) => {
+      setSpeechRecord([event.data]);
+    });
+  };
+
   // useEffect(() => {
   //   if (endSession) {
   //     navigate("/");
@@ -176,6 +222,7 @@ const MeetingRoom = (props) => {
       });
 
       listenMessage();
+      listenSpeech();
       listenEndSession();
       // On every Stream destroyed...
       mySession.on("streamDestroyed", (event) => {
@@ -190,10 +237,12 @@ const MeetingRoom = (props) => {
         console.log(
           "User " + event.connection.connectionId + " start speaking"
         );
+        setIsSpeaking(true);
       });
 
       mySession.on("publisherStopSpeaking", (event) => {
         console.log("User " + event.connection.connectionId + " stop speaking");
+        setIsSpeaking(false);
       });
 
       // On every asynchronous exception...
@@ -243,7 +292,9 @@ const MeetingRoom = (props) => {
             console.log(
               "There was an error connecting to the session:",
               error.code,
-              error.message
+              error.message,
+              error.message,
+              error.speechRecord
             );
           });
       });
@@ -288,7 +339,15 @@ const MeetingRoom = (props) => {
     // let OV = new OpenVidu();
     // this.OV = new OpenVidu();
     let a = new OpenVidu();
+
+    a.setAdvancedConfiguration({
+      publisherSpeakingEventsOptions: {
+        interval: 100, // Frequency of the polling of audio streams in ms (default 100)
+        threshold: -50, // Threshold volume in dB (default -50)
+      },
+    });
     setOV(a);
+
     // --- 2) Init a session ---
     // setState(OV.initSession())
     // let b = await OV.initSession();
@@ -414,6 +473,16 @@ const MeetingRoom = (props) => {
     console.log(session);
     console.log("message send");
   };
+  const sendSpeechRecord = (s) => {
+    session.signal({
+      data: `{"name":"${myUserName}","text":"${s}"}`,
+      to: [],
+      type: "speech",
+    });
+    console.log(session);
+    console.log("speech send");
+  };
+
   const sendParticipant = () => {
     session.signal({
       data: `{"name":"${myUserName}"}`,
@@ -585,6 +654,7 @@ const MeetingRoom = (props) => {
             setOpenParticipant={setOpenParticipant}
             setMicOn={onSetMicOn}
             setCameraOn={onSetCameraOn}
+            subtitle={subtitle}
             leaveSession={leaveSession}
             destroySession={destroySession}
             isMain={isMain}
