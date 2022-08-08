@@ -463,7 +463,7 @@ const MeetingRoom = (props) => {
       )
     );
     console.log(finalRecords);
-    leaveRoomApi();
+    destroySessionApi();
     sendEndSession();
     // axios
     //   .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
@@ -589,6 +589,18 @@ const MeetingRoom = (props) => {
       })
       .then(() => {
         console.log("leave room success");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const destroySessionApi = () => {
+    destroySessionApi
+      .put(`/conference/${mySessionId}`, {
+        id: myUid.id,
+      })
+      .then(() => {
+        console.log("destroy room success");
       })
       .catch((e) => {
         console.log(e);
