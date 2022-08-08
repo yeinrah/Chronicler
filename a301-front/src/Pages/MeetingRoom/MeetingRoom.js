@@ -73,7 +73,7 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     let SpeechRecognition = window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    if (isSpeaking) {
+    if (micOn) {
       recognition.interimResults = true;
       recognition.continuous = true;
 
@@ -85,8 +85,8 @@ const MeetingRoom = (props) => {
         // convert_text.innerHTML = transcript;
         console.log(transcript);
         console.log(typeof transcript);
-        console.log(transcript["0"]);
-        sendSpeechRecord(transcript["0"]);
+        console.log(transcript[transcript.length - 1]);
+        sendSpeechRecord(transcript[transcript.length - 1]);
         // console.log(speechRecord + transcript["0"]);
         // setSpeechRecord(speechRecord + transcript["0"]);
 
@@ -103,18 +103,46 @@ const MeetingRoom = (props) => {
       // setSpeechRecord(subtitle);
       setSubtitle("");
     };
-  }, [isSpeaking]);
+  }, [micOn]);
   useEffect(() => {
-    // console.log(speechRecords[speechRecords.length - 1].text);
     if (speechRecords[speechRecords.length - 1]) {
       setSubtitle(speechRecords[speechRecords.length - 1].text);
+      console.log(speechRecords);
     }
   }, [speechRecords]);
 
   useEffect(() => {
     // console.log(`speechRecords: ${speechRecords}`);
     // console.log(speechRecords[speechRecords.length - 1].text);
-    setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+    if (speechRecord) {
+      if (speechRecords[speechRecords.length - 1]) {
+        let i = speechRecords.length - 1;
+        // if (speechRecords[speechRecords.length - 1]) {
+        //   console.log(speechRecords[speechRecords.length - 1].text);
+        //   console.log(typeof speechRecords[speechRecords.length - 1].text);
+        //   console.log(speechRecords[speechRecords.length - 1].text[1]);
+        // }
+        // if (speechRecord) {
+        //   console.log(JSON.parse(speechRecord).text);
+        //   console.log(JSON.parse(speechRecord).text[0]);
+        // }
+        while (true) {
+          if (
+            speechRecords[i].text[0] === JSON.parse(speechRecord).text[0] &&
+            speechRecords[i].text[1] === JSON.parse(speechRecord).text[1]
+          ) {
+            setSpeechRecords([
+              speechRecords.slice(0, -1),
+              JSON.parse(speechRecord),
+            ]);
+            break;
+          } else {
+            setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+          }
+          i -= 1;
+        }
+      }
+    }
   }, [speechRecord]);
 
   useEffect(() => {
@@ -255,6 +283,8 @@ const MeetingRoom = (props) => {
       mySession.on("publisherStopSpeaking", (event) => {
         console.log("User " + event.connection.connectionId + " stop speaking");
         setIsSpeaking(false);
+        onSetMicOn(false);
+        window.webkitSpeechRecognition().stop();
       });
 
       // On every asynchronous exception...
