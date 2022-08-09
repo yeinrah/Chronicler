@@ -138,7 +138,7 @@ public class ConferenceService {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		int confCid = conf.getCId();
 		String startTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 0).getInsertedTime();
-		String endTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 2).getInsertedTime();
+		String endTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 3).getInsertedTime();
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
 
