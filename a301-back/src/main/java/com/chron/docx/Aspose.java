@@ -69,6 +69,6 @@ public class Aspose {
 		
 		//회의록 작성 부분 네이밍 = 방장 닉네임 + inserted time(날짜만)로 동적으로 변경해주기
 		
-		doc.save("/home/ubuntu/회의록_작성_완료!.docx");
+		doc.save("/var/lib/docker/회의록_작성_완료!.docx");
 	}
 }

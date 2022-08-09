@@ -32,7 +32,7 @@ public class EmailSender {
 			}
 
 			// attach the file into email body
-			File attachment = new File("/home/ubuntu/회의록_작성_완료!.docx");
+			File attachment = new File("/var/lib/docker/회의록_작성_완료!.docx");
 			FileSystemResource file = new FileSystemResource(attachment);
 			helper.addAttachment(attachment.getName(), file);
 
