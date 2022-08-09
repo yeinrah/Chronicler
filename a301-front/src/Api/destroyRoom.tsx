@@ -4,7 +4,7 @@ let url = '';
 if (window.location.hostname === 'localhost') {
   url = `http://localhost:8080/api`;
 } else {
-  url = `http://${window.location.hostname}`;
+  url = `http://${window.location.hostname}/api`;
 }
 const destroyRoom = axios.create({
   // baseURL: `www.naver.com`,

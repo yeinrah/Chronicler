@@ -248,7 +248,6 @@ const MeetingRoom = (props) => {
       navigate("/");
     });
   };
-
   const listenScriber = () => {
     if (session) {
       var mySession = session;
@@ -487,22 +486,22 @@ const MeetingRoom = (props) => {
     );
     // leaveRoomApi();
     sendEndSession();
-    axios
-      .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
-        headers: {
-          Authorization:
-            "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
-          "Content-Type": "application/json",
-        },
-      })
-      .then(() => {
-        navigate("/");
-        console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
-      })
-      .catch((e) => {
-        console.log("error!!!!");
-        console.log(e);
-      });
+    // axios
+    //   .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
+    //     headers: {
+    //       Authorization:
+    //         "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then(() => {
+    //     navigate("/");
+    //     console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
+    //   })
+    //   .catch((e) => {
+    //     console.log("error!!!!");
+    //     console.log(e);
+    //   });
   };
 
   const getToken = () => {
@@ -641,7 +640,7 @@ const MeetingRoom = (props) => {
             </Typography>
             <br />
             <form className="form-group" onSubmit={joinSession}>
-              <div>
+              <p>
                 <Typography variant="label" component={"h2"}>
                   Participant:&nbsp;
                   <TextField
@@ -655,8 +654,8 @@ const MeetingRoom = (props) => {
                     size="small"
                   />
                 </Typography>
-              </div>
-              <div>
+              </p>
+              <p>
                 <Typography variant="label" component={"h2"}>
                   Session:&nbsp;
                   <TextField
@@ -671,8 +670,8 @@ const MeetingRoom = (props) => {
                     size="small"
                   />
                 </Typography>
-              </div>
-              <div className={styles["text-center"]}>
+              </p>
+              <p className={styles["text-center"]}>
                 <input
                   className={styles.btn}
                   name="commit"
@@ -688,7 +687,7 @@ const MeetingRoom = (props) => {
                   type="button"
                   value="Back"
                 />
-              </div>
+              </p>
             </form>
           </div>
         </div>
@@ -789,7 +788,7 @@ const MeetingRoom = (props) => {
  * These methods retrieve the mandatory user token from OpenVidu Server.
  * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
  * the API REST, openvidu-java-client or openvidu-node-client):
- *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
+ *   1) Initialize a Session in OpenVidu Server    (POST /openvidu/api/sessions)
  *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
  *   3) The Connection.token must be consumed in Session.connect() method
  */
