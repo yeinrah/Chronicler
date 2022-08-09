@@ -4,12 +4,13 @@ import java.util.Date;
 import org.springframework.stereotype.Component;
 
 import com.aspose.words.*;
+import com.chron.db.entity.Message;
 import com.chron.db.entity.MessageBody;
-
+import java.util.List;
 @Component
 public class Aspose {
 	
-	public void makeChronicle(MessageBody chronicleData) throws Exception{
+	public void makeChronicle(List<Message> chronicleData) throws Exception{
 		Document doc = new Document();
 
 //		Comment comment = new Comment(doc);
@@ -45,11 +46,14 @@ public class Aspose {
 		
 		StringBuilder sb = new StringBuilder();
 		String MessageData = "";
-		for(int i=0; i<chronicleData.getItems().size();i++) {
-			sb.append(chronicleData.getItems().get(i).getName());
+		if(chronicleData == null);
+		else {
+		for(int i=0; i<chronicleData.size();i++) {
+			sb.append(chronicleData.get(i).getName());
 			sb.append(" : ");
-			sb.append(chronicleData.getItems().get(i).getText());
+			sb.append(chronicleData.get(i).getText());
 			sb.append("\r\n");
+			}
 		}
 //		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);

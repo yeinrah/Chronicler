@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.chron.db.entity.Message;
 import com.chron.db.entity.MessageBody;
 
 import io.swagger.annotations.ApiModel;
@@ -21,6 +22,6 @@ public class LeaveConferenceReq {
 	private Integer id;
 	
 	@ApiModelProperty(name = "회의록 데이터", example = "회의_데이터")
-	private MessageBody chronicleData;
+	private List<Message> chronicleData;
 
 }

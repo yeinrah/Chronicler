@@ -11,6 +11,7 @@ import com.chron.api.response.ConferenceRes;
 import com.chron.db.entity.Chronicle;
 import com.chron.db.entity.Conference;
 import com.chron.db.entity.ConferenceHistory;
+import com.chron.db.entity.Message;
 import com.chron.db.entity.MessageBody;
 import com.chron.db.entity.User;
 import com.chron.db.entity.UserConference;
@@ -134,7 +135,7 @@ public class ConferenceService {
 
 	// 회의 종료하면 회의록 생성하는 로직
 	@Transactional
-	public Chronicle makeChronicle(int user_id, String conference_code, MessageBody chronicleData) {
+	public Chronicle makeChronicle(int user_id, String conference_code, List<Message> chronicleData) {
 		// 회의 데이터 가져옴
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		int confCid = conf.getCId();
@@ -146,11 +147,14 @@ public class ConferenceService {
 		//MessageBody 요리하기
 		StringBuilder sb = new StringBuilder();
 		String MessageData = "";
-		for(int i=0; i<chronicleData.getItems().size();i++) {
-			sb.append(chronicleData.getItems().get(i).getName());
+		if(chronicleData==null) ;
+		else {
+		for(int i=0; i<chronicleData.size();i++) {
+			sb.append(chronicleData.get(i).getName());
 			sb.append(" : ");
-			sb.append(chronicleData.getItems().get(i).getText());
+			sb.append(chronicleData.get(i).getText());
 			sb.append("\r\n");
+			}
 		}
 //		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);
