@@ -18,11 +18,11 @@
   margin: 0;
   scroll-behavior: smooth;
 }
-
-body {
+/*scroll css
+/* body {
   -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar {
   display: none;
-}
+} */

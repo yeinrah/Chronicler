@@ -465,22 +465,22 @@ const MeetingRoom = (props) => {
     console.log(finalRecords);
     destroySessionApi();
     sendEndSession();
-    // axios
-    //   .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
-    //     headers: {
-    //       Authorization:
-    //         "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then(() => {
-    //     navigate("/");
-    //     console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
-    //   })
-    //   .catch((e) => {
-    //     console.log("error!!!!");
-    //     console.log(e);
-    //   });
+    axios
+      .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
+        headers: {
+          Authorization:
+            "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+          "Content-Type": "application/json",
+        },
+      })
+      .then(() => {
+        navigate("/");
+        console.log("success!!!!!!!!!!!!!!!!!!!!!1delete");
+      })
+      .catch((e) => {
+        console.log("error!!!!");
+        console.log(e);
+      });
   };
 
   const getToken = () => {
@@ -619,7 +619,7 @@ const MeetingRoom = (props) => {
             </Typography>
             <br />
             <form className="form-group" onSubmit={joinSession}>
-              <p>
+              <div>
                 <Typography variant="label" component={"h2"}>
                   Participant:&nbsp;
                   <TextField
@@ -633,8 +633,8 @@ const MeetingRoom = (props) => {
                     size="small"
                   />
                 </Typography>
-              </p>
-              <p>
+              </div>
+              <div>
                 <Typography variant="label" component={"h2"}>
                   Session:&nbsp;
                   <TextField
@@ -649,8 +649,8 @@ const MeetingRoom = (props) => {
                     size="small"
                   />
                 </Typography>
-              </p>
-              <p className={styles["text-center"]}>
+              </div>
+              <div className={styles["text-center"]}>
                 <input
                   className={styles.btn}
                   name="commit"
@@ -666,7 +666,7 @@ const MeetingRoom = (props) => {
                   type="button"
                   value="Back"
                 />
-              </p>
+              </div>
             </form>
           </div>
         </div>

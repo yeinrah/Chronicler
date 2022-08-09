@@ -1,3 +1,4 @@
+import { VoiceOverOff } from '@mui/icons-material';
 import {
   Table,
   TableBody,
@@ -9,7 +10,10 @@ import {
 } from '@mui/material';
 const MeetingTable = (props: any) => {
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: 700 }}>
+    <TableContainer
+      component={Paper}
+      sx={{ maxWidth: 700, maxHeight: 300, overflow: 'auto' }}
+    >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
