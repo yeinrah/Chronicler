@@ -1,5 +1,7 @@
 package com.chron.api.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,9 @@ import com.chron.api.request.EnterUserReq;
 import com.chron.api.request.LeaveConferenceReq;
 import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.service.ConferenceService;
+import com.chron.api.service.MailService;
 import com.chron.db.entity.Conference;
+import com.chron.db.entity.Mail;
 import com.chron.docx.Aspose;
 
 import io.swagger.annotations.Api;
@@ -28,12 +32,16 @@ import io.swagger.annotations.ApiResponses;
 public class ConferenceController {
 
 	private ConferenceService conferenceService;
+	private MailService mailService;
 	private Aspose aspose;
 
+	HttpSession session;
+
 	@Autowired
-	public ConferenceController(ConferenceService conferenceService, Aspose aspose) {
+	public ConferenceController(ConferenceService conferenceService, Aspose aspose, MailService mailService) {
 		this.conferenceService = conferenceService;
 		this.aspose = aspose;
+		this.mailService = mailService;
 	}
 
 	// 회의 생성
@@ -94,6 +102,11 @@ public class ConferenceController {
 			conferenceService.leaveConferenceHistory(u_id, conference_code);
 
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@PostMapping("/email")
+	public void execMail(@RequestBody Mail mail, HttpSession session) {
+		mailService.mailSend(mail.getAddress(), mail.getNickname(), session);
 	}
 
 }
