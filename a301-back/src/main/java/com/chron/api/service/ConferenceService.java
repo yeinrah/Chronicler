@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.response.ConferenceRes;
 import com.chron.db.entity.Chronicle;
 import com.chron.db.entity.Conference;
@@ -30,7 +29,8 @@ public class ConferenceService {
 
 	@Autowired
 	public ConferenceService(ConferenceRepository conferenceRepository, UserRepository userRepository,
-			UserConferenceRepository userConferenceRepo, ConferenceHistoryRepository conferenceHistoryRepo, ChronicleRepository chronicleRepo) {
+			UserConferenceRepository userConferenceRepo, ConferenceHistoryRepository conferenceHistoryRepo,
+			ChronicleRepository chronicleRepo) {
 		this.conferenceRepository = conferenceRepository;
 		this.userRepository = userRepository;
 		this.userConferenceRepo = userConferenceRepo;
@@ -42,8 +42,7 @@ public class ConferenceService {
 	@Transactional
 	public Conference makeConference(String conference_code, int id) {
 		User user = userRepository.findOneById(id);
-		Conference conference = Conference.builder().ownerId(user.getId()).conferenceCode(conference_code)
-				.build();
+		Conference conference = Conference.builder().ownerId(user.getId()).conferenceCode(conference_code).build();
 		return conferenceRepository.save(conference);
 	}
 
@@ -73,7 +72,7 @@ public class ConferenceService {
 		return userConferenceRepo.save(userConference);
 	}
 
-	// conference_history : 회의 생성
+	// conference_history : 회의 생성 -> action 0
 	@Transactional
 	public ConferenceHistory makeConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
@@ -84,7 +83,7 @@ public class ConferenceService {
 		return conferenceHistoryRepo.save(confh);
 	}
 
-	// conference_history : 회의 시작
+	// conference_history : 회의 참가 -> action 1
 	@Transactional
 	public ConferenceHistory startConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
@@ -95,23 +94,25 @@ public class ConferenceService {
 		return conferenceHistoryRepo.save(confh);
 	}
 
-	// conference_history : (방장)회의 종료
-	@Transactional
-	public ConferenceHistory endConferenceHistory(int user_id, String conference_code) {
-		Long time = System.currentTimeMillis();
-		java.sql.Timestamp stamp = new Timestamp(time);
-		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
-		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2).insertedTime(stamp.toString()).build();
-		return conferenceHistoryRepo.save(confh);
-	}
-
-	// conference_history : (일반 참가자)회의 나가기
+	// conference_history : (일반 참가자)회의 나가기 -> action 2
 	@Transactional
 	public ConferenceHistory leaveConferenceHistory(int user_id, String conference_code) {
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
-		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(1).insertedTime(stamp.toString()).build();
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2)
+				.insertedTime(stamp.toString()).build();
+		return conferenceHistoryRepo.save(confh);
+	}
+
+	// conference_history : (방장)회의 종료 -> action 3
+	@Transactional
+	public ConferenceHistory endConferenceHistory(int user_id, String conference_code) {
+		Long time = System.currentTimeMillis();
+		java.sql.Timestamp stamp = new Timestamp(time);
+		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(3)
+				.insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
 	}
 
@@ -129,21 +130,22 @@ public class ConferenceService {
 		}
 		return false;
 	}
+
 	// 회의 종료하면 회의록 생성하는 로직
 	@Transactional
 	public Chronicle makeChronicle(int user_id, String conference_code, String chronicleData) {
-		//회의 데이터 가져옴
+		// 회의 데이터 가져옴
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		int confCid = conf.getCId();
 		String startTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 0).getInsertedTime();
-		String endTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 2).getInsertedTime();
+		String endTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 3).getInsertedTime();
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
-		
-		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data(chronicleData).time(stamp.toString()).
-				callStartTime(startTime).callEndTime(endTime).build();
-		
+
+		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data(chronicleData)
+				.time(stamp.toString()).callStartTime(startTime).callEndTime(endTime).build();
+
 		return chronicleRepo.save(chronicle);
 	}
-	
+
 }

@@ -43,6 +43,7 @@ const MeetingRoom = (props) => {
   const [subtitle, setSubtitle] = useState();
   const [speechRecord, setSpeechRecord] = useState();
   const [speechRecords, setSpeechRecords] = useState([]);
+  const [finalRecords, setFinalRecords] = useState([]);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [people, setPeople] = useState(subscribers.length);
   const [participant, setPartcipant] = useState([]);
@@ -73,9 +74,10 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     let SpeechRecognition = window.webkitSpeechRecognition;
     const recognition = new SpeechRecognition();
-    if (isSpeaking) {
+    if (micOn) {
       recognition.interimResults = true;
       recognition.continuous = true;
+      let temp = "";
 
       recognition.addEventListener("result", (e) => {
         const transcript = Array.from(e.results)
@@ -85,8 +87,8 @@ const MeetingRoom = (props) => {
         // convert_text.innerHTML = transcript;
         console.log(transcript);
         console.log(typeof transcript);
-        console.log(transcript["0"]);
-        sendSpeechRecord(transcript["0"]);
+        console.log(transcript[transcript.length - 1]);
+        sendSpeechRecord(transcript[transcript.length - 1]);
         // console.log(speechRecord + transcript["0"]);
         // setSpeechRecord(speechRecord + transcript["0"]);
 
@@ -103,19 +105,53 @@ const MeetingRoom = (props) => {
       // setSpeechRecord(subtitle);
       setSubtitle("");
     };
-  }, [isSpeaking]);
+  }, [micOn]);
   useEffect(() => {
-    // console.log(speechRecords[speechRecords.length - 1].text);
     if (speechRecords[speechRecords.length - 1]) {
       setSubtitle(speechRecords[speechRecords.length - 1].text);
+      console.log(speechRecords);
     }
   }, [speechRecords]);
 
   useEffect(() => {
     // console.log(`speechRecords: ${speechRecords}`);
     // console.log(speechRecords[speechRecords.length - 1].text);
-    if (speechRecord)
-      setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+    if (speechRecord) {
+      console.log(speechRecords[speechRecords.length - 1]);
+      if (speechRecords[speechRecords.length - 1]) {
+        if (
+          JSON.parse(speechRecord).text.includes(
+            speechRecords[speechRecords.length - 1].text
+          ) ||
+          JSON.parse(speechRecord).text[0] ===
+            speechRecords[speechRecords.length - 1].text[0] ||
+          JSON.parse(speechRecord).text[1] ===
+            speechRecords[speechRecords.length - 1].text[1]
+        ) {
+          console.log(speechRecords[speechRecords.length - 1].text);
+          setSpeechRecords([
+            ...speechRecords.slice(0, -1),
+            JSON.parse(speechRecord),
+          ]);
+        } else {
+          setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+        }
+        // if (speechRecords[speechRecords.length - 1]) {
+        //   console.log(speechRecords[speechRecords.length - 1].text);
+        //   console.log(typeof speechRecords[speechRecords.length - 1].text);
+        //   console.log(speechRecords[speechRecords.length - 1].text[1]);
+        // }
+        // if (speechRecord) {
+        //   console.log(JSON.parse(speechRecord).text);
+        //   console.log(JSON.parse(speechRecord).text[0]);
+        // }
+      } else {
+        setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+      }
+    }
+    // if (speechRecord) {
+    //   setSpeechRecords([...speechRecords, JSON.parse(speechRecord)]);
+    // }
   }, [speechRecord]);
 
   useEffect(() => {
@@ -256,6 +292,7 @@ const MeetingRoom = (props) => {
       mySession.on("publisherStopSpeaking", (event) => {
         console.log("User " + event.connection.connectionId + " stop speaking");
         setIsSpeaking(false);
+        window.webkitSpeechRecognition().stop();
       });
 
       // On every asynchronous exception...
@@ -383,7 +420,50 @@ const MeetingRoom = (props) => {
     setPartcipant([]);
   };
   const destroySession = () => {
-    leaveRoomApi();
+    console.log("실행되나되나되나되나되나");
+    console.log(speechRecords);
+    console.log(
+      speechRecords.filter(
+        (item, idx) =>
+          (idx < speechRecords.length - 1 &&
+            item.text.length > 2 &&
+            !speechRecords[idx + 1].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 1].text[0] === item.text[0] &&
+              speechRecords[idx + 1].text[1] === item.text[1]
+            ) &&
+            idx < speechRecords.length - 2 &&
+            !speechRecords[idx + 2].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 2].text[0] === item.text[0] &&
+              speechRecords[idx + 2].text[1] === item.text[1]
+            )) ||
+          idx === speechRecords.length - 1 ||
+          idx === speechRecords.length - 2
+      )
+    );
+    setFinalRecords(
+      speechRecords.filter(
+        (item, idx) =>
+          (idx < speechRecords.length - 1 &&
+            item.text.length > 2 &&
+            !speechRecords[idx + 1].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 1].text[0] === item.text[0] &&
+              speechRecords[idx + 1].text[1] === item.text[1]
+            ) &&
+            idx < speechRecords.length - 2 &&
+            !speechRecords[idx + 2].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 2].text[0] === item.text[0] &&
+              speechRecords[idx + 2].text[1] === item.text[1]
+            )) ||
+          idx === speechRecords.length - 1 ||
+          idx === speechRecords.length - 2
+      )
+    );
+    console.log(finalRecords);
+    destroySessionApi();
     sendEndSession();
     // axios
     //   .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
@@ -509,6 +589,19 @@ const MeetingRoom = (props) => {
       })
       .then(() => {
         console.log("leave room success");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const destroySessionApi = () => {
+    destroySessionApi
+      .put(`/conference/${mySessionId}`, {
+        // chronicleData: ,
+        id: myUid.id,
+      })
+      .then(() => {
+        console.log("destroy room success");
       })
       .catch((e) => {
         console.log(e);

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chron.api.request.EnterUserReq;
 import com.chron.api.request.LeaveConferenceReq;
 import com.chron.api.request.MakeConferenceReq;
-import com.chron.api.response.ConferenceRes;
 import com.chron.api.service.ConferenceService;
-import com.chron.api.util.RandomNumberUtil;
 import com.chron.db.entity.Conference;
 import com.chron.docx.Aspose;
 
@@ -31,9 +29,6 @@ public class ConferenceController {
 
 	private ConferenceService conferenceService;
 	private Aspose aspose;
-
-	// 회의 관리
-//	private Map<String, Integer> mapSessions = new ConcurrentHashMap<>();
 
 	@Autowired
 	public ConferenceController(ConferenceService conferenceService, Aspose aspose) {
@@ -82,25 +77,23 @@ public class ConferenceController {
 			@ApiResponse(code = 401, message = "인증 오류"), @ApiResponse(code = 404, message = "회의 정보가 없습니다."),
 			@ApiResponse(code = 500, message = "서버 에러") })
 	public ResponseEntity<?> leaveConference(@PathVariable String conference_code,
-			@RequestBody LeaveConferenceReq leaveConferenceReq){
+			@RequestBody LeaveConferenceReq leaveConferenceReq) {
 		int u_id = leaveConferenceReq.getId();
-		
+
 		// 참가자 ID가 방장 ID인지 체크
 		if (conferenceService.isOwner(u_id, conference_code)) {
 			conferenceService.endConferenceHistory(u_id, conference_code);
-		//회의록 제작
+			// 회의록 제작
 			conferenceService.makeChronicle(u_id, conference_code, leaveConferenceReq.getChronicleData());
 			try {
 				aspose.makeChronicle(leaveConferenceReq.getChronicleData());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		else
+		} else
 			conferenceService.leaveConferenceHistory(u_id, conference_code);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	
 }
