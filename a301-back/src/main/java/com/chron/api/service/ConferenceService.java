@@ -147,7 +147,8 @@ public class ConferenceService {
 		//MessageBody 요리하기
 		StringBuilder sb = new StringBuilder();
 		String MessageData = "";
-		if(chronicleData==null) ;
+		System.out.println(chronicleData);
+		if(chronicleData.isEmpty()) MessageData = "회의 기록이 없습니다.";
 		else {
 		for(int i=0; i<chronicleData.size();i++) {
 			sb.append(chronicleData.get(i).getName());
@@ -158,7 +159,7 @@ public class ConferenceService {
 		}
 //		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);
-		MessageData = sb.toString();
+		MessageData += sb.toString();
 		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data(MessageData)
 				.time(stamp.toString()).callStartTime(startTime).callEndTime(endTime).build();
 

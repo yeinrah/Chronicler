@@ -46,7 +46,8 @@ public class Aspose {
 		
 		StringBuilder sb = new StringBuilder();
 		String MessageData = "";
-		if(chronicleData == null);
+		System.out.println(chronicleData);
+		if(chronicleData == null) MessageData = "회의 기록이 없습니다.";
 		else {
 		for(int i=0; i<chronicleData.size();i++) {
 			sb.append(chronicleData.get(i).getName());
