@@ -6,7 +6,7 @@ if (window.location.hostname === 'localhost') {
 } else {
   url = `http://${window.location.hostname}/api`;
 }
-const destroySessionApi = axios.create({
+const destroyRoom = axios.create({
   // baseURL: `www.naver.com`,
   baseURL: url,
   timeout: 30000,
@@ -15,4 +15,4 @@ const destroySessionApi = axios.create({
     'access-token': accessToken,
   },
 });
-export default destroySessionApi;
+export default destroyRoom;
