@@ -442,6 +442,8 @@ const MeetingRoom = (props) => {
           idx === speechRecords.length - 2
       )
     );
+    console.log(typeof speechRecords);
+    console.log(typeof speechRecords[0]);
     setFinalRecords(
       speechRecords.filter(
         (item, idx) =>
@@ -463,7 +465,8 @@ const MeetingRoom = (props) => {
       )
     );
     console.log(finalRecords);
-    destroySessionApi();
+    // destroySessionApi();
+    leaveRoomApi();
     sendEndSession();
     // axios
     //   .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
