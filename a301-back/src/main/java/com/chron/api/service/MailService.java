@@ -1,16 +1,29 @@
 package com.chron.api.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+ 
 import com.chron.db.entity.Mail;
+import com.google.api.client.util.IOUtils;
 
 import lombok.AllArgsConstructor;
 
@@ -23,22 +36,30 @@ public class MailService {
 
 	private static final String FROM_ADDRESS = "chronicler321@gmail.com";
 
-	public void mailSend(String email, String nickname, HttpSession session) {
-//		2. 첨부 파일 있는 이메일 전송 처리
-//				session이 있어야 파일 첨부가 가능
-		sendAttach(email, nickname, session);
-//		try {
-//			MailHandler mailHandler = new MailHandler(javaMailSender);
-//			mailHandler.setTo(mail.getAddress());
-//			mailHandler.setSubject("회의록 전달드립니다.");
-//			String htmlContent = "<p>" + mail.getMessage() + "<p> <img src='cid:sample-img'>";
-//			mailHandler.setText(htmlContent, true);
-//			mailHandler.setAttach(mail.getFile().getOriginalFilename(), mail.getFile());
-//			mailHandler.setInline("sample-img", mail.getFile());
-//			mailHandler.send();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+	public void mailSend(Mail mail) {
+		try {
+			MailHandler mailHandler = new MailHandler(javaMailSender);
+			mailHandler.setTo(mail.getAddress());
+			mailHandler.setSubject("회의록 전달드립니다.");
+			String htmlContent = "<p>" + mail.getMessage() + "<p> <img src='cid:sample-img'>";
+			mailHandler.setText(htmlContent, true);
+			File file = new File("static/회의록_작성_완료!.docx");
+			System.out.println(file);
+			FileItem fileItem = new DiskFileItemFactory().createItem("static/회의록_작성_완료!.docx", Files.probeContentType(file.toPath()), false, file.getName());
+			fileItem.getOutputStream();
+//			try(InputStream in = new FileInputStream(file); OutputStream out = fileItem.getOutputStream()) {
+//			    in.transferTo(out);
+//			} catch (IOException e) {
+//			}
+			CommonsMultipartFile multipartFile = new CommonsMultipartFile( fileItem);
+			
+//			mailHandler.setAttach("Chronicler배경.PNG", multipartFile);//여기를 상대경로로 넣어주면 안되나?
+			mailHandler.setAttach("Chronicler배경.PNG", multipartFile);//여기를 상대경로로 넣어주면 안되나?
+//			mailHandler.setInline("sample-img", mail.getFile());//이건뭔지모름
+			mailHandler.send();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void sendAttach(String email, String nickname, HttpSession session) {

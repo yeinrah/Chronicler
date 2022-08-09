@@ -105,8 +105,8 @@ public class ConferenceController {
 	}
 
 	@PostMapping("/email")
-	public void execMail(@RequestBody Mail mail, HttpSession session) {
-		mailService.mailSend(mail.getAddress(), mail.getNickname(), session);
+	public void execMail(@RequestBody Mail mail) {
+		mailService.mailSend(mail);
 	}
 
 }
