@@ -640,7 +640,7 @@ const MeetingRoom = (props) => {
             </Typography>
             <br />
             <form className="form-group" onSubmit={joinSession}>
-              <p>
+              <div>
                 <Typography variant="label" component={"h2"}>
                   Participant:&nbsp;
                   <TextField
@@ -654,8 +654,8 @@ const MeetingRoom = (props) => {
                     size="small"
                   />
                 </Typography>
-              </p>
-              <p>
+              </div>
+              <div>
                 <Typography variant="label" component={"h2"}>
                   Session:&nbsp;
                   <TextField
@@ -670,8 +670,8 @@ const MeetingRoom = (props) => {
                     size="small"
                   />
                 </Typography>
-              </p>
-              <p className={styles["text-center"]}>
+              </div>
+              <div className={styles["text-center"]}>
                 <input
                   className={styles.btn}
                   name="commit"
@@ -687,7 +687,7 @@ const MeetingRoom = (props) => {
                   type="button"
                   value="Back"
                 />
-              </p>
+              </div>
             </form>
           </div>
         </div>
