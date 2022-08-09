@@ -33,7 +33,7 @@ const MyPage = () => {
   const [myPhone, setMyPhone] = useState<any>();
   const [myNickname, setMyNickname] = useState<any>();
   const [prevMeetingList, setPrevMeetingList] = useState<
-    { title: string; date: Date }[]
+    { title: any; date: any }[]
   >([
     { title: '회의1', date: new Date() },
     { title: '회의2', date: new Date() },
@@ -56,6 +56,7 @@ const MyPage = () => {
   const inputPhoneChange = useRef<any>();
   const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
+  const [minuteList, setMinuteList] = useState([]);
   const swalWithBootstrapButtons: any = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -169,11 +170,23 @@ const MyPage = () => {
       .then((info) => {
         console.log(info);
         console.log('chkeck!!!');
-        if (!info.data.image) info.data.image = 0;
-        setMyEmail(info.data.email);
-        setMyNickname(info.data.nickname);
-        setMyPhone(info.data.phone);
-        setMyProfileNum(info.data.image);
+        if (!info.data.user.image) info.data.user.image = 0;
+        setMyEmail(info.data.user.email);
+        setMyNickname(info.data.user.nickname);
+        setMyPhone(info.data.user.phone);
+        setMyProfileNum(info.data.user.image);
+        let nowMinute: any = [];
+        info.data.history.map((historyData: any) => {
+          if (historyData.userId === nowUserInfo.id) {
+            if (historyData.action === 2 || historyData.action === 3) {
+              nowMinute.push({
+                title: historyData.chId,
+                date: historyData.insertedTime,
+              });
+            }
+          }
+        });
+        setPrevMeetingList(nowMinute);
       });
   };
   useEffect(() => {
@@ -187,6 +200,9 @@ const MyPage = () => {
     }
     loadUserInfo();
   }, []);
+  // useEffect(() => {
+  //   userInfoSearch.get<any>('userInfo/mypge/${now')
+  // }, [myEmail]);
   const MypageStack = styled(Stack)({
     display: 'flex',
     justifyContent: 'center',
