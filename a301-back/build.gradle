@@ -51,7 +51,7 @@ dependencies {
     // google stt
     implementation platform('com.google.cloud:libraries-bom:26.0.0')
 	implementation 'com.google.cloud:google-cloud-speech'
-	
+
 	// aspose
 	implementation fileTree(dir: 'asposejar', include: ['*.jar'])
 }
