@@ -8,7 +8,7 @@ import {
   ChatBlock,
   UserVideoComponent,
 } from "../../Containers";
-import destroySessionApi from "../../Api/destroySessionApi";
+import destroyRoom from "../../Api/destroyRoom";
 import { Typography, TextField, Stack, Alert } from "@mui/material";
 import { Abc } from "@mui/icons-material";
 import { useRecoilState } from "recoil";
@@ -442,6 +442,8 @@ const MeetingRoom = (props) => {
           idx === speechRecords.length - 2
       )
     );
+    console.log(typeof speechRecords);
+    console.log(typeof speechRecords[0]);
     setFinalRecords(
       speechRecords.filter(
         (item, idx) =>
@@ -462,8 +464,28 @@ const MeetingRoom = (props) => {
           idx === speechRecords.length - 2
       )
     );
-    console.log(finalRecords);
-    destroySessionApi();
+    // console.log(finalRecords);
+    destroySessionApi(
+      speechRecords.filter(
+        (item, idx) =>
+          (idx < speechRecords.length - 1 &&
+            item.text.length > 2 &&
+            !speechRecords[idx + 1].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 1].text[0] === item.text[0] &&
+              speechRecords[idx + 1].text[1] === item.text[1]
+            ) &&
+            idx < speechRecords.length - 2 &&
+            !speechRecords[idx + 2].text.includes(item.text) &&
+            !(
+              speechRecords[idx + 2].text[0] === item.text[0] &&
+              speechRecords[idx + 2].text[1] === item.text[1]
+            )) ||
+          idx === speechRecords.length - 1 ||
+          idx === speechRecords.length - 2
+      )
+    );
+    // leaveRoomApi();
     sendEndSession();
     axios
       .delete(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + mySessionId, {
@@ -594,10 +616,10 @@ const MeetingRoom = (props) => {
         console.log(e);
       });
   };
-  const destroySessionApi = () => {
-    destroySessionApi
+  const destroySessionApi = (data) => {
+    destroyRoom
       .put(`/conference/${mySessionId}`, {
-        // chronicleData: ,
+        chronicleData: data,
         id: myUid.id,
       })
       .then(() => {
