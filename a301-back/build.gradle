@@ -17,6 +17,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -68,7 +69,8 @@ dependencies {
 	// https://mvnrepository.com/artifact/javax.mail/javax.mail-api
 	implementation("javax.mail:javax.mail-api:1.6.2")
 	
-	
+	// komoran
+	implementation 'com.github.shin285:KOMORAN:3.3.4'
 }
 
 tasks.named('test') {
