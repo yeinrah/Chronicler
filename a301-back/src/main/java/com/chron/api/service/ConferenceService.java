@@ -160,6 +160,7 @@ public class ConferenceService {
 //		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);
 		MessageData += sb.toString();
+//		String data = new String(, "UTF-8");
 		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data(MessageData)
 				.time(stamp.toString()).callStartTime(startTime).callEndTime(endTime).build();
 

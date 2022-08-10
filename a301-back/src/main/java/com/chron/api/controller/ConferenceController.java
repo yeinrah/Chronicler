@@ -1,5 +1,9 @@
 package com.chron.api.controller;
 
+import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +18,13 @@ import com.chron.api.request.EnterUserReq;
 import com.chron.api.request.LeaveConferenceReq;
 import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.service.ConferenceService;
+import com.chron.api.service.MailService;
+import com.chron.api.service.UserService;
 import com.chron.db.entity.Conference;
+import com.chron.db.entity.Mail;
+import com.chron.db.entity.User;
 import com.chron.docx.Aspose;
+import com.chron.email.EmailSender;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,12 +37,20 @@ import io.swagger.annotations.ApiResponses;
 public class ConferenceController {
 
 	private ConferenceService conferenceService;
+	private MailService mailService;
 	private Aspose aspose;
+	private UserService userService;
+	EmailSender emailSender;
+	HttpSession session;
+	
 
 	@Autowired
-	public ConferenceController(ConferenceService conferenceService, Aspose aspose) {
+	public ConferenceController(ConferenceService conferenceService, Aspose aspose, MailService mailService, EmailSender emailSender, UserService userService) {
 		this.conferenceService = conferenceService;
 		this.aspose = aspose;
+		this.mailService = mailService;
+		this.emailSender = emailSender;
+		this.userService = userService;
 	}
 
 	// 회의 생성
@@ -86,7 +103,11 @@ public class ConferenceController {
 			// 회의록 제작
 			conferenceService.makeChronicle(u_id, conference_code, leaveConferenceReq.getChronicleData());
 			try {
+				HashMap<String, Object> user = userService.findUser(u_id);
+				User user2 = (User)user.get("user");
+
 				aspose.makeChronicle(leaveConferenceReq.getChronicleData());
+				emailSender.sendEmailAttachment(user2.getEmail());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -95,5 +116,6 @@ public class ConferenceController {
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+
 
 }

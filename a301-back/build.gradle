@@ -6,6 +6,7 @@ plugins {
 
 group = 'com.chron'
 version = '0.0.1-SNAPSHOT'
+
 sourceCompatibility = '1.8'
 
 configurations {
@@ -54,6 +55,20 @@ dependencies {
 
 	// aspose
 	implementation fileTree(dir: 'asposejar', include: ['*.jar'])
+
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.2'
+	//Thanks for using https://jar-download.com
+	
+	// https://mvnrepository.com/artifact/com.liferay/org.apache.commons.fileupload
+	implementation("com.liferay:org.apache.commons.fileupload:1.2.2.LIFERAY-PATCHED-1")
+
+	// https://mvnrepository.com/artifact/javax.mail/javax.mail-api
+	implementation("javax.mail:javax.mail-api:1.6.2")
+	
+	
 }
 
 tasks.named('test') {

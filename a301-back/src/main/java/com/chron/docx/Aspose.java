@@ -1,11 +1,9 @@
 package com.chron.docx;
-import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
 import com.aspose.words.*;
 import com.chron.db.entity.Message;
-import com.chron.db.entity.MessageBody;
 import java.util.List;
 @Component
 public class Aspose {
@@ -70,6 +68,7 @@ public class Aspose {
 
 		
 		//회의록 작성 부분 네이밍 = 방장 닉네임 + inserted time(날짜만)로 동적으로 변경해주기
+		
 		doc.save("회의록_작성_완료!.docx");
 	}
 }
