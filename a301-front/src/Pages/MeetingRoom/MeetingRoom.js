@@ -419,8 +419,8 @@ const MeetingRoom = (props) => {
     setPartcipant([]);
   };
   const destroySession = () => {
-    console.log("실행되나되나되나되나되나");
-    console.log(speechRecords);
+    // console.log("실행되나되나되나되나되나");
+    // console.log(speechRecords);
     console.log(
       speechRecords.filter(
         (item, idx) =>
@@ -441,49 +441,63 @@ const MeetingRoom = (props) => {
           idx === speechRecords.length - 2
       )
     );
-    console.log(typeof speechRecords);
-    console.log(typeof speechRecords[0]);
-    setFinalRecords(
-      speechRecords.filter(
-        (item, idx) =>
-          (idx < speechRecords.length - 1 &&
-            item.text.length > 2 &&
-            !speechRecords[idx + 1].text.includes(item.text) &&
-            !(
-              speechRecords[idx + 1].text[0] === item.text[0] &&
-              speechRecords[idx + 1].text[1] === item.text[1]
-            ) &&
-            idx < speechRecords.length - 2 &&
-            !speechRecords[idx + 2].text.includes(item.text) &&
-            !(
-              speechRecords[idx + 2].text[0] === item.text[0] &&
-              speechRecords[idx + 2].text[1] === item.text[1]
-            )) ||
-          idx === speechRecords.length - 1 ||
-          idx === speechRecords.length - 2
-      )
-    );
+    // console.log(typeof speechRecords);
+    // console.log(typeof speechRecords[0]);
+    // setFinalRecords(
+    //   speechRecords.filter(
+    //     (item, idx) =>
+    //       (idx < speechRecords.length - 1 &&
+    //         item.text.length > 2 &&
+    //         !speechRecords[idx + 1].text.includes(item.text) &&
+    //         !(
+    //           speechRecords[idx + 1].text[0] === item.text[0] &&
+    //           speechRecords[idx + 1].text[1] === item.text[1]
+    //         ) &&
+    //         idx < speechRecords.length - 2 &&
+    //         !speechRecords[idx + 2].text.includes(item.text) &&
+    //         !(
+    //           speechRecords[idx + 2].text[0] === item.text[0] &&
+    //           speechRecords[idx + 2].text[1] === item.text[1]
+    //         )) ||
+    //       idx === speechRecords.length - 1 ||
+    //       idx === speechRecords.length - 2
+    //   )
+    // );
+    const mySession = session;
+
+    if (mySession) {
+      destroySessionApi(
+        speechRecords.filter(
+          (item, idx) =>
+            (idx < speechRecords.length - 1 &&
+              item.text.length > 2 &&
+              !speechRecords[idx + 1].text.includes(item.text) &&
+              !(
+                speechRecords[idx + 1].text[0] === item.text[0] &&
+                speechRecords[idx + 1].text[1] === item.text[1]
+              ) &&
+              idx < speechRecords.length - 2 &&
+              !speechRecords[idx + 2].text.includes(item.text) &&
+              !(
+                speechRecords[idx + 2].text[0] === item.text[0] &&
+                speechRecords[idx + 2].text[1] === item.text[1]
+              )) ||
+            idx === speechRecords.length - 1 ||
+            idx === speechRecords.length - 2
+        )
+      );
+      mySession.disconnect();
+    }
+    setOV(null);
+    setSession(undefined);
+    setSubscribers([]);
+    setMySessionId(mySessionId);
+    setMyUserName("Participant" + Math.floor(Math.random() * 10000));
+    setMainStreamManager(undefined);
+    setPublisher(undefined);
+    setPartcipant([]);
     // console.log(finalRecords);
-    destroySessionApi(
-      speechRecords.filter(
-        (item, idx) =>
-          (idx < speechRecords.length - 1 &&
-            item.text.length > 2 &&
-            !speechRecords[idx + 1].text.includes(item.text) &&
-            !(
-              speechRecords[idx + 1].text[0] === item.text[0] &&
-              speechRecords[idx + 1].text[1] === item.text[1]
-            ) &&
-            idx < speechRecords.length - 2 &&
-            !speechRecords[idx + 2].text.includes(item.text) &&
-            !(
-              speechRecords[idx + 2].text[0] === item.text[0] &&
-              speechRecords[idx + 2].text[1] === item.text[1]
-            )) ||
-          idx === speechRecords.length - 1 ||
-          idx === speechRecords.length - 2
-      )
-    );
+
     // leaveRoomApi();
     sendEndSession();
     // axios
