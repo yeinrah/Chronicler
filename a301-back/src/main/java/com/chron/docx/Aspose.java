@@ -16,7 +16,7 @@ import com.chron.db.entity.Message;
 @Component
 public class Aspose {
 
-	public void makeChronicle(List<Message> chronicleData) throws Exception {
+	public void makeChronicle(List<Message> chronicleData, String wordpath) throws Exception {
 		Document doc = new Document();
 
 		Table table = new Table(doc);
@@ -61,16 +61,10 @@ public class Aspose {
 //		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);
 		MessageData += sb.toString();
-
-		// WordCloud 모듈 호출
-		
-		
-		// 이미지 생성 (프론트에서 대화 받은 걸 워드 클라우드 처리하기 -> 이미지)
-		
 		
 		// 이미지를 파일에 붙이기
 		DocumentBuilder builder = new DocumentBuilder(doc);
-		builder.insertImage("screenshot.png");
+		builder.insertImage(wordpath);
 				
 		
 		Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();

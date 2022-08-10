@@ -44,10 +44,10 @@ public class ConferenceController {
 	private UserService userService;
 	EmailSender emailSender;
 	HttpSession session;
-	
 
 	@Autowired
-	public ConferenceController(ConferenceService conferenceService, WordCloud wordcloud, Aspose aspose, MailService mailService, EmailSender emailSender, UserService userService) {
+	public ConferenceController(ConferenceService conferenceService, WordCloud wordcloud, Aspose aspose,
+			MailService mailService, EmailSender emailSender, UserService userService) {
 		this.conferenceService = conferenceService;
 		this.wordcloud = wordcloud;
 		this.aspose = aspose;
@@ -107,10 +107,11 @@ public class ConferenceController {
 			conferenceService.makeChronicle(u_id, conference_code, leaveConferenceReq.getChronicleData());
 			try {
 				HashMap<String, Object> user = userService.findUser(u_id);
-				User user2 = (User)user.get("user");
+				User user2 = (User) user.get("user");
 
-				wordcloud.makeJFrame();
-				aspose.makeChronicle(leaveConferenceReq.getChronicleData());
+				String wordpath = wordcloud.makeJFrame();
+				System.out.println("출력해라" + wordpath);
+				aspose.makeChronicle(leaveConferenceReq.getChronicleData(), wordpath);
 				emailSender.sendEmailAttachment(user2.getEmail());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -120,6 +121,5 @@ public class ConferenceController {
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-
 
 }
