@@ -1,14 +1,22 @@
 package com.chron.docx;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
-import com.aspose.words.*;
+import com.aspose.words.Cell;
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.Paragraph;
+import com.aspose.words.Row;
+import com.aspose.words.Run;
+import com.aspose.words.Table;
 import com.chron.db.entity.Message;
-import java.util.List;
+
 @Component
 public class Aspose {
-	
-	public void makeChronicle(List<Message> chronicleData) throws Exception{
+
+	public void makeChronicle(List<Message> chronicleData) throws Exception {
 		Document doc = new Document();
 
 //		Comment comment = new Comment(doc);
@@ -16,7 +24,7 @@ public class Aspose {
 //		comment.setInitial("JD");
 //		comment.setDateTime(new Date());
 //		comment.setText("Quisque fringilla leo.");
-		
+
 		Table table = new Table(doc);
 //		table.setAlignment(TableAlignment.CENTER);	//table 가운데 정렬
 		doc.getFirstSection().getBody().appendChild(table);
@@ -26,7 +34,7 @@ public class Aspose {
 		// the table has at least one row, cell, and paragraph.
 		Row firstRow = new Row(doc);
 		Row secondRow = new Row(doc);
-		
+
 		table.appendChild(firstRow);
 		table.appendChild(secondRow);
 
@@ -41,22 +49,32 @@ public class Aspose {
 		// Add text to the first call in the first row of the table.
 		Run run = new Run(doc, "회의명 : CHRONICLER");
 		paragraph.appendChild(run);
-		
+
 		StringBuilder sb = new StringBuilder();
 		String MessageData = "";
 		System.out.println(chronicleData);
-		if(chronicleData.isEmpty()) MessageData = "회의 기록이 없습니다.";
+		if (chronicleData.isEmpty())
+			MessageData = "회의 기록이 없습니다.";
 		else {
-		for(int i=0; i<chronicleData.size();i++) {
-			sb.append(chronicleData.get(i).getName());
-			sb.append(" : ");
-			sb.append(chronicleData.get(i).getText());
-			sb.append("\r\n");
+			for (int i = 0; i < chronicleData.size(); i++) {
+				sb.append("\r\n");
+				sb.append(chronicleData.get(i).getName());
+				sb.append(" : ");
+				sb.append(chronicleData.get(i).getText());
+				sb.append("\r\n");
 			}
 		}
 //		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);
 		MessageData += sb.toString();
+
+		// 이미지 생성 (프론트에서 대화 받은 걸 워드 클라우드 처리하기 -> 이미지)
+		
+		
+		// 이미지를 파일에 붙이기
+		DocumentBuilder builder = new DocumentBuilder(doc);
+		builder.insertImage("rr.jpg");
+				
 		
 		Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
 //		para.appendChild(new CommentRangeStart(doc, comment.getId()));
@@ -66,9 +84,8 @@ public class Aspose {
 
 //		comment.addReply("Jane Doe", "JD", new Date(), "Pellentesque vel sapien justo.");
 
-		
-		//회의록 작성 부분 네이밍 = 방장 닉네임 + inserted time(날짜만)로 동적으로 변경해주기
-		
+		// 회의록 작성 부분 네이밍 = 방장 닉네임 + inserted time(날짜만)로 동적으로 변경해주기
+
 		doc.save("회의록_작성_완료!.docx");
 	}
 }
