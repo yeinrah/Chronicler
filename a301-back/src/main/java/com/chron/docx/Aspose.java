@@ -19,12 +19,6 @@ public class Aspose {
 	public void makeChronicle(List<Message> chronicleData) throws Exception {
 		Document doc = new Document();
 
-//		Comment comment = new Comment(doc);
-//		comment.setAuthor("John Doe");
-//		comment.setInitial("JD");
-//		comment.setDateTime(new Date());
-//		comment.setText("Quisque fringilla leo.");
-
 		Table table = new Table(doc);
 //		table.setAlignment(TableAlignment.CENTER);	//table 가운데 정렬
 		doc.getFirstSection().getBody().appendChild(table);
@@ -39,7 +33,7 @@ public class Aspose {
 		table.appendChild(secondRow);
 
 		Cell firstCell = new Cell(doc);
-		Cell secondCell = new Cell(doc);
+//		Cell secondCell = new Cell(doc);
 		firstRow.appendChild(firstCell);
 //		firstRow.appendChild(secondCell);
 
@@ -68,24 +62,22 @@ public class Aspose {
 		System.out.println(sb);
 		MessageData += sb.toString();
 
+		// WordCloud 모듈 호출
+		
+		
 		// 이미지 생성 (프론트에서 대화 받은 걸 워드 클라우드 처리하기 -> 이미지)
 		
 		
 		// 이미지를 파일에 붙이기
 		DocumentBuilder builder = new DocumentBuilder(doc);
-		builder.insertImage("rr.jpg");
+		builder.insertImage("screenshot.png");
 				
 		
 		Paragraph para = doc.getFirstSection().getBody().getFirstParagraph();
-//		para.appendChild(new CommentRangeStart(doc, comment.getId()));
 		para.appendChild(new Run(doc, MessageData));
-//		para.appendChild(new CommentRangeEnd(doc, comment.getId()));
-//		para.appendChild(comment);
-
-//		comment.addReply("Jane Doe", "JD", new Date(), "Pellentesque vel sapien justo.");
 
 		// 회의록 작성 부분 네이밍 = 방장 닉네임 + inserted time(날짜만)로 동적으로 변경해주기
-
 		doc.save("회의록_작성_완료!.docx");
 	}
+
 }

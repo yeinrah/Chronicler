@@ -25,6 +25,7 @@ import com.chron.db.entity.Mail;
 import com.chron.db.entity.User;
 import com.chron.docx.Aspose;
 import com.chron.email.EmailSender;
+import com.chron.wordcloud.WordCloud;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,14 +40,16 @@ public class ConferenceController {
 	private ConferenceService conferenceService;
 	private MailService mailService;
 	private Aspose aspose;
+	private WordCloud wordcloud;
 	private UserService userService;
 	EmailSender emailSender;
 	HttpSession session;
 	
 
 	@Autowired
-	public ConferenceController(ConferenceService conferenceService, Aspose aspose, MailService mailService, EmailSender emailSender, UserService userService) {
+	public ConferenceController(ConferenceService conferenceService, WordCloud wordcloud, Aspose aspose, MailService mailService, EmailSender emailSender, UserService userService) {
 		this.conferenceService = conferenceService;
+		this.wordcloud = wordcloud;
 		this.aspose = aspose;
 		this.mailService = mailService;
 		this.emailSender = emailSender;
@@ -106,6 +109,7 @@ public class ConferenceController {
 				HashMap<String, Object> user = userService.findUser(u_id);
 				User user2 = (User)user.get("user");
 
+				wordcloud.makeJFrame();
 				aspose.makeChronicle(leaveConferenceReq.getChronicleData());
 				emailSender.sendEmailAttachment(user2.getEmail());
 			} catch (Exception e) {
