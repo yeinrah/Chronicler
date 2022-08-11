@@ -10,8 +10,10 @@ import java.util.List;
 @Component
 public class Aspose {
 	
-	public void makeChronicle(List<Message> chronicleData, String wordpath) throws Exception{
-
+	public void makeChronicle(List<Message> chronicleData, String wordpath, String date, String participants) throws Exception{
+		String timeData = date;
+		String YYMMDD = timeData.substring(0, 10);
+		String time = timeData.substring(11, 19);
 		Document doc = new Document();
 		DocumentBuilder builder = new DocumentBuilder(doc);
 		
@@ -23,7 +25,14 @@ public class Aspose {
         builder.getParagraphFormat().setStyle(titleStyle);
         builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
 		//여기 닉네임 받기
-        builder.write("~~님의 회의입니다. \r\r");
+        String bossName = "";
+        int index = participants.indexOf(",");
+        
+        if(index == -1)bossName = participants;
+        else {
+        	bossName = participants.substring(0, index);        	
+        }
+        builder.write(bossName + " 님의 회의입니다. \r\r");
 		
 		Style style2 = doc.getStyles().add(StyleType.PARAGRAPH, "info");
         style2.getFont().setSize(22.0);
@@ -31,9 +40,9 @@ public class Aspose {
         
         //여기 각 데이터들 받아서 넣어주기
         builder.getParagraphFormat().setStyle(style2);
-        builder.write("날짜 : "+" 12월 14일\r\r\r");
-        builder.write("시간 : "+" 벌써 12시\r\r\r");
-        builder.write("참석자 :" + " 이순신\r\r\r");
+        builder.write("날짜 : "+YYMMDD+"\r\r\r");
+        builder.write("시간 : "+time+"\r\r\r");
+        builder.write("참석자 :" + participants);
         builder.insertBreak(BreakType.PAGE_BREAK);
 		
 		builder.insertImage(wordpath);

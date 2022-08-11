@@ -166,5 +166,35 @@ public class ConferenceService {
 
 		return chronicleRepo.save(chronicle);
 	}
-
+	//회의록 시작시간 가져오는 로직
+	public String getInsertedTime(int u_id, String conference_code) {
+		Conference conference = conferenceRepository.findOneByConferenceCode(conference_code);
+		int confId = conference.getCId();
+		System.out.println("conference_code : "+conference_code);
+		System.out.println("confId : "+confId);
+		System.out.println("u_id : "+u_id);
+		ConferenceHistory confhistory = conferenceHistoryRepo.findOneByCIdAndUserIdAndAction(confId,u_id,  0);
+		String time = confhistory.getInsertedTime();
+		System.out.println("time : " + time);
+		return time;
+	}
+	//참가자 가져오는 로직
+	public String getParticipants(String conference_code) {
+		String participants = "";
+		Conference conference = conferenceRepository.findOneByConferenceCode(conference_code);
+		int cid = conference.getCId();
+		List<UserConference> list = userConferenceRepo.findConferenceBycId(cid);
+		for(int i=0; i<list.size();i++) {
+			int uid = list.get(i).getUserId();
+			User user = userRepository.findOneById(uid);
+			participants+=user.getNickname();
+			if(i==list.size()-1)break;
+			if(list.size()!=1) {
+				participants+=", ";				
+			}
+			
+		}
+	
+		return participants;
+	}
 }
