@@ -111,7 +111,13 @@ public class ConferenceController {
 
 				String wordpath = wordcloud.makeJFrame();
 				System.out.println("출력해라" + wordpath);
-				aspose.makeChronicle(leaveConferenceReq.getChronicleData(), wordpath);
+				
+				//참가자와 시간을 가져오자 먼저 시간이 쉬우니까 시간부터
+				String time = conferenceService.getInsertedTime(u_id, conference_code);
+				System.out.println(time);
+				//참가자 가져오기
+				String participants = conferenceService.getParticipants(conference_code);
+				aspose.makeChronicle(leaveConferenceReq.getChronicleData(), wordpath, time, participants);
 				emailSender.sendEmailAttachment(user2.getEmail());
 			} catch (Exception e) {
 				e.printStackTrace();
