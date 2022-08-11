@@ -26,9 +26,7 @@ const MeetingRoom = (props) => {
   const [mySessionId, setMySessionId] = useState(
     new Date().getTime().toString(36)
   );
-  const [myUserName, setMyUserName] = useState(
-    "Participant" + Math.floor(Math.random() * 10000)
-  );
+  const [myUserName, setMyUserName] = useState("");
   const [session, setSession] = useState(undefined);
   const [mainStreamManager, setMainStreamManager] = useState(undefined);
   const [publisher, setPublisher] = useState(undefined);
@@ -155,6 +153,7 @@ const MeetingRoom = (props) => {
   }, [speechRecord]);
 
   useEffect(() => {
+    setMyUserName(myUid.nickname);
     listenScriber();
   }, [session]);
   useEffect(() => {
@@ -409,11 +408,13 @@ const MeetingRoom = (props) => {
       leaveRoomApi();
       mySession.disconnect();
     }
+    setMicOn(false);
+    setCameraOn(false);
     setOV(null);
     setSession(undefined);
     setSubscribers([]);
     setMySessionId(mySessionId);
-    setMyUserName("Participant" + Math.floor(Math.random() * 10000));
+    setMyUserName(myUid.nickname);
     setMainStreamManager(undefined);
     setPublisher(undefined);
     setPartcipant([]);
@@ -493,7 +494,7 @@ const MeetingRoom = (props) => {
     setSession(undefined);
     setSubscribers([]);
     setMySessionId(mySessionId);
-    setMyUserName("Participant" + Math.floor(Math.random() * 10000));
+    setMyUserName(myUid.nickname);
     setMainStreamManager(undefined);
     setPublisher(undefined);
     setPartcipant([]);
@@ -661,6 +662,7 @@ const MeetingRoom = (props) => {
                     className="form-control"
                     type="text"
                     id="userName"
+                    disabled
                     value={myUserName}
                     onChange={handleChangeUserName}
                     required

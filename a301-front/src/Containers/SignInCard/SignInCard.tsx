@@ -54,7 +54,7 @@ const SignInCard = () => {
         setNowUserInfo({
           id: item.data.loginUser.id,
           email: item.data.loginUser.email,
-          nickname: item.data.loginUser.email,
+          nickname: item.data.loginUser.nickname,
           image: item.data.loginUser.image,
           phone: item.data.loginUser.phone,
         });

@@ -18,6 +18,7 @@ const MeetingTable = (props: any) => {
         <TableHead>
           <TableRow>
             <TableCell>회의 넘버</TableCell>
+            <TableCell align="right">시작시간</TableCell>
             <TableCell align="right">종료시간</TableCell>
             {/* <TableCell align="right">Fat&nbsp;(g)</TableCell>
             <TableCell align="right">Carbs&nbsp;(g)</TableCell>
@@ -33,7 +34,8 @@ const MeetingTable = (props: any) => {
               <TableCell component="th" scope="row">
                 {row.title}
               </TableCell>
-              <TableCell align="right">{String(row.date)}</TableCell>
+              <TableCell align="right">{String(row.startDate)}</TableCell>
+              <TableCell align="right">{String(row.endDate)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

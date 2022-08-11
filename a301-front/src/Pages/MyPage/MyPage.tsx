@@ -33,10 +33,10 @@ const MyPage = () => {
   const [myPhone, setMyPhone] = useState<any>();
   const [myNickname, setMyNickname] = useState<any>();
   const [prevMeetingList, setPrevMeetingList] = useState<
-    { title: any; date: any }[]
+    { title: any; startDate: any; endDate: any }[]
   >([
-    { title: '회의1', date: new Date() },
-    { title: '회의2', date: new Date() },
+    { title: '회의1', startDate: new Date(), endDate: new Date() },
+    { title: '회의2', startDate: new Date(), endDate: new Date() },
   ]);
   const navigate = useNavigate();
   const [nickNameModalOpen, setNickNameModalOpen] = useState(false);
@@ -176,14 +176,48 @@ const MyPage = () => {
         setMyPhone(info.data.user.phone);
         setMyProfileNum(info.data.user.image);
         let nowMinute: any = [];
-        info.data.history.map((historyData: any) => {
+        info.data.history.map((historyData: any, index: any) => {
           if (historyData.userId === nowUserInfo.id) {
+            // let nowData = {
+            //   title: 0,
+            //   startDate: null,
+            //   endDate: null,
+            // };
+            // if (historyData.action === 0 || historyData.action === 1) {
+            //   nowData.title = historyData.chId;
+            //   nowData.startDate = historyData.insertedTime;
+            // }
+            let start;
             if (historyData.action === 2 || historyData.action === 3) {
+              // info.data.history.map((searchHistroy: any, index2: any) => {
+              //   if (
+              //     searchHistroy.cid === historyData.cid &&
+              //     (searchHistroy.action === 0 || searchHistroy.action === 1) &&
+              //     index2 < index
+              //   ) {
+              //     start = searchHistroy.insertedTime;
+              //     console.log(searchHistroy);
+              //     console.log(historyData);
+              //   }
+              // });
+              for (let i = info.data.history.length - 1; i >= 0; i--) {
+                let data = info.data.history[i];
+                if (
+                  data.cid === historyData.cid &&
+                  (data.action === 0 || data.action === 1)
+                ) {
+                  start = data.insertedTime;
+                }
+              }
               nowMinute.push({
                 title: historyData.chId,
-                date: historyData.insertedTime,
+                startDate: start,
+                endDate: historyData.insertedTime,
               });
+              // nowData.title = historyData.chId;
+              // nowData.endDate = historyData.insertedTime;
             }
+            // nowMinute.push(nowData);
           }
         });
         setPrevMeetingList(nowMinute);
