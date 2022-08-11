@@ -109,9 +109,10 @@ public class ConferenceController {
 				HashMap<String, Object> user = userService.findUser(u_id);
 				User user2 = (User) user.get("user");
 
-				String wordpath = wordcloud.makeJFrame();
+				wordcloud.makeWordCloud(leaveConferenceReq.getChronicleData());
+
+				String wordpath = wordcloud.makeJFrame(leaveConferenceReq.getChronicleData());
 				System.out.println("출력해라" + wordpath);
-				
 				//참가자와 시간을 가져오자 먼저 시간이 쉬우니까 시간부터
 				String time = conferenceService.getInsertedTime(u_id, conference_code);
 				System.out.println(time);

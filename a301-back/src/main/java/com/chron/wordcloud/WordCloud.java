@@ -11,7 +11,10 @@ import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -19,26 +22,77 @@ import javax.swing.JFrame;
 
 import org.springframework.stereotype.Component;
 
+import com.chron.db.entity.Message;
+import com.chron.komoran.KomoranSearch;
 import com.chron.wordcloud.image.CloudImageGenerator;
 import com.chron.wordcloud.words.StringProcessor;
 
 @Component
 public class WordCloud {
-	public static final int WIDTH = 1200;
-	public static final int HEIGHT = 800;
-	public static final int PADDING = 30;
+	private static final int WIDTH = 1200;
+	private static final int HEIGHT = 800;
+	private static final int PADDING = 30;
 
-	public static final String TEXT = "korean_test.txt";
-	public static final String FILTER = "korean_filtering.txt";
+//	private static final String TEXT = "korean_test.txt";
+	private static final String FILTER = "korean_filtering.txt";
 
-	public String makeJFrame() throws Exception {
+	// wordCloud 생성하기
+	public HashMap<String, List<String>> makeWordCloud(List<Message> chronicleData) throws Exception {
+
+		KomoranSearch KS = new KomoranSearch();
+		HashMap<String, List<String>> items = new HashMap<>();
+
+		for (int i = 0; i < chronicleData.size(); i++) {
+			List<String> ls = KS.makeKomoran(chronicleData.get(i).getText());
+
+			System.out.println("이것은 ls" + ls);
+
+			// 1. 참석자 이름이 items에 있을 때,
+			if (items.containsKey(chronicleData.get(i).getName())) {
+				for (int j = 0; j < ls.size(); j++) {
+					items.get(chronicleData.get(i).getName()).add(ls.get(j));
+				}
+			}
+			// 2. 참석자 이름이 items에 없을 때,
+			else {
+				items.put(chronicleData.get(i).getName(), ls);
+			}
+
+			System.out.println("이름 출력" + items.get(chronicleData.get(i).getName()));
+		}
+		return items;
+	}
+
+	// 전체를 스트링으로 만들기
+	public String listToStrTotal(List<Message> chronicleData) {
+		KomoranSearch KS = new KomoranSearch();
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 0; i < chronicleData.size(); i++) {
+			List<String> ls = KS.makeKomoran(chronicleData.get(i).getText());
+			for (int j = 0; j < ls.size(); j++) {
+				sb.append(ls.get(j)).append(" ");
+			}
+		}
+		System.out.println("투스트링 : "+sb.toString());
+		return sb.toString();
+	}
+
+	// 이름
+
+	// 텍스트
+
+	public String makeJFrame(List<Message> chronicleData) throws Exception {
+
 		JFrame frame = new JFrame("Word Cloud");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationByPlatform(true);
 		frame.pack();
 		Insets insets = frame.getInsets();
 		frame.setSize(calcScreenSize(insets));
-		StringProcessor strProcessor = new StringProcessor(readFile(TEXT), filteringList(FILTER));
+		StringProcessor strProcessor = new StringProcessor(listToStrTotal(chronicleData), filteringList(FILTER));
+//		StringProcessor strProcessor = new StringProcessor(readFile(TEXT), filteringList(FILTER));
+
 		CloudImageGenerator generator = new CloudImageGenerator(WIDTH, HEIGHT, PADDING);
 		frame.setContentPane(new CloudViewer(generator.generateImage(strProcessor, System.currentTimeMillis())));
 		frame.setVisible(true);
@@ -61,7 +115,6 @@ public class WordCloud {
 				return temp.getAbsolutePath();
 			} else
 				System.out.println("false");
-
 			// Delete temp file when program exits
 //            temp.deleteOnExit();
 		} catch (IOException ioe) {
@@ -85,7 +138,7 @@ public class WordCloud {
 	 * This function generates a list of words to be filtered when a cloud is
 	 * generated
 	 */
-	public HashSet<String> filteringList(String path) throws IOException {
+	private static HashSet<String> filteringList(String path) throws IOException {
 		HashSet<String> filter = new HashSet<String>();
 		Scanner scan = new Scanner(new File(path));
 		while (scan.hasNext()) {
@@ -94,7 +147,7 @@ public class WordCloud {
 		return filter;
 	}
 
-	public Dimension calcScreenSize(Insets insets) {
+	private static Dimension calcScreenSize(Insets insets) {
 		int width = insets.left + insets.right + WIDTH + PADDING * 2;
 		int height = insets.top + insets.bottom + HEIGHT + PADDING * 2;
 		return new Dimension(width, height);
