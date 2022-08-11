@@ -63,6 +63,15 @@ const MyPage = () => {
       cancelButton: 'btn btn-danger',
     },
   });
+  useEffect(() => {
+    setNowUserInfo({
+      id: nowUserInfo.id,
+      email: myEmail,
+      nickname: myNickname,
+      image: myProfileNum,
+      phone: myPhone,
+    });
+  }, [myEmail, myProfileNum, myPhone, myNickname]);
   const DeleteUser = () => {
     Swal.fire({
       title: 'Are you sure?',
