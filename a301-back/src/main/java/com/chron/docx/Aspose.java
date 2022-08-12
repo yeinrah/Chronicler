@@ -14,8 +14,7 @@ import java.util.List;
 @Component
 public class Aspose {
 
-	public void makeChronicle(List<Message> chronicleData, String wordpath, String date, String participants)
-			throws Exception {
+	public void makeChronicle(List<Message> chronicleData, String date, String participants) throws Exception {
 		String timeData = date;
 		String YYMMDD = timeData.substring(0, 10);
 		String time = timeData.substring(11, 19);
@@ -51,7 +50,7 @@ public class Aspose {
 		builder.write("참석자 :" + participants);
 		builder.insertBreak(BreakType.PAGE_BREAK);
 
-		builder.insertImage(wordpath);
+//		builder.insertImage(wordpath);
 		builder.insertBreak(BreakType.PAGE_BREAK);
 
 		// Column chart
