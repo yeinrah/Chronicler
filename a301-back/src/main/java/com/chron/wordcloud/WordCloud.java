@@ -74,7 +74,7 @@ public class WordCloud {
 				sb.append(ls.get(j)).append(" ");
 			}
 		}
-		System.out.println("투스트링 : "+sb.toString());
+		System.out.println("투스트링 : " + sb.toString());
 		return sb.toString();
 	}
 
@@ -120,6 +120,8 @@ public class WordCloud {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		graphics.dispose();
+		frame.dispose();
 		return null;
 	}
 
