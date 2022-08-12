@@ -308,33 +308,62 @@ const MeetingRoom = (props) => {
         mySession
           .connect(token, { 닉네임: myUserName })
           .then(async () => {
-            var devices = await OV.getDevices();
-            var videoDevices = devices.filter(
-              (device) => device.kind === "videoinput"
-            );
+            // var devices = await OV.getDevices();
+            // var devices2 = await OV.getUserMedia();
+            // console.log(devices);
+
+            OV.getUserMedia({
+              audioSource: false,
+              videoSource: undefined,
+              resolution: "1280x720",
+              frameRate: 10,
+            }).then((mediaStream) => {
+              var videoTrack = mediaStream.getVideoTracks()[0];
+
+              var publisher = OV.initPublisher(userInfoState.myUserName, {
+                audioSource: undefined,
+                videoSource: videoTrack,
+                publishAudio: false,
+                publishVideo: false,
+                // resolution: '1280x720',
+                // frameRate: 10,
+                insertMode: "APPEND",
+                mirror: true,
+              });
+              mySession.publish(publisher);
+              console.log(publisher);
+              // Set the main video in the page to display our webcam and store our Publisher
+              setCurrentVideoDevice(videoTrack);
+              setMainStreamManager(publisher);
+              setPublisher(publisher);
+            });
+            // var videoDevices = devices.filter(
+            //   (device) => device.kind === "videoinput"
+            // );
             // --- 5) Get your own camera stream ---
 
             // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
             // element: we will manage it on our own) and with the desired properties
-            let publisher = OV.initPublisher(undefined, {
-              audioSource: undefined, // The source of audio. If undefined default microphone
-              videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-              publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
-              publishVideo: false, // Whether you want to start publishing with your video enabled or not
-              resolution: "640x480", // The resolution of your video
-              frameRate: 30, // The frame rate of your video
-              insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
-            });
+
+            // let publisher = OV.initPublisher(undefined, {
+            //   audioSource: undefined, // The source of audio. If undefined default microphone
+            //   videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
+            //   publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+            //   publishVideo: false, // Whether you want to start publishing with your video enabled or not
+            //   resolution: "640x480", // The resolution of your video
+            //   frameRate: 30, // The frame rate of your video
+            //   insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+            //   mirror: false, // Whether to mirror your local video or not
+            // });
 
             // --- 6) Publish your stream ---
 
-            mySession.publish(publisher);
-            console.log(publisher);
-            // Set the main video in the page to display our webcam and store our Publisher
-            setCurrentVideoDevice(videoDevices[0]);
-            setMainStreamManager(publisher);
-            setPublisher(publisher);
+            // mySession.publish(publisher);
+            // console.log(publisher);
+            // // Set the main video in the page to display our webcam and store our Publisher
+            // setCurrentVideoDevice(videoDevices[0]);
+            // setMainStreamManager(publisher);
+            // setPublisher(publisher);
           })
           .catch((error) => {
             console.log(
