@@ -49,6 +49,7 @@ public class Aspose {
 		builder.write("시간 : " + time + "\r\r\r");
 		builder.write("참석자 :" + participants);
 		builder.insertBreak(BreakType.PAGE_BREAK);
+		Shape shape = builder.insertChart(ChartType.COLUMN, 432, 252);
 
 //		builder.insertImage(wordpath);
 		builder.insertBreak(BreakType.PAGE_BREAK);
@@ -59,7 +60,6 @@ public class Aspose {
 		// https://github.com/aspose-words/Aspose.Words-for-Java
 
 		// Add chart with default data. You can specify different chart types and sizes.
-		Shape shape = builder.insertChart(ChartType.COLUMN, 432, 252);
 
 		// Chart property of Shape contains all chart related options.
 		Chart chart = shape.getChart();
@@ -103,6 +103,8 @@ public class Aspose {
 		for (int i = 0; i < particiNames.size(); i++) {
 			seriesColl.add(particiNames.get(i), categories, new double[] { items.get(particiNames.get(i)).size() });
 		}
+		
+		//1번차트 끝
 
 		// 여기부터 대화록 테이블
 		Table table = builder.startTable();
@@ -121,7 +123,7 @@ public class Aspose {
 
 		builder.insertCell();
 		builder.getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
-		builder.getRowFormat().setHeight(100.0);
+//		builder.getRowFormat().setHeight(100.0);
 		builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
 		builder.getFont().setBold(true);
 		String messageData = "";
