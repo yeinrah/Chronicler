@@ -15,7 +15,7 @@ const MainNonLog: React.FC = () => {
   return (
     <>
       <MainStack direction={'row'}>
-        <Card sx={{ marginRight: '30vw' }}>
+        <Card sx={{ marginRight: '30vw', boxShadow: '0 0 0 0' }}>
           <CardContent
             sx={{
               width: '30vw',
@@ -23,7 +23,13 @@ const MainNonLog: React.FC = () => {
               color: 'white',
             }}
           >
-            <Typography sx={{ fontSize: '3vw' }}>
+            <Typography
+              sx={{
+                fontSize: '3vw',
+                wordBreak: 'keep-all',
+                lineHeight: '130%',
+              }}
+            >
               회의에 집중하세요. 기록은 우리에게 맡기세요 .
             </Typography>
           </CardContent>
@@ -65,7 +71,7 @@ const MainNonLog: React.FC = () => {
               </MainBtn>
               <InputText
                 id="outlined-basic"
-                label={'초대코드를 입력하세요.'}
+                label={'초대코드를 입력하세요.(Enter)'}
                 onChange={(e) => {
                   // console.log(e.target.value);
                   setInputCode(e.target.value);

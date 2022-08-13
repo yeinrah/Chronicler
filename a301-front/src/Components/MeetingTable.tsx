@@ -12,7 +12,12 @@ const MeetingTable = (props: any) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ maxWidth: 700, maxHeight: 300, overflow: 'auto' }}
+      sx={{
+        maxWidth: 700,
+        maxHeight: 300,
+        overflow: 'auto',
+        backgroundColor: 'var(--eleBase-color)',
+      }}
     >
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>

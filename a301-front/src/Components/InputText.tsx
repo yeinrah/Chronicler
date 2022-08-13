@@ -1,6 +1,6 @@
 import { TextField, styled } from '@mui/material';
 const InputText = styled(TextField)({
-  width: '20vw',
+  width: '100%',
   margin: 'auto',
 });
 export default InputText;
