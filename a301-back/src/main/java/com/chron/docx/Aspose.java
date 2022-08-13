@@ -34,8 +34,10 @@ import com.chron.wordcloud.words.WordCount;
 public class Aspose {
 	private static final String FILTER = "korean_filtering.txt";
 
-	private static final String[] POSITIVE = { "최고", "칭찬", "좋", "굿", "굳", "오케이", "짱", "퍼펙트", "나이스", "사랑", "희망", "성공" };
-	private static final String[] NEGATIVE = { "못", "안", "않", "싫", "혐", "바보" };
+	private static final String[] POSITIVE = { "최고", "칭찬", "좋", "굿", "굳", "오케이", "짱", "퍼펙트", "나이스", "사랑", "희망", "성공",
+			"화이팅", "감격", "감동", "행복", "짜릿", "통쾌", "흡족", "기쁘", "홀가분", "후련", "훌륭", "적극", "기쁜", "기쁩", "이타적" };
+	private static final String[] NEGATIVE = { "못", "안", "않", "싫", "혐", "바보", "실패", "절망", "포기", "괴로", "비난", "거짓말", "분열",
+			"좌초", "불씨", "비판", "멸망", "장애물", "잘못", "시련", "고통", "고난", "위기", "싸움", "소극", "화난", "화납", "이기적" };
 
 	public String listToStrTotal(List<Message> chronicleData) {
 		KomoranSearch KS = new KomoranSearch();
@@ -47,7 +49,7 @@ public class Aspose {
 				sb.append(ls.get(j)).append(" ");
 			}
 		}
-		System.out.println("투스트링 : " + sb.toString());
+//		System.out.println("투스트링 : " + sb.toString());
 		return sb.toString();
 	}
 
@@ -59,7 +61,7 @@ public class Aspose {
 			String str = chronicleData.get(i).getText();
 			sb.append(str).append(" ");
 		}
-		System.out.println("투스트링NotKomo : " + sb.toString());
+//		System.out.println("투스트링NotKomo : " + sb.toString());
 		return sb.toString();
 	}
 
@@ -86,27 +88,28 @@ public class Aspose {
 		else {
 			bossName = participants.substring(0, index);
 		}
-		builder.write(bossName + " 님의 회의입니다. \r\r");
+		builder.write(bossName + " 님의 회의 \r");
 
 		Style style2 = doc.getStyles().add(StyleType.PARAGRAPH, "info");
 		style2.getFont().setSize(22.0);
 		style2.getFont().setBold(true);
 
+		//이미지 위치
+		builder.insertImage("logoTochron.PNG");
 		// 여기 각 데이터들 받아서 넣어주기
 		builder.getParagraphFormat().setStyle(style2);
-		builder.write("날짜 : " + YYMMDD + "\r\r\r");
-		builder.write("시간 : " + time + "\r\r\r");
+		builder.write("\r"+"날짜 : " + YYMMDD + "\r");
+		builder.write("시간 : " + time + "\r");
 		builder.write("참석자 :" + participants);
 		builder.insertBreak(BreakType.PAGE_BREAK);
 
 		// 1번차트(단어 빈도)
-		Shape shape = builder.insertChart(ChartType.COLUMN, 432, 252);
-
+		Shape shape = builder.insertChart(ChartType.COLUMN, 470, 324);
 		// 2번 차트(참여자 발화 빈도)
-		Shape shape2 = builder.insertChart(ChartType.PIE, 200, 220);
+		Shape shape2 = builder.insertChart(ChartType.PIE, 235, 324);
 
 		// 3번 차트(참여자 별 긍정어휘 차트)
-		Shape shape3 = builder.insertChart(ChartType.PIE, 200, 220);
+		Shape shape3 = builder.insertChart(ChartType.PIE, 235, 324);
 
 //		builder.insertImage(wordpath);
 		builder.insertBreak(BreakType.PAGE_BREAK);
@@ -119,8 +122,7 @@ public class Aspose {
 		seriesColl.clear();
 		// Create category names array, in this example we have two categories.
 		String[] categories = new String[] { "단어 빈도 분석" };
-		// Adding new series. Please note, data arrays must not be empty and arrays must
-		// be the same size.
+		// Adding new series. Please note, data arrays must not be empty and arrays must be the same size.
 		KomoranSearch KS = new KomoranSearch();
 		ArrayList<WordCount> words = new ArrayList<WordCount>();
 		StringProcessor strProcessor = new StringProcessor(listToStrTotal(chronicleData), filteringList(FILTER), words);
@@ -195,7 +197,7 @@ public class Aspose {
 		labels2.setShowLeaderLines(false);
 		labels2.setSeparator(" - ");
 		// 3번차트 끝
-		
+
 		// 여기부터 대화록 테이블
 		Table table = builder.startTable();
 
@@ -233,7 +235,7 @@ public class Aspose {
 		}
 		builder.endRow();
 		builder.endTable();
-		doc.save("testData.docx");
+		doc.save("CHRONICLER_당신의_회의록.docx");
 	}
 
 	private static HashSet<String> filteringList(String path) throws IOException {

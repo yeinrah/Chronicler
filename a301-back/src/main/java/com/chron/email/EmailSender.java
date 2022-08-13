@@ -32,7 +32,7 @@ public class EmailSender {
 			}
 
 			// attach the file into email body
-			File attachment = new File("testData.docx");
+			File attachment = new File("CHRONICLER_당신의_회의록.docx");
 			FileSystemResource file = new FileSystemResource(attachment);
 			helper.addAttachment(attachment.getName(), file);
 
