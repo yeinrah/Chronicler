@@ -46,7 +46,7 @@ const Navbar = () => {
       <StyledToolbar>
         <Box>
           <Link
-            to="/"
+            to="/main"
             style={{
               textDecoration: 'none',
               cursor: 'pointer',
@@ -87,7 +87,7 @@ const Navbar = () => {
                 textDecoration: 'none',
                 color: 'var(--fontBase-color)',
               }}
-              to="/"
+              to="/main"
             >
               Logout
             </Link>
@@ -148,7 +148,7 @@ const Navbar = () => {
                 textDecoration: 'none',
                 color: 'var(--fontBase-color)',
               }}
-              to="#"
+              to="/main"
             >
               Logout
             </Link>

@@ -118,7 +118,7 @@ const SignUpCard = () => {
           title: 'Success',
           text: '회원가입 성공',
         }).then(() => {
-          navigate('/');
+          navigate('/main');
         });
       })
       .catch(() => {

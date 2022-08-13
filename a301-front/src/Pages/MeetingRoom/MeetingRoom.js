@@ -58,7 +58,7 @@ const MeetingRoom = (props) => {
   useEffect(() => {
     if (!nowLogined) {
       Swal.fire("로그인 해주세요");
-      navigate("/");
+      navigate("/main");
     }
     window.addEventListener("beforeunload", beforeunload);
     setIsShownNavState(false);
@@ -251,7 +251,7 @@ const MeetingRoom = (props) => {
   const listenEndSession = () => {
     session.on("signal:endSession", (event) => {
       leaveSession();
-      navigate("/");
+      navigate("/main");
     });
   };
   const listenScriber = () => {
@@ -586,7 +586,7 @@ const MeetingRoom = (props) => {
               text: `openvidu server error ${OPENVIDU_SERVER_URL}`,
             }).then((result) => {
               if (result.isConfirmed) {
-                navigate("/");
+                navigate("/main");
               }
             });
           }
@@ -723,7 +723,7 @@ const MeetingRoom = (props) => {
                 <input
                   className={styles.btnBack}
                   onClick={() => {
-                    navigate("/");
+                    navigate("/main");
                   }}
                   name="commit"
                   type="button"
