@@ -64,7 +64,7 @@ const SignInCard = () => {
           title: 'Success..!',
           text: '로그인 성공',
         });
-        navigate('/');
+        navigate('/main');
       })
       .catch((e) => {
         console.log(e);

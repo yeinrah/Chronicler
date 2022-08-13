@@ -19,7 +19,11 @@
   height: 80vh;
   width: 80vw;
 }
-
+.formCont {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
 .stream-container-many {
   width: calc(100% / 5);
 }
@@ -31,13 +35,31 @@
 }
 .btn {
   font-weight: bold;
+  width: 200px;
+  height: 65px;
   padding: 2px;
-  border-radius: 2px;
+  border-radius: 10px;
   margin-top: 15px;
-  border-color: #06d362;
+  font-size: 20px;
+  border-color: var(--bgExtra-color);
+  border: 3px solid;
+}
+.btnBack {
+  font-weight: bold;
+  width: 200px;
+  height: 65px;
+  padding: 2px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 20px;
+  border-color: var(--bgExtra-color);
+  border: 3px solid;
 }
 .btn:hover {
   border-color: #1abd61;
+}
+.btnBack:hover {
+  border-color: var(--eleActionNeg-color);
 }
 .text-center {
   display: flex;

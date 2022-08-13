@@ -1,0 +1,56 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&family=UnifrakturMaguntia&family=Vesper+Libre:wght@400;500&display=swap"); */
+
+.content {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+
+  /* box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1); */
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+svg text {
+  font-family: "Anton", sans-serif;
+  font-size: 6rem;
+  stroke-width: 3px;
+  stroke: #fff;
+  fill: transparent;
+  stroke-dashoffset: 750;
+  stroke-dasharray: 750;
+  animation: stroke 1.5s linear;
+  animation-fill-mode: forwards;
+  font-family: "UnifrakturMaguntia";
+}
+
+/* $total: 7;
+@for $i from 1 through $total {
+  text:nth-child(#{$i}) {
+    animation-delay: $i - 1 + s;
+  }
+} */
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+@keyframes stroke {
+  0% {
+    stroke-dashoffset: 750;
+  }
+  70% {
+    fill: #fff;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: #fff;
+  }
+}

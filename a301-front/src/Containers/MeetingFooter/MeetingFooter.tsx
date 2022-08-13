@@ -14,6 +14,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ChatIcon from '@mui/icons-material/Chat';
+import AddIcon from '@mui/icons-material/Add';
+import Swal from 'sweetalert2';
 
 interface Props {
   openChat: boolean;
@@ -28,6 +30,7 @@ interface Props {
   leaveSession: any;
   destroySession: any;
   isMain: any;
+  sessionId: any;
 }
 
 const MeetingFooter: React.FC<Props> = ({
@@ -43,6 +46,7 @@ const MeetingFooter: React.FC<Props> = ({
   leaveSession,
   destroySession,
   isMain,
+  sessionId,
 }) => {
   const FootBar = styled(Toolbar)({
     display: 'flex',
@@ -81,15 +85,16 @@ const MeetingFooter: React.FC<Props> = ({
             <VideocamIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Leave Room" placement="top" arrow>
-          <IconButton color="inherit" onClick={leaveSession}>
-            <LogoutIcon />
-          </IconButton>
-        </Tooltip>
-        {isMain && (
+        {isMain ? (
           <Tooltip title="Close Room" placement="top" arrow>
             <IconButton color="inherit" onClick={destroySession}>
               <PhonelinkEraseIcon />
+            </IconButton>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Leave Room" placement="top" arrow>
+            <IconButton color="inherit" onClick={leaveSession}>
+              <LogoutIcon />
             </IconButton>
           </Tooltip>
         )}
@@ -99,6 +104,16 @@ const MeetingFooter: React.FC<Props> = ({
           {subtitle}
         </Box>
         <Box sx={{ flexGrow: 1 }} />
+        <Tooltip title={'invite'} placement="top" arrow>
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              Swal.fire(`${sessionId}`, `코드를 친구에게 알려주세요`);
+            }}
+          >
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
         <Tooltip
           title={openParticipant ? 'Close Participants' : 'See Participants'}
           placement="top"

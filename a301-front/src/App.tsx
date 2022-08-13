@@ -23,6 +23,7 @@ import {
 } from './Containers';
 import { useRecoilState } from 'recoil';
 import showNavState from './recoil/atoms/showNavState';
+import InitialPage from './Components/InitialPage';
 function App() {
   const [isShownNavState, setIsShownNavState] =
     useRecoilState<any>(showNavState);
@@ -30,7 +31,8 @@ function App() {
     <div className="App">
       {isShownNavState ? <Navbar /> : ''}
       <Routes>
-        <Route path="/" element={<MainNonLog />} />
+        <Route path="/" element={<InitialPage />} />
+        <Route path="/main" element={<MainNonLog />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/findemail" element={<FindEmailCard />} />

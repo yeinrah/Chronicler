@@ -18,6 +18,8 @@ import userInfoState from "../../recoil/atoms/userInfoState";
 import roomCreate from "../../Api/roomCreate";
 import roomJoin from "../../Api/roomJoin";
 import roomLeave from "../../Api/roomLeave";
+import Swal from "sweetalert2";
+import userLoginedState from "../../recoil/atoms/userLoginedState";
 
 const OPENVIDU_SERVER_URL = "https://" + window.location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
@@ -49,10 +51,15 @@ const MeetingRoom = (props) => {
   // const [endSession, setEndSession] = useState(false);
   const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
   const [myUid, setMyUid] = useRecoilState(userInfoState);
+  const [nowLogined, setNowLogined] = useRecoilState(userLoginedState);
   const navigate = useNavigate();
   const { state } = useLocation();
   // let OV;
   useEffect(() => {
+    if (!nowLogined) {
+      Swal.fire("로그인 해주세요");
+      navigate("/main");
+    }
     window.addEventListener("beforeunload", beforeunload);
     setIsShownNavState(false);
     // console.log("abbbbbbbbbbbbbbbaaaaaaaaaaaaaa");
@@ -244,7 +251,7 @@ const MeetingRoom = (props) => {
   const listenEndSession = () => {
     session.on("signal:endSession", (event) => {
       leaveSession();
-      navigate("/");
+      navigate("/main");
     });
   };
   const listenScriber = () => {
@@ -315,8 +322,8 @@ const MeetingRoom = (props) => {
             OV.getUserMedia({
               audioSource: false,
               videoSource: undefined,
-              resolution: "1280x720",
-              frameRate: 10,
+              resolution: "640x480",
+              frameRate: 30,
             }).then((mediaStream) => {
               var videoTrack = mediaStream.getVideoTracks()[0];
 
@@ -573,25 +580,15 @@ const MeetingRoom = (props) => {
           if (error?.response?.status === 409) {
             resolve(sessionId);
           } else {
-            console.log(error);
-            console.warn(
-              "No connection to OpenVidu Server. This may be a certificate error at " +
-                OPENVIDU_SERVER_URL
-            );
-            if (
-              window.confirm(
-                'No connection to OpenVidu Server. This may be a certificate error at "' +
-                  OPENVIDU_SERVER_URL +
-                  '"\n\nClick OK to navigate and accept it. ' +
-                  'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
-                  OPENVIDU_SERVER_URL +
-                  '"'
-              )
-            ) {
-              window.location.assign(
-                OPENVIDU_SERVER_URL + "/accept-certificate"
-              );
-            }
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: `openvidu server error ${OPENVIDU_SERVER_URL}`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/main");
+              }
+            });
           }
         });
     });
@@ -688,7 +685,7 @@ const MeetingRoom = (props) => {
                 <Typography variant="label" component={"h2"}>
                   Participant:&nbsp;
                   <TextField
-                    className="form-control"
+                    className={styles.formCont}
                     type="text"
                     id="userName"
                     disabled
@@ -704,7 +701,7 @@ const MeetingRoom = (props) => {
                 <Typography variant="label" component={"h2"}>
                   Session:&nbsp;
                   <TextField
-                    className="form-control"
+                    className={styles.formCont}
                     type="text"
                     id="sessionId"
                     // disabled
@@ -724,9 +721,9 @@ const MeetingRoom = (props) => {
                   value="JOIN"
                 />
                 <input
-                  className={styles.btn}
+                  className={styles.btnBack}
                   onClick={() => {
-                    navigate("/");
+                    navigate("/main");
                   }}
                   name="commit"
                   type="button"
@@ -820,6 +817,7 @@ const MeetingRoom = (props) => {
             leaveSession={leaveSession}
             destroySession={destroySession}
             isMain={isMain}
+            sessionId={mySessionId}
           />
         </div>
       ) : null}

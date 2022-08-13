@@ -86,7 +86,7 @@ const MyPage = () => {
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
         userInfoDelete.delete<any>(`/userInfo/mypage/${nowUserInfo.id}`);
         setNowLogined(false);
-        navigate('/');
+        navigate('/main');
       }
     });
   };
@@ -239,7 +239,7 @@ const MyPage = () => {
         title: 'Oops...',
         text: '마이페이지는 로그인 후에 이용 가능합니다',
       });
-      navigate('/');
+      navigate('/main');
     }
     loadUserInfo();
   }, []);
