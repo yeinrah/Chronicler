@@ -1,7 +1,14 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import showNavState from '../recoil/atoms/showNavState';
 import styles from './InitialPage.module.css';
 const InitialPage = () => {
   const navigate = useNavigate();
+  const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
+  useEffect(() => {
+    setIsShownNavState(false);
+  }, []);
   return (
     <>
       <video muted loop id="myVideo">
@@ -10,6 +17,7 @@ const InitialPage = () => {
       <div
         className={styles.content}
         onClick={() => {
+          setIsShownNavState(true);
           navigate('/main');
         }}
       >
