@@ -20,7 +20,7 @@ const ParticipantBlock: React.FC<Props> = ({
 }) => {
   const ParticipantBox = styled(Box)({
     padding: '1px',
-    border: '1px solid black',
+    border: '0px solid black',
     margin: '1px',
   });
   const [participant, setParticipant] = useState(participants);
