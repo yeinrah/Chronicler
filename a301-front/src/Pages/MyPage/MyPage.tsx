@@ -66,17 +66,11 @@ const MyPage = () => {
   useEffect(() => {
     setNowUserInfo({
       id: nowUserInfo.id,
-      email: nowUserInfo.email,
-      nickname: nowUserInfo.nickname,
-      image: nowUserInfo.image,
-      phone: nowUserInfo.phone,
+      email: myNickname,
+      nickname: myNickname,
+      image: MypageProfileImage,
+      phone: myPhone,
     });
-    setMyEmail(nowUserInfo.email);
-    if (!nowUserInfo.image) {
-      setMyProfileNum(0);
-    } else setMyProfileNum(nowUserInfo.image);
-    setMyPhone(nowUserInfo.phone);
-    setMyNickname(nowUserInfo.nickname);
   }, [myEmail, myProfileNum, myPhone, myNickname]);
   const DeleteUser = () => {
     Swal.fire({
@@ -180,61 +174,52 @@ const MyPage = () => {
     // image: number;
   };
   const loadUserInfo = () => {
-    userInfoSearch
-      .get<any>(`userInfo/mypage/${nowUserInfo.id}`, {})
-      .then((info) => {
-        if (!info.data.user.image) info.data.user.image = 0;
-        setMyEmail(info.data.user.email);
-        setMyNickname(info.data.user.nickname);
-        setMyPhone(info.data.user.phone);
-        setMyProfileNum(info.data.user.image);
-        let nowMinute: any = [];
-        info.data.history.map((historyData: any, index: any) => {
-          if (historyData.userId === nowUserInfo.id) {
-            // let nowData = {
-            //   title: 0,
-            //   startDate: null,
-            //   endDate: null,
-            // };
-            // if (historyData.action === 0 || historyData.action === 1) {
-            //   nowData.title = historyData.chId;
-            //   nowData.startDate = historyData.insertedTime;
-            // }
-            let start;
-            if (historyData.action === 2 || historyData.action === 3) {
-              // info.data.history.map((searchHistroy: any, index2: any) => {
-              //   if (
-              //     searchHistroy.cid === historyData.cid &&
-              //     (searchHistroy.action === 0 || searchHistroy.action === 1) &&
-              //     index2 < index
-              //   ) {
-              //     start = searchHistroy.insertedTime;
-              //     console.log(searchHistroy);
-              //     console.log(historyData);
-              //   }
-              // });
-              for (let i = info.data.history.length - 1; i >= 0; i--) {
-                let data = info.data.history[i];
-                if (
-                  data.cid === historyData.cid &&
-                  (data.action === 0 || data.action === 1)
-                ) {
-                  start = data.insertedTime;
+    let token = localStorage.getItem('access-token');
+    if (token != null)
+      userInfoSearch
+        .get<any>(`userInfo/mypage/${nowUserInfo.id}`, {
+          headers: {
+            'access-token': token,
+          },
+        })
+        .then((info) => {
+          console.log('####');
+          console.log(info);
+          if (!info.data.user.image) info.data.user.image = 0;
+          setMyEmail(info.data.user.email);
+          setMyNickname(info.data.user.nickname);
+          setMyPhone(info.data.user.phone);
+          setMyProfileNum(info.data.user.image);
+          let nowMinute: any = [];
+          info.data.history.map((historyData: any, index: any) => {
+            if (historyData.userId === nowUserInfo.id) {
+              let start;
+              if (historyData.action === 2 || historyData.action === 3) {
+                for (let i = info.data.history.length - 1; i >= 0; i--) {
+                  let data = info.data.history[i];
+                  if (
+                    data.cid === historyData.cid &&
+                    (data.action === 0 || data.action === 1)
+                  ) {
+                    start = data.insertedTime;
+                  }
                 }
+                nowMinute.push({
+                  title: historyData.chId,
+                  startDate: start,
+                  endDate: historyData.insertedTime,
+                });
+                // nowData.title = historyData.chId;
+                // nowData.endDate = historyData.insertedTime;
               }
-              nowMinute.push({
-                title: historyData.chId,
-                startDate: start,
-                endDate: historyData.insertedTime,
-              });
-              // nowData.title = historyData.chId;
-              // nowData.endDate = historyData.insertedTime;
+              // nowMinute.push(nowData);
             }
-            // nowMinute.push(nowData);
-          }
+          });
+          setPrevMeetingList(nowMinute);
+        })
+        .catch((e) => {
+          console.log(e);
         });
-        setPrevMeetingList(nowMinute);
-      });
   };
   useEffect(() => {
     if (!nowLogined) {
