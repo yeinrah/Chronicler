@@ -104,8 +104,6 @@ const MeetingRoom = (props) => {
     }
     return () => {
       recognition.stop();
-      // console.log(subtitle);
-      // setSpeechRecord(subtitle);
       setSubtitle("");
     };
   }, [micOn]);
@@ -117,8 +115,6 @@ const MeetingRoom = (props) => {
   }, [speechRecords]);
 
   useEffect(() => {
-    // console.log(`speechRecords: ${speechRecords}`);
-    // console.log(speechRecords[speechRecords.length - 1].text);
     if (speechRecord) {
       console.log(speechRecords[speechRecords.length - 1]);
       if (speechRecords[speechRecords.length - 1]) {
@@ -162,12 +158,9 @@ const MeetingRoom = (props) => {
     listenScriber();
   }, [session]);
   useEffect(() => {
-    console.log("subscribes.change");
     let participantNow = [];
     if (session) {
-      console.log(session.streamManagers.length);
       if (session.streamManagers.length === 1) {
-        console.log("im main");
         setIsMain(true);
       }
       if (session.streamManagers[0].session) {
@@ -176,7 +169,6 @@ const MeetingRoom = (props) => {
         setIsMain(false);
       } else {
       }
-      console.log(session.streamManagers.length);
       setPartcipant([]);
       session.streamManagers.map((item, i) => {
         if (item.session) {
@@ -282,10 +274,6 @@ const MeetingRoom = (props) => {
         mySession
           .connect(token, { 닉네임: myUserName })
           .then(async () => {
-            // var devices = await OV.getDevices();
-            // var devices2 = await OV.getUserMedia();
-            // console.log(devices);
-
             OV.getUserMedia({
               audioSource: false,
               videoSource: undefined,
