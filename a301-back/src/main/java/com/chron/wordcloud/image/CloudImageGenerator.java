@@ -17,9 +17,6 @@ import java.util.Random;
 import com.chron.wordcloud.color.ColorCombinations;
 import com.chron.wordcloud.words.WordCount;
 
-/**
- * @author epicdevs
- */
 public class CloudImageGenerator {
     private static final int REJECT_COUNT = 100;
     private static final int LARGEST_FONT_SIZE = 160;

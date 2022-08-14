@@ -95,7 +95,7 @@ public class WordCloud {
 //		StringProcessor strProcessor = new StringProcessor(readFile(TEXT), filteringList(FILTER));
 
 		CloudImageGenerator generator = new CloudImageGenerator(WIDTH, HEIGHT, PADDING);
-		frame.setContentPane(new CloudViewer(generator.generateImage(strProcessor, System.currentTimeMillis())));
+//		frame.setContentPane(new CloudViewer(generator.generateImage(strProcessor, System.currentTimeMillis())));
 		frame.setVisible(true);
 
 		BufferedImage bi = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB);
