@@ -62,8 +62,6 @@ const MeetingRoom = (props) => {
     }
     window.addEventListener("beforeunload", beforeunload);
     setIsShownNavState(false);
-    // console.log("abbbbbbbbbbbbbbbaaaaaaaaaaaaaa");
-    // console.log(state);
     if (state) setMySessionId(state);
     return () => {
       window.removeEventListener("beforeunload", onbeforeunload);
@@ -172,30 +170,19 @@ const MeetingRoom = (props) => {
         console.log("im main");
         setIsMain(true);
       }
-      console.log("dasdasd!!@E!@#!@#!");
-      console.log(session);
-      console.log(session.streamManagers);
-      console.log(session.streamManagers[0]);
       if (session.streamManagers[0].session) {
-        // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
         setIsMain(true);
       } else if (!session.streamManagers[0].session) {
-        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         setIsMain(false);
       } else {
-        console.log("#############################");
       }
       console.log(session.streamManagers.length);
       setPartcipant([]);
       session.streamManagers.map((item, i) => {
-        console.log("haDQE!@#!");
-        console.log(item);
         if (item.session) {
-          console.log(item.session.connection.data);
           participantNow.push(item.session.connection.data);
           // setPartcipant([...participant, item.session.connection.data]);
         } else if (item.stream) {
-          console.log(item.stream.connection.data);
           participantNow.push(item.stream.connection.data);
           // setPartcipant([...participant, item.stream.connection.data]);
         }
@@ -205,35 +192,24 @@ const MeetingRoom = (props) => {
   }, [subscribers, publisher]);
   useEffect(() => {
     if (isMain) {
-      roomCreate
-        .post(`/conference/${myUid.id}`, {
-          conferenceCode: mySessionId,
-        })
-        .then(() => {
-          console.log("myssssssssssssssssssssssssssssssseeeesion");
-        });
+      roomCreate.post(`/conference/${myUid.id}`, {
+        conferenceCode: mySessionId,
+      });
     } else if (!isMain) {
-      roomJoin
-        .post(`/conference/enter/${myUid.id}`, {
-          conference_code: mySessionId,
-          nickname: myUserName,
-        })
-        .then(() => {
-          console.log("join!!!!!!!!!!!!!!");
-        });
+      roomJoin.post(`/conference/enter/${myUid.id}`, {
+        conference_code: mySessionId,
+        nickname: myUserName,
+      });
     }
   }, [isMain]);
   const listenMessage = () => {
     session.on("signal:chat", (event) => {
-      console.log("%%%%%%%%%%%%%%%%%%%");
-      console.log(event.data);
       setMessage([event.data]);
     });
   };
   const listenSpeech = () => {
     session.on("signal:speech", (event) => {
       setSpeechRecord(event.data);
-      console.log(event.data);
     });
   };
 
@@ -245,7 +221,6 @@ const MeetingRoom = (props) => {
   const listenParticipant = () => {
     session.on("signal:participant", (event) => {
       setPartcipant(event.data);
-      console.log(event.data);
     });
   };
   const listenEndSession = () => {
@@ -259,8 +234,6 @@ const MeetingRoom = (props) => {
       var mySession = session;
       // --- 3) Specify the actions when events take place in the session ---
       // On every new Stream received...
-      console.log("statrt!!!!!!!!!!!!!!!!!");
-      console.log(session);
 
       mySession.on("streamCreated", (event) => {
         // Subscribe to the Stream to receive it. Second parameter is undefined
@@ -271,8 +244,6 @@ const MeetingRoom = (props) => {
         // Update the state with the new subscribers
         setSubscribers([...subscribersNow]);
         setPeople(subscribers.length);
-        console.log("Aaaaaaaaaaaaaaaaaaaa");
-        console.log(isMain);
       });
 
       listenMessage();
@@ -288,14 +259,10 @@ const MeetingRoom = (props) => {
       });
 
       mySession.on("publisherStartSpeaking", (event) => {
-        console.log(
-          "User " + event.connection.connectionId + " start speaking"
-        );
         setIsSpeaking(true);
       });
 
       mySession.on("publisherStopSpeaking", (event) => {
-        console.log("User " + event.connection.connectionId + " stop speaking");
         setIsSpeaking(false);
         window.webkitSpeechRecognition().stop();
       });
@@ -338,7 +305,6 @@ const MeetingRoom = (props) => {
                 mirror: true,
               });
               mySession.publish(publisher);
-              console.log(publisher);
               // Set the main video in the page to display our webcam and store our Publisher
               setCurrentVideoDevice(videoTrack);
               setMainStreamManager(publisher);
@@ -456,8 +422,6 @@ const MeetingRoom = (props) => {
     setPartcipant([]);
   };
   const destroySession = () => {
-    // console.log("실행되나되나되나되나되나");
-    // console.log(speechRecords);
     console.log(
       speechRecords.filter(
         (item, idx) =>
@@ -572,7 +536,7 @@ const MeetingRoom = (props) => {
           },
         })
         .then((response) => {
-          console.log("CREATE SESION", response);
+          // console.log("CREATE SESION", response);
           resolve(response.data.id);
         })
         .catch((response) => {
@@ -612,7 +576,7 @@ const MeetingRoom = (props) => {
           }
         )
         .then((response) => {
-          console.log("TOKEN", response);
+          // console.log("TOKEN", response);
           resolve(response.data.token);
         })
         .catch((error) => reject(error));
@@ -625,8 +589,6 @@ const MeetingRoom = (props) => {
       to: [],
       type: "chat",
     });
-    console.log(session);
-    console.log("message send");
   };
   const sendSpeechRecord = (s) => {
     session.signal({
@@ -634,8 +596,6 @@ const MeetingRoom = (props) => {
       to: [],
       type: "speech",
     });
-    console.log(session);
-    console.log("speech send");
   };
   const sendEndSession = () => {
     session.signal({
@@ -671,8 +631,6 @@ const MeetingRoom = (props) => {
   };
   return (
     <>
-      {console.log(session)}
-      {console.log(OV)}
       {session === undefined ? (
         <div id={styles.join} className="container">
           <div id={styles["join-dialog"]} className="jumbotron vertical-center">

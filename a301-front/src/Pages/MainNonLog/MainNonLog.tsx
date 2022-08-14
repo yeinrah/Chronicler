@@ -8,8 +8,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import userLoginedState from '../../recoil/atoms/userLoginedState';
 import InputText from '../../Components/InputText';
+import userInfoState from '../../recoil/atoms/userInfoState';
 const MainNonLog: React.FC = () => {
   const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
+  const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
   const [inputCode, setInputCode] = useState<any>();
   const navigate = useNavigate();
   return (
@@ -34,7 +36,7 @@ const MainNonLog: React.FC = () => {
             </Typography>
           </CardContent>
         </Card>
-        {!nowLogined ? (
+        {!nowLogined || !nowUserInfo.nickname ? (
           <Card>
             <CardOfBtn>
               <Link
@@ -73,7 +75,6 @@ const MainNonLog: React.FC = () => {
                 id="outlined-basic"
                 label={'초대코드를 입력하세요.(Enter)'}
                 onChange={(e) => {
-                  // console.log(e.target.value);
                   setInputCode(e.target.value);
                 }}
                 onKeyDown={(e) => {
