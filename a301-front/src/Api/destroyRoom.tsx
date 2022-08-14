@@ -9,7 +9,7 @@ if (window.location.hostname === 'localhost') {
 const destroyRoom = axios.create({
   // baseURL: `www.naver.com`,
   baseURL: url,
-  timeout: 30000,
+  timeout: 3000000000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
     'access-token': accessToken,

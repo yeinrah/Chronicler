@@ -66,10 +66,10 @@ const MyPage = () => {
   useEffect(() => {
     setNowUserInfo({
       id: nowUserInfo.id,
-      email: myEmail,
-      nickname: myNickname,
-      image: myProfileNum,
-      phone: myPhone,
+      email: nowUserInfo.email,
+      nickname: nowUserInfo.nickname,
+      image: nowUserInfo.image,
+      phone: nowUserInfo.phone,
     });
   }, [myEmail, myProfileNum, myPhone, myNickname]);
   const DeleteUser = () => {
