@@ -154,7 +154,8 @@ public class UserRestController {
 
 	@GetMapping("/findpw")
 	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 사용자 이메일로 임시비밀번호를 발급한다.")
-	public ResponseEntity<?> findpw(@RequestParam String email) throws Exception {
+	public ResponseEntity<?> findpw(@RequestParam String email) {
+
 		if (updateTmpPW == false) {
 			String tmpPW = RandomNumberUtil.getRandomNumber();
 			userService.updatePasswordTMP(email, tmpPW);
@@ -163,7 +164,7 @@ public class UserRestController {
 			// 로그인하면 updateTmpPW상태를 false로 변경
 			updateTmpPW = true;
 		} else {
-			System.out.println("발급 조건 1회가 넘었습니다.");
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
