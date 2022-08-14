@@ -30,6 +30,11 @@ const FindPwCard = () => {
       })
       .then(() => {
         Swal.fire('임시 패스워드를 전송했습니다.');
+      })
+      .catch((error) => {
+        if (error.response.status === 409) {
+          Swal.fire('이미 메일로 임시 패스워드가 발급 되었습니다.');
+        }
       });
   };
 
