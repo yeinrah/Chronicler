@@ -22,7 +22,7 @@ owner_id Integer,
 conference_code VARCHAR(16),
 PRIMARY KEY(c_id),
 FOREIGN KEY(owner_id)
-REFERENCES user(u_id)
+REFERENCES user(u_id) ON DELETE CASCADE
 );
 
 -- 회의록 테이블
@@ -36,9 +36,9 @@ call_start_time DATETIME,
 call_end_time DATETIME,
 PRIMARY KEY(clist_id),
 FOREIGN KEY(c_id)
-REFERENCES conference(c_id),
+REFERENCES conference(c_id) ON DELETE CASCADE,
 FOREIGN KEY(owner_id)
-REFERENCES conference(owner_id)
+REFERENCES conference(owner_id) ON DELETE CASCADE
 );
 
 -- 회의 히스토리
@@ -50,9 +50,9 @@ action SMALLINT,
 inserted_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(ch_id),
 FOREIGN KEY(c_id)
-REFERENCES conference(c_id),
+REFERENCES conference(c_id) ON DELETE CASCADE,
 FOREIGN KEY(u_id)
-REFERENCES user(u_id)
+REFERENCES user(u_id) ON DELETE CASCADE
 );
 
 -- 회원_회의 테이블
@@ -63,9 +63,9 @@ c_id Integer NOT NULL,
 is_owner BOOLEAN NOT NULL default 0,
 PRIMARY KEY(id),
 FOREIGN KEY(u_id)
-REFERENCES user(u_id),
+REFERENCES user(u_id) ON DELETE CASCADE,
 FOREIGN KEY(c_id)
-REFERENCES conference(c_id)
+REFERENCES conference(c_id) ON DELETE CASCADE
 );
 
 SELECT * FROM user;

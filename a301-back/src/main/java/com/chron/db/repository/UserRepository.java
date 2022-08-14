@@ -23,9 +23,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	User findOneById(Integer id);
 
 	@Modifying
-	@Query(value = "update user u set u.password = ?2 where id = ?1", nativeQuery = true)
+	@Query(value = "update user u set u.password = ?2 where u_id = ?1", nativeQuery = true)
 	int updatePassword(int id, String password);
 
+	@Modifying
+	@Query(value = "update user u set u.password = ?2 where email = ?1", nativeQuery = true)
+	void updatePasswordTMP(String email, String password);
+	
 	@EntityGraph(attributePaths = "roles")
 	Optional<User> findOneWithRolesByEmail(String email);
 }

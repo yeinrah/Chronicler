@@ -26,7 +26,9 @@ import com.chron.api.request.UpdatePhoneReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.api.service.UserService;
 import com.chron.api.util.JWTUtil;
+import com.chron.api.util.RandomNumberUtil;
 import com.chron.db.entity.User;
+import com.chron.email.EmailSender;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -41,10 +43,13 @@ public class UserRestController {
 	@Autowired
 	private JWTUtil jwtUtil;
 
+	EmailSender emailSender;
+
 	@Autowired
-	public UserRestController(UserService userService) {
+	public UserRestController(UserService userService, EmailSender emailSender) {
 		super();
 		this.userService = userService;
+		this.emailSender = emailSender;
 	}
 
 	@PostMapping("/signup")
@@ -140,5 +145,14 @@ public class UserRestController {
 	public ResponseEntity<?> findUser(@PathVariable Integer id) throws Exception {
 		HashMap<String, Object> user = userService.findUser(id);
 		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+
+	@GetMapping("/findpw")
+	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 비밀번호를 찾는다.")
+	public ResponseEntity<?> findpw(@RequestParam String email) throws Exception {
+		String tmpPW = RandomNumberUtil.getRandomNumber();
+		userService.updatePasswordTMP(email, tmpPW);
+		emailSender.sendPw(email,tmpPW);
+		return new ResponseEntity<>(tmpPW, HttpStatus.OK);
 	}
 }
