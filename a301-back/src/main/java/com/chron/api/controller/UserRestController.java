@@ -38,6 +38,9 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/userInfo")
 public class UserRestController {
+
+	static boolean updateTmpPW = false;
+
 	private UserService userService;
 
 	@Autowired
@@ -80,6 +83,8 @@ public class UserRestController {
 				result.put("message", "로그인에 성공하였습니다.");
 				loginUser.setPassword("");
 				result.put("loginUser", loginUser);
+				// 로그인 하면, 임시비밀번호 다시 받을 수 있는 상태(false)로 변경
+				updateTmpPW = false;
 
 				status = HttpStatus.ACCEPTED;
 			}
@@ -148,11 +153,18 @@ public class UserRestController {
 	}
 
 	@GetMapping("/findpw")
-	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 비밀번호를 찾는다.")
+	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 사용자 이메일로 임시비밀번호를 발급한다.")
 	public ResponseEntity<?> findpw(@RequestParam String email) throws Exception {
-		String tmpPW = RandomNumberUtil.getRandomNumber();
-		userService.updatePasswordTMP(email, tmpPW);
-		emailSender.sendPw(email,tmpPW);
-		return new ResponseEntity<>(tmpPW, HttpStatus.OK);
+		if (updateTmpPW == false) {
+			String tmpPW = RandomNumberUtil.getRandomNumber();
+			userService.updatePasswordTMP(email, tmpPW);
+			emailSender.sendPw(email, tmpPW);
+			// 비밀번호 찾기로 임시비밀번호 발급(true)
+			// 로그인하면 updateTmpPW상태를 false로 변경
+			updateTmpPW = true;
+		} else {
+			System.out.println("발급 조건 1회가 넘었습니다.");
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

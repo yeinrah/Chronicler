@@ -137,21 +137,10 @@ public class UserService {
 		return result;
 	}
 
-	// 이메일로 비밀번호 찾기
-	@Transactional
-	public String findUserPW(String email) throws Exception {
-		User user = userRepository.findOneByEmail(email);
-		System.out.println(user.getEmail());
-		if (user.getEmail() == null) {
-			throw new IllegalStateException("회원 정보 조회에 실패했습니다.");
-		}	
-		return user.getPassword();
-	}
-	
 	// 비밀번호 변경(임시 비밀번호 발급)
-		@Transactional
-		public void updatePasswordTMP(String email, String password) {
-			String encodePw = encoder.encode(password);
-			userRepository.updatePasswordTMP(email, encodePw);
-		}
+	@Transactional
+	public void updatePasswordTMP(String email, String password) {
+		String encodePw = encoder.encode(password);
+		userRepository.updatePasswordTMP(email, encodePw);
+	}
 }
