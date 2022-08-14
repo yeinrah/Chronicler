@@ -177,8 +177,6 @@ const MyPage = () => {
     userInfoSearch
       .get<any>(`userInfo/mypage/${nowUserInfo.id}`, {})
       .then((info) => {
-        console.log(info);
-        console.log('chkeck!!!');
         if (!info.data.user.image) info.data.user.image = 0;
         setMyEmail(info.data.user.email);
         setMyNickname(info.data.user.nickname);

@@ -41,9 +41,6 @@ const FindEmailCard = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      phone: data.get('phone'),
-    });
   };
   const findEmail = () => {
     type PhoneNumber = {
@@ -65,7 +62,6 @@ const FindEmailCard = () => {
         }).then(() => {
           navigate('/signin');
         });
-        // console.log(res.data);
       })
       .catch((error) => {
         setUserEmail('유효하지 않은 번호 입니다.');
@@ -74,7 +70,6 @@ const FindEmailCard = () => {
           title: 'fail',
           text: '유효하지 않은 번호 입니다.',
         });
-        // console.log(error);
       });
   };
   // const ShowEmailModal = () => {

@@ -30,16 +30,8 @@ const Navbar = () => {
     gap: 30,
   });
   const [open, setOpen] = useState(false);
-  // const [isLogin, setisLogin] = useState(false);
-  // const [token, setToken] = useState(localStorage.getItem('access-token'));
   const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
-  // useEffect(() => {
-  //   console.log(token);
-  //   if (token) {
-  //     setisLogin(true);
-  //   } else setisLogin(false);
-  // }, [token]);
 
   return (
     <AppBar sx={{ backgroundColor: 'var(--bgExtra-color)' }}>
@@ -65,111 +57,115 @@ const Navbar = () => {
             onClick={() => setOpen(!open)}
           />
         </Box>
-        <MenuBox sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
-          <Typography
-            key="Logout"
-            sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={nowLogined ? styles.signedin : styles.signedout}
-          >
-            <Link
-              onClick={() => {
-                localStorage.removeItem('access-token');
-                // setToken(null);
-                setNowLogined(false);
-                setNowUserInfo({});
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Success',
-                  text: '로그아웃 됨',
-                });
-              }}
-              style={{
-                textDecoration: 'none',
-                color: 'var(--fontBase-color)',
-              }}
-              to="/main"
+        {nowUserInfo.nickname && (
+          <MenuBox sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}>
+            <Typography
+              key="Logout"
+              sx={{ cursor: 'pointer', fontSize: '15px' }}
+              className={nowLogined ? styles.signedin : styles.signedout}
             >
-              Logout
-            </Link>
-          </Typography>
-          <Typography
-            key="MyPage"
-            sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={nowLogined ? styles.signedin : styles.signedout}
-          >
-            <Link
-              to="/mypage"
-              style={{
-                textDecoration: 'none',
-                color: 'var(--fontBase-color)',
-              }}
+              <Link
+                onClick={() => {
+                  localStorage.removeItem('access-token');
+                  // setToken(null);
+                  setNowLogined(false);
+                  setNowUserInfo({});
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '로그아웃 됨',
+                  });
+                }}
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+                to="/main"
+              >
+                Logout
+              </Link>
+            </Typography>
+            <Typography
+              key="MyPage"
+              sx={{ cursor: 'pointer', fontSize: '15px' }}
+              className={nowLogined ? styles.signedin : styles.signedout}
             >
-              MyPage
-            </Link>
-          </Typography>
-        </MenuBox>
+              <Link
+                to="/mypage"
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+              >
+                MyPage
+              </Link>
+            </Typography>
+          </MenuBox>
+        )}
       </StyledToolbar>
-      <Menu
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
-        open={open}
-        onClose={() => setOpen(!open)}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-      >
-        <Box
-          sx={{
-            width: 200,
-            height: '80vh',
-            backgroundColor: 'var(--fontAccent-color)',
+      {nowUserInfo.nickname && (
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="demo-positioned-button"
+          open={open}
+          onClose={() => setOpen(!open)}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
           }}
         >
-          <Typography
-            key="Logout"
-            sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={nowLogined ? styles.signedin : styles.signedout}
+          <Box
+            sx={{
+              width: 200,
+              height: '80vh',
+              backgroundColor: 'var(--fontAccent-color)',
+            }}
           >
-            <Link
-              onClick={() => {
-                localStorage.removeItem('access-token');
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Success',
-                  text: '로그아웃 됨',
-                });
-              }}
-              style={{
-                textDecoration: 'none',
-                color: 'var(--fontBase-color)',
-              }}
-              to="/main"
+            <Typography
+              key="Logout"
+              sx={{ cursor: 'pointer', fontSize: '15px' }}
+              className={nowLogined ? styles.signedin : styles.signedout}
             >
-              Logout
-            </Link>
-          </Typography>
-          <Typography
-            key="MyPage"
-            sx={{ cursor: 'pointer', fontSize: '15px' }}
-            className={nowLogined ? styles.signedin : styles.signedout}
-          >
-            <Link
-              to="/mypage"
-              style={{
-                textDecoration: 'none',
-                color: 'var(--fontBase-color)',
-              }}
+              <Link
+                onClick={() => {
+                  localStorage.removeItem('access-token');
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '로그아웃 됨',
+                  });
+                }}
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+                to="/main"
+              >
+                Logout
+              </Link>
+            </Typography>
+            <Typography
+              key="MyPage"
+              sx={{ cursor: 'pointer', fontSize: '15px' }}
+              className={nowLogined ? styles.signedin : styles.signedout}
             >
-              MyPage
-            </Link>
-          </Typography>
-        </Box>
-      </Menu>
+              <Link
+                to="/mypage"
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--fontBase-color)',
+                }}
+              >
+                MyPage
+              </Link>
+            </Typography>
+          </Box>
+        </Menu>
+      )}
     </AppBar>
   );
 };
