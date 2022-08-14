@@ -71,6 +71,12 @@ const MyPage = () => {
       image: nowUserInfo.image,
       phone: nowUserInfo.phone,
     });
+    setMyEmail(nowUserInfo.email);
+    if (!nowUserInfo.image) {
+      setMyProfileNum(0);
+    } else setMyProfileNum(nowUserInfo.image);
+    setMyPhone(nowUserInfo.phone);
+    setMyNickname(nowUserInfo.nickname);
   }, [myEmail, myProfileNum, myPhone, myNickname]);
   const DeleteUser = () => {
     Swal.fire({
