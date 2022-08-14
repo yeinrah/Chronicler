@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './FindPwCard.module.css';
 import Copyright from '../../Components/Copyright';
 import {
@@ -11,11 +11,26 @@ import {
   Container,
 } from '@mui/material';
 import PolicyIcon from '@mui/icons-material/Policy';
+import userInfoFindPw from '../../Api/userInfoFindPw';
+import Swal from 'sweetalert2';
+import { FindPw } from '../../Pages';
 
 const FindPwCard = () => {
+  const inputEmail = useRef<any>();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+  };
+  const findPw = () => {
+    userInfoFindPw
+      .get<any>('/userInfo/findpw', {
+        params: {
+          email: inputEmail.current.value,
+        },
+      })
+      .then(() => {
+        Swal.fire('임시 패스워드를 전송했습니다.');
+      });
   };
 
   return (
@@ -47,6 +62,7 @@ const FindPwCard = () => {
             label="Email Address"
             name="email"
             autoComplete="email"
+            inputRef={inputEmail}
           />
           <Button
             type="submit"
@@ -58,6 +74,7 @@ const FindPwCard = () => {
               mt: 3,
               mb: 2,
             }}
+            onClick={findPw}
           >
             Find Your Password
           </Button>
