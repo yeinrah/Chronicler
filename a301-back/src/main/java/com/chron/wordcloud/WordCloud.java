@@ -33,7 +33,9 @@ public class WordCloud {
 	private static final int PADDING = 30;
 
 //	private static final String TEXT = "korean_test.txt";
-	private static final String FILTER = "korean_filtering.txt";
+//	private static final String FILTER = "korean_filtering.txt";
+	private static final String[] FILTER = { "어", "아", "은", "는", "이", "가", "하", "도", "이다", "이네", "있었다", "있다", "것으로",
+			"있다는", "했다", "것이다", "해서", "안녕하세요", "안녕하십니까", "정말", "반갑습니다 ", "반갑네요", "너무", "니다" };
 
 	// wordCloud 생성하기
 	public HashMap<String, List<String>> makeWordCloud(List<Message> chronicleData) throws Exception {
@@ -139,12 +141,15 @@ public class WordCloud {
 	 * This function generates a list of words to be filtered when a cloud is
 	 * generated
 	 */
-	private static HashSet<String> filteringList(String path) throws IOException {
+	private static HashSet<String> filteringList(String[] filterWord) throws IOException {
 		HashSet<String> filter = new HashSet<String>();
-		Scanner scan = new Scanner(new File(path));
-		while (scan.hasNext()) {
-			filter.add(scan.next());
+//		Scanner scan = new Scanner(new File(path));
+		for (int i = 0; i < filterWord.length; i++) {
+			filter.add(filterWord[i]);
 		}
+//		while (scan.hasNext()) {
+//			filter.add(scan.next());
+//		}
 		return filter;
 	}
 
