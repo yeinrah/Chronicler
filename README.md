@@ -80,7 +80,7 @@ Chronicler. 당신의 회의록
 
 <hr>
 
-# 홈동 서비스 화면 
+# Chronicler 서비스 화면 
 
 
 <hr>
@@ -106,7 +106,7 @@ Nginx와 letsencrypt를 이용하여 SSL 인증서를 적용하고, 프론트엔
 
 # 기술 특이점
 - WebRTC
-- STT
+- STT(Speech-To-Text)
 - Aspose
 <hr>
 
