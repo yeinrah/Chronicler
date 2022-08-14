@@ -18,14 +18,11 @@ import com.chron.api.request.EnterUserReq;
 import com.chron.api.request.LeaveConferenceReq;
 import com.chron.api.request.MakeConferenceReq;
 import com.chron.api.service.ConferenceService;
-import com.chron.api.service.MailService;
 import com.chron.api.service.UserService;
 import com.chron.db.entity.Conference;
-import com.chron.db.entity.Mail;
 import com.chron.db.entity.User;
 import com.chron.docx.Aspose;
 import com.chron.email.EmailSender;
-import com.chron.wordcloud.WordCloud;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,20 +35,16 @@ import io.swagger.annotations.ApiResponses;
 public class ConferenceController {
 
 	private ConferenceService conferenceService;
-	private MailService mailService;
 	private Aspose aspose;
-	private WordCloud wordcloud;
 	private UserService userService;
 	EmailSender emailSender;
 	HttpSession session;
 
 	@Autowired
-	public ConferenceController(ConferenceService conferenceService, WordCloud wordcloud, Aspose aspose,
-			MailService mailService, EmailSender emailSender, UserService userService) {
+	public ConferenceController(ConferenceService conferenceService, Aspose aspose, EmailSender emailSender,
+			UserService userService) {
 		this.conferenceService = conferenceService;
-		this.wordcloud = wordcloud;
 		this.aspose = aspose;
-		this.mailService = mailService;
 		this.emailSender = emailSender;
 		this.userService = userService;
 	}
@@ -112,11 +105,10 @@ public class ConferenceController {
 //				wordcloud.makeWordCloud(leaveConferenceReq.getChronicleData());
 
 //				String wordpath = wordcloud.makeJFrame(leaveConferenceReq.getChronicleData());
-//				System.out.println("출력해라" + wordpath);
-				//참가자와 시간을 가져오자 먼저 시간이 쉬우니까 시간부터
+				// 참가자와 시간을 가져오자 먼저 시간이 쉬우니까 시간부터
 				String time = conferenceService.getInsertedTime(u_id, conference_code);
 				System.out.println(time);
-				//참가자 가져오기
+				// 참가자 가져오기
 				String participants = conferenceService.getParticipants(conference_code);
 				aspose.makeChronicle(leaveConferenceReq.getChronicleData(), time, participants);
 				emailSender.sendEmailAttachment(user2.getEmail());

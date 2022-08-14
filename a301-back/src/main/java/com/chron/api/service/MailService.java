@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 import javax.activation.DataSource;
@@ -22,20 +20,18 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.mail.EmailAttachment;
-import org.apache.commons.mail.MultiPartEmail;
+
 import org.apache.commons.fileupload.FileItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
  
 import com.chron.db.entity.Mail;
-import com.google.api.client.util.IOUtils;
+
 
 import lombok.AllArgsConstructor;
 

@@ -95,7 +95,7 @@ public class Aspose {
 		style2.getFont().setBold(true);
 
 		//이미지 위치
-		builder.insertImage("logoTochron.PNG");
+		builder.insertImage("logoTochron.jpg");
 		// 여기 각 데이터들 받아서 넣어주기
 		builder.getParagraphFormat().setStyle(style2);
 		builder.write("\r"+"날짜 : " + YYMMDD + "\r");
