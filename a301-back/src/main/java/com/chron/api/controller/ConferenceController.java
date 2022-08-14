@@ -111,7 +111,7 @@ public class ConferenceController {
 				// 참가자 가져오기
 				String participants = conferenceService.getParticipants(conference_code);
 				aspose.makeChronicle(leaveConferenceReq.getChronicleData(), time, participants);
-				emailSender.sendEmailAttachment(user2.getEmail());
+				emailSender.sendEmailAttachment(user2.getEmail(), leaveConferenceReq.getChronicleData());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

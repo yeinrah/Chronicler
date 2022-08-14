@@ -94,136 +94,142 @@ public class Aspose {
 		style2.getFont().setSize(22.0);
 		style2.getFont().setBold(true);
 
-		//이미지 위치
+		// 이미지 위치
 		builder.insertImage("logoTochron.jpg");
 		// 여기 각 데이터들 받아서 넣어주기
 		builder.getParagraphFormat().setStyle(style2);
-		builder.write("\r"+"날짜 : " + YYMMDD + "\r");
+		builder.write("\r" + "날짜 : " + YYMMDD + "\r");
 		builder.write("시간 : " + time + "\r");
 		builder.write("참석자 :" + participants);
 		builder.insertBreak(BreakType.PAGE_BREAK);
 
-		// 1번차트(단어 빈도)
-		Shape shape = builder.insertChart(ChartType.COLUMN, 470, 324);
-		// 2번 차트(참여자 발화 빈도)
-		Shape shape2 = builder.insertChart(ChartType.PIE, 235, 324);
+//		String messageData = "";
+		if (chronicleData.size() == 0) {
+			System.out.println("회의기록 없습니다.");
+//			messageData = "회의 기록이 없습니다.";
+//			builder.writeln(messageData);
+		} else {
+			// 1번차트(단어 빈도)
+			Shape shape = builder.insertChart(ChartType.COLUMN, 470, 324);
+			// 2번 차트(참여자 발화 빈도)
+			Shape shape2 = builder.insertChart(ChartType.PIE, 235, 324);
 
-		// 3번 차트(참여자 별 긍정어휘 차트)
-		Shape shape3 = builder.insertChart(ChartType.PIE, 235, 324);
+			// 3번 차트(참여자 별 긍정어휘 차트)
+			Shape shape3 = builder.insertChart(ChartType.PIE, 235, 324);
 
 //		builder.insertImage(wordpath);
-		builder.insertBreak(BreakType.PAGE_BREAK);
+			builder.insertBreak(BreakType.PAGE_BREAK);
 
-		Chart chart = shape.getChart();
+			Chart chart = shape.getChart();
 
-		// Get chart series collection.
-		ChartSeriesCollection seriesColl = chart.getSeries();
-		// Delete default generated series.
-		seriesColl.clear();
-		// Create category names array, in this example we have two categories.
-		String[] categories = new String[] { "단어 빈도 분석" };
-		// Adding new series. Please note, data arrays must not be empty and arrays must be the same size.
-		KomoranSearch KS = new KomoranSearch();
-		ArrayList<WordCount> words = new ArrayList<WordCount>();
-		StringProcessor strProcessor = new StringProcessor(listToStrTotal(chronicleData), filteringList(FILTER), words);
+			// Get chart series collection.
+			ChartSeriesCollection seriesColl = chart.getSeries();
+			// Delete default generated series.
+			seriesColl.clear();
+			// Create category names array, in this example we have two categories.
+			String[] categories = new String[] { "단어 빈도 분석" };
+			// Adding new series. Please note, data arrays must not be empty and arrays must
+			// be the same size.
+			KomoranSearch KS = new KomoranSearch();
+			ArrayList<WordCount> words = new ArrayList<WordCount>();
+			StringProcessor strProcessor = new StringProcessor(listToStrTotal(chronicleData), filteringList(FILTER),
+					words);
 
-		for (int i = 0; i < strProcessor.words.size(); i++) {
-			seriesColl.add(strProcessor.words.get(i).word, categories, new double[] { strProcessor.words.get(i).n });
-		}
-		// 1번차트(단어 빈도) 끝
-		// 2번 차트(참여자 발화 빈도) 시작
-		HashMap<String, List<String>> items = new HashMap<>();
-		ArrayList<String> particiNames = new ArrayList<>();
+			for (int i = 0; i < strProcessor.words.size(); i++) {
+				seriesColl.add(strProcessor.words.get(i).word, categories,
+						new double[] { strProcessor.words.get(i).n });
+			}
+			// 1번차트(단어 빈도) 끝
+			// 2번 차트(참여자 발화 빈도) 시작
+			HashMap<String, List<String>> items = new HashMap<>();
+			ArrayList<String> particiNames = new ArrayList<>();
 
-		for (int i = 0; i < chronicleData.size(); i++) {
-			List<String> ls = KS.makeKomoran(chronicleData.get(i).getText());
-			// 1. 참석자 이름이 items에 있을 때,
-			if (items.containsKey(chronicleData.get(i).getName())) {
-				for (int j = 0; j < ls.size(); j++) {
-					items.get(chronicleData.get(i).getName()).add(ls.get(j));
+			for (int i = 0; i < chronicleData.size(); i++) {
+				List<String> ls = KS.makeKomoran(chronicleData.get(i).getText());
+				// 1. 참석자 이름이 items에 있을 때,
+				if (items.containsKey(chronicleData.get(i).getName())) {
+					for (int j = 0; j < ls.size(); j++) {
+						items.get(chronicleData.get(i).getName()).add(ls.get(j));
+					}
+				}
+				// 2. 참석자 이름이 items에 없을 때,
+				else {
+					items.put(chronicleData.get(i).getName(), ls);
+					particiNames.add(chronicleData.get(i).getName());
 				}
 			}
-			// 2. 참석자 이름이 items에 없을 때,
-			else {
-				items.put(chronicleData.get(i).getName(), ls);
-				particiNames.add(chronicleData.get(i).getName());
+			Chart chart2 = shape2.getChart();
+			chart2.getSeries().clear();
+
+			String[] particiName = new String[particiNames.size()];
+			double[] particiSize = new double[particiNames.size()];
+
+			for (int i = 0; i < particiNames.size(); i++) {
+				particiName[i] = particiNames.get(i);
+				particiSize[i] = items.get(particiNames.get(i)).size();
 			}
-		}
-		Chart chart2 = shape2.getChart();
-		chart2.getSeries().clear();
 
-		String[] particiName = new String[particiNames.size()];
-		double[] particiSize = new double[particiNames.size()];
+			ChartSeries series1 = chart2.getSeries().add("발화자 빈도", particiName, particiSize);
+			ChartDataLabelCollection labels1 = series1.getDataLabels();
+			labels1.setShowPercentage(true);
+			labels1.setShowValue(false);
+			labels1.setShowLeaderLines(false);
+			labels1.setSeparator(" - ");
+			// 2번차트 끝
 
-		for (int i = 0; i < particiNames.size(); i++) {
-			particiName[i] = particiNames.get(i);
-			particiSize[i] = items.get(particiNames.get(i)).size();
-		}
+			// 3번 차트(전체 긍정/부정 빈도 차트) 시작
+			Chart chart3 = shape3.getChart();
+			chart3.getSeries().clear();
 
-		ChartSeries series1 = chart2.getSeries().add("발화자 빈도", particiName, particiSize);
-		ChartDataLabelCollection labels1 = series1.getDataLabels();
-		labels1.setShowPercentage(true);
-		labels1.setShowValue(false);
-		labels1.setShowLeaderLines(false);
-		labels1.setSeparator(" - ");
-		// 2번차트 끝
+			String[] feelName = new String[] { "긍정", "부정" };
+			String tmp = listToStrTotalNotKomo(chronicleData);
 
-		// 3번 차트(전체 긍정/부정 빈도 차트) 시작
-		Chart chart3 = shape3.getChart();
-		chart3.getSeries().clear();
+			String[] usedWords = tmp.split(" ");
+			double[] feelCnt = new double[2];
 
-		String[] feelName = new String[] { "긍정", "부정" };
-		String tmp = listToStrTotalNotKomo(chronicleData);
-
-		String[] usedWords = tmp.split(" ");
-		double[] feelCnt = new double[2];
-
-		for (int i = 0; i < usedWords.length; i++) {
-			for (int j = 0; j < POSITIVE.length; j++) {
-				if (usedWords[i].contains(POSITIVE[j])) {
-					++feelCnt[0];
+			for (int i = 0; i < usedWords.length; i++) {
+				for (int j = 0; j < POSITIVE.length; j++) {
+					if (usedWords[i].contains(POSITIVE[j])) {
+						++feelCnt[0];
+					}
+				}
+				for (int j = 0; j < NEGATIVE.length; j++) {
+					if (usedWords[i].contains(NEGATIVE[j])) {
+						++feelCnt[1];
+					}
 				}
 			}
-			for (int j = 0; j < NEGATIVE.length; j++) {
-				if (usedWords[i].contains(NEGATIVE[j])) {
-					++feelCnt[1];
-				}
-			}
-		}
-		ChartSeries series2 = chart3.getSeries().add("회의 긍정 지수", feelName, feelCnt);
-		ChartDataLabelCollection labels2 = series2.getDataLabels();
-		labels2.setShowPercentage(true);
-		labels2.setShowValue(false);
-		labels2.setShowLeaderLines(false);
-		labels2.setSeparator(" - ");
-		// 3번차트 끝
+			ChartSeries series2 = chart3.getSeries().add("회의 긍정 지수", feelName, feelCnt);
+			ChartDataLabelCollection labels2 = series2.getDataLabels();
+			labels2.setShowPercentage(true);
+			labels2.setShowValue(false);
+			labels2.setShowLeaderLines(false);
+			labels2.setSeparator(" - ");
+			// 3번차트 끝
 
-		// 여기부터 대화록 테이블
-		Table table = builder.startTable();
+			// 여기부터 대화록 테이블
+			Table table = builder.startTable();
 
-		builder.insertCell();
-		builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
-		builder.getFont().setBold(true);
-		builder.getFont().setSize(30.0);
+			builder.insertCell();
+			builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
+			builder.getFont().setBold(true);
+			builder.getFont().setSize(30.0);
 
-		builder.write("대화록");
-		builder.endRow();
-		builder.endTable();
+			builder.write("대화록");
+			builder.endRow();
+			builder.endTable();
 
-		Style style3 = doc.getStyles().add(StyleType.PARAGRAPH, "userName");
-		style3.getFont().setSize(18.0);
+			Style style3 = doc.getStyles().add(StyleType.PARAGRAPH, "userName");
+			style3.getFont().setSize(18.0);
 
-		builder.insertCell();
-		builder.getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
+			builder.insertCell();
+			builder.getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
 //		builder.getRowFormat().setHeight(100.0);
-		builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
-		builder.getFont().setBold(true);
-		String messageData = "";
-		System.out.println(chronicleData);
-		if (chronicleData.isEmpty()) {
-			messageData = "회의 기록이 없습니다.";
-			builder.writeln(messageData);
-		} else {
+			builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
+			builder.getFont().setBold(true);
+
+			System.out.println(chronicleData);
+
 			for (int i = 0; i < chronicleData.size(); i++) {
 				style.getFont().setSize(16.0);
 				style.getFont().setColor(Color.GRAY);
@@ -232,9 +238,10 @@ public class Aspose {
 				builder.getParagraphFormat().setStyle(doc.getStyles().get("Normal"));
 				builder.writeln(chronicleData.get(i).getText());
 			}
+
+			builder.endRow();
+			builder.endTable();
 		}
-		builder.endRow();
-		builder.endTable();
 		doc.save("CHRONICLER_당신의_회의록.docx");
 	}
 
