@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
 				.addPathPatterns("/**")
 				// 로그인, 회원가입, 회원정보 찾기 페이지 및 swagger가 들어오는 경우에는 인터셉터를 수행하지 않는다.
 				.excludePathPatterns("/api/userInfo/login").excludePathPatterns("/api/userInfo/signup")
-				.excludePathPatterns("/api/userInfo/findEmail").excludePathPatterns("/", "/v2/api-docs",
+				.excludePathPatterns("/api/userInfo/findEmail").excludePathPatterns("/api/userInfo/findpw").excludePathPatterns("/", "/v2/api-docs",
 						"/swagger-resources/**", "/swagger-ui/index.html", "/swagger-ui.html", "/webjars/**",
 						"/swagger/**").excludePathPatterns("/api/conference/**");
 	}

@@ -1,6 +1,7 @@
 package com.chron.email;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -11,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.chron.api.service.UserService;
 import com.chron.db.entity.Message;
 
 @Component
@@ -49,6 +51,23 @@ public class EmailSender {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public void sendPw(final String toEmailAddresses, String tmpPW) {
+		try {			
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setFrom("chronicler321@gmail.com");
+			helper.setTo(toEmailAddresses); // 받는사람 이메일
+			helper.setSubject("CHRONICLER 비밀번호 찾기");
+			
+			String text = "고객님의 임시 비밀번호는 " + tmpPW + "입니다.";
+			helper.setText(text, true);
+			
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 }
