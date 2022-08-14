@@ -68,6 +68,8 @@ public class ConferenceService {
 	@Transactional
 	public UserConference insertParticipant(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
+		System.out.println("UserID = " + user_id);
+		System.out.println("Conference_code = " + conference_code);
 		UserConference userConference = UserConference.builder().cId(conf.getCId()).userId(user_id).isOwner(false)
 				.build();
 		return userConferenceRepo.save(userConference);
