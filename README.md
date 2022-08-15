@@ -111,7 +111,7 @@ Nginx와 letsencrypt를 이용하여 SSL 인증서를 적용하고, 프론트엔
 <hr>
 
 # 요구사항 정의서
-
+![요구사항정의서](/uploads/77c7ba9240b8b5e03bdb8b50c46cabd8/요구사항정의서.PNG)
 <hr>
 
 # Git 컨벤션
