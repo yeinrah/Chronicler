@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './MainNonLog.module.css';
+import './MainNonLog.module.css';
 import { Card, CardContent, Typography } from '@mui/material';
 import MainStack from '../../Components/MainStack';
 import MainBtn from '../../Components/MainBtn';
@@ -30,6 +30,7 @@ const MainNonLog: React.FC = () => {
                 fontSize: '3vw',
                 wordBreak: 'keep-all',
                 lineHeight: '130%',
+                fontFamily: 'Song Myung',
               }}
             >
               회의에 집중하세요 기록은 맡겨주세요
@@ -69,7 +70,7 @@ const MainNonLog: React.FC = () => {
                   navigate('/MeetingRoom');
                 }}
               >
-                새회의
+                새 회의
               </MainBtn>
               <InputText
                 id="outlined-basic"

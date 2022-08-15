@@ -66,7 +66,7 @@ const MyPage = () => {
   useEffect(() => {
     setNowUserInfo({
       id: nowUserInfo.id,
-      email: myNickname,
+      email: myEmail,
       nickname: myNickname,
       image: MypageProfileImage,
       phone: myPhone,

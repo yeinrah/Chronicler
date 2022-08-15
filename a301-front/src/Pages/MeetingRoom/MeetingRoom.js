@@ -657,7 +657,11 @@ const MeetingRoom = (props) => {
       {session === undefined ? (
         <div id={styles.join} className="container">
           <div id={styles["join-dialog"]} className="jumbotron vertical-center">
-            <Typography variant="h3" component={"span"}>
+            <Typography
+              variant="h3"
+              component={"span"}
+              sx={{ fontFamily: "Song Myung" }}
+            >
               Join a video session
             </Typography>
             <br />
