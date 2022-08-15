@@ -37,7 +37,6 @@ public class EmailSender {
 				} else {
 					helper.setText(" ");
 				}
-
 				// attach the file into email body
 				File attachment = new File("CHRONICLER_당신의_회의록.docx");
 				FileSystemResource file = new FileSystemResource(attachment);
@@ -52,37 +51,51 @@ public class EmailSender {
 		}
 	}
 
-	public void sendPw(final String toEmailAddresses, String tmpPW) {
-		try {			
+	public void sendUpdatePw(final String toEmailAddresses, String tmppwCode) {
+		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom("chronicler321@gmail.com", "CHRONICLER");
 			helper.setTo(toEmailAddresses);
 			helper.setSubject("CHRONICLER 임시 패스워드 발급");
-			
-			String text = "고객님의 임시 패스워드는 " + tmpPW + "입니다.";
+			String text = "고객님의 임시 패스워드는 " + tmppwCode + "입니다.";
 			helper.setText(text, true);
-			
+
 			mailSender.send(message);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	public void checkEmail(final String toEmailAddresses, String tmpCode) {
-		try {			
+		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom("chronicler321@gmail.com", "CHRONICLER");
 			helper.setTo(toEmailAddresses);
 			helper.setSubject("CHRONICLER 이메일 인증코드 발급");
-			
 			String text = "고객님의 이메일 인증코드는 " + tmpCode + "입니다.";
 			helper.setText(text, true);
-			
+
 			mailSender.send(message);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+
+	public void sendPwAuth(final String toEmailAddresses, String tmppwCode) {
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setFrom("chronicler321@gmail.com", "CHRONICLER");
+			helper.setTo(toEmailAddresses);
+			helper.setSubject("CHRONICLER 비밀번호 인증코드");
+			String text = "고객님의 비밀번호 인증코드는 " + tmppwCode + "입니다.";
+			helper.setText(text, true);
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
 }

@@ -76,6 +76,14 @@ CREATE TABLE user_tmp (
  PRIMARY KEY(tmp_id)
 );
 
+-- 회원 비밀번호 인증 테이블
+CREATE TABLE pw_tmp (
+ tmppw_id INTEGER auto_increment,
+ email VARCHAR(255),
+ tmppw_code VARCHAR(32),
+ PRIMARY KEY(tmppw_id)
+);
+
 SELECT * FROM user;
 SELECT * FROM conference;
 SELECT * FROM chronicle;
