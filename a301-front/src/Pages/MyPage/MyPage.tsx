@@ -64,6 +64,7 @@ const MyPage = () => {
     },
   });
   useEffect(() => {
+    console.log('!!!!!!!!!!!!!!!!!!!!1');
     setNowUserInfo({
       id: nowUserInfo.id,
       email: myEmail,
