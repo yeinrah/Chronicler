@@ -169,12 +169,13 @@ FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FR
 <hr>
 
 # 팀원을 소개합니다!
+- 백정 김정서
 ![kimjeongseo.jpg](/uploads/a6326cb0c55dcf63185b6c19c52525dc/kimjeongseo.jpg.png)
-
+- 심슨 김영진
 ![김영진.jpg](/uploads/fc5185ee4d7ce976ae4818f74d3682cf/김영진.jpg.jpg)
-
+- 옌킨스 나예인
 ![조절예인](/uploads/c006a251b3a6814f2b049e1b81d65b15/조절예인.jpg)
-
+- 이성민 송상훈
 ![송상훈](/uploads/7465195c5dd707b1dae5658362575c03/송상훈.jpg)
 
 
