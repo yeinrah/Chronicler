@@ -90,7 +90,7 @@ public class Aspose {
 		else {
 			bossName = participants.substring(0, index);
 		}
-		builder.write(bossName + " 님의 회의 \r");
+		builder.write("\r\r\r" + bossName + " 님의 회의 \r");
 
 		Style style2 = doc.getStyles().add(StyleType.PARAGRAPH, "info");
 		style2.getFont().setSize(22.0);
@@ -100,7 +100,7 @@ public class Aspose {
 //		builder.insertImage("logoTochron.jpg");
 		// 여기 각 데이터들 받아서 넣어주기
 		builder.getParagraphFormat().setStyle(style2);
-		builder.write("\r\r\r\r\r\r\r\r\r\r\r\r\r" + "날짜 : " + YYMMDD + "\r");
+		builder.write("\r\r\r\r\r\r\r\r\r" + "날짜 : " + YYMMDD + "\r");
 		builder.write("시간 : " + time + "\r");
 		builder.write("참석자 :" + participants);
 		builder.insertBreak(BreakType.PAGE_BREAK);
@@ -111,28 +111,37 @@ public class Aspose {
 			// 1번차트(단어 빈도)
 			Shape shape = builder.insertChart(ChartType.COLUMN, 470, 324);
 			// 2번 차트(참여자 발화 빈도)
-			Shape shape2 = builder.insertChart(ChartType.PIE, 235, 324);
+			Shape shape2 = builder.insertChart(ChartType.PIE, 235, 320);
 			// 3번 차트(참여자 별 긍정어휘 차트)
-			Shape shape3 = builder.insertChart(ChartType.PIE, 235, 324);
+			Shape shape3 = builder.insertChart(ChartType.PIE, 235, 320);
 
 //		builder.insertImage(wordpath);
 			builder.insertBreak(BreakType.PAGE_BREAK);
 
 			Chart chart = shape.getChart();
+			chart.getTitle().setText("단어 빈도 분석");
 
 			ChartSeriesCollection seriesColl = chart.getSeries();
 			seriesColl.clear();
-			String[] categories = new String[] { "단어 빈도 분석" };
+			String[] categories = new String[] {""};
 
 			KomoranSearch KS = new KomoranSearch();
 			ArrayList<WordCount> words = new ArrayList<WordCount>();
 			StringProcessor strProcessor = new StringProcessor(listToStrTotal(chronicleData), filteringList(FILTER),
 					words);
 
-			for (int i = 0; i < strProcessor.words.size(); i++) {
-				seriesColl.add(strProcessor.words.get(i).word, categories,
-						new double[] { strProcessor.words.get(i).n });
+			if (strProcessor.words.size() > 10) {
+				for (int i = 0; i < 10; i++) {
+					seriesColl.add(strProcessor.words.get(i).word, categories,
+							new double[] { strProcessor.words.get(i).n });
+				}
+			} else {
+				for (int i = 0; i < strProcessor.words.size(); i++) {
+					seriesColl.add(strProcessor.words.get(i).word, categories,
+							new double[] { strProcessor.words.get(i).n });
+				}
 			}
+
 			// 1번차트(단어 빈도) 끝
 			// 2번 차트(참여자 발화 빈도) 시작
 			HashMap<String, List<String>> items = new HashMap<>();
@@ -192,12 +201,19 @@ public class Aspose {
 					}
 				}
 			}
-			ChartSeries series2 = chart3.getSeries().add("회의 긍정 지수", feelName, feelCnt);
-			ChartDataLabelCollection labels2 = series2.getDataLabels();
-			labels2.setShowPercentage(true);
-			labels2.setShowValue(false);
-			labels2.setShowLeaderLines(false);
-			labels2.setSeparator(" - ");
+
+			
+			if (feelCnt[0] == 0 || feelCnt[1] == 0) {
+				ChartSeries series2 = chart3.getSeries().add("회의 긍정 지수 측정을 위한 데이터가 부족합니다.", feelName, feelCnt);
+				series2.getDataLabels();
+			} else {
+				ChartSeries series2 = chart3.getSeries().add("회의 긍정 지수", feelName, feelCnt);
+				ChartDataLabelCollection labels2 = series2.getDataLabels();
+				labels2.setShowPercentage(true);
+				labels2.setShowValue(false);
+				labels2.setShowLeaderLines(false);
+				labels2.setSeparator(" - ");
+			}
 			// 3번차트 끝
 
 			// 여기부터 대화록 테이블
