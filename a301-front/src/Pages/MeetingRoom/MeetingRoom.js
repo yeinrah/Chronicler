@@ -109,7 +109,11 @@ const MeetingRoom = (props) => {
   }, [micOn]);
   useEffect(() => {
     if (speechRecords[speechRecords.length - 1]) {
-      setSubtitle(speechRecords[speechRecords.length - 1].text);
+      setSubtitle(
+        speechRecords[speechRecords.length - 1].name +
+          " : " +
+          speechRecords[speechRecords.length - 1].text
+      );
       console.log(speechRecords);
     }
   }, [speechRecords]);
