@@ -16,11 +16,13 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignUpApi from '../../Api/userSignUpApi';
 import Swal from 'sweetalert2';
+import requestEmailCode from '../../Api/requestEmailCode';
 
 const SignUpCard = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredEmailError, setEnteredEmailError] = useState(false);
   const [enteredEmailErrorMsg, setEnteredEmailErrorMsg] = useState('');
+  const [enteredEmailAuth, setEnteredEmailAuth] = useState('');
   const [enteredNickname, setEnteredNickname] = useState('');
   const [enteredNicknameError, setEnteredNicknameError] = useState(false);
   const [enteredNicknameErrorMsg, setEnteredNicknameErrorMsg] = useState('');
@@ -102,6 +104,7 @@ const SignUpCard = () => {
     userSignUpApi
       .post<any>('userInfo/signup', {
         email: enteredEmail,
+        tmpCode: enteredEmailAuth,
         nickname: enteredNickname,
         password: enteredPassword,
         phone: enteredPhone,
@@ -171,6 +174,53 @@ const SignUpCard = () => {
               ) : (
                 ''
               )}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                id="emailAuth"
+                label="Email Address Auth"
+                name="emailAuth"
+                autoComplete="emailAuth"
+                sx={{ width: '60%' }}
+                onChange={(e) => {
+                  // setEnteredEmail(e.target.value);
+                  setEnteredEmailAuth(e.target.value);
+                }}
+              />
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: 'var(--eleActionPos-color)',
+                  color: 'var(--fontBase-color)',
+                  width: '40%',
+                  height: '100%',
+                  // mt: 1,
+                  // mb: 2,
+                }}
+                onClick={() => {
+                  let accessToken = localStorage.getItem('access-token');
+                  if (accessToken != null)
+                    requestEmailCode
+                      .get(`/userInfo/signup/checkEmail/${enteredEmail}`, {
+                        params: {
+                          email: enteredEmail,
+                        },
+                      })
+                      .then(() => {
+                        Swal.fire('인증이메일을 전송하였습니다.');
+                      })
+                      .catch((error) => {
+                        if (error.response.status === 409) {
+                          Swal.fire('이미 메일로 인증번호를 발송하였습니다.');
+                        } else {
+                          Swal.fire('잘못된 요청입니다.');
+                        }
+                      });
+                }}
+              >
+                인증코드 보내기
+              </Button>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -309,9 +359,6 @@ const SignUpCard = () => {
               >
                 Already have an account? Sign in
               </RouterLink>
-              {/* <RouterLink to="/signin">
-                Already have an account? Sign in
-              </RouterLink> */}
             </Grid>
           </Grid>
         </Box>
