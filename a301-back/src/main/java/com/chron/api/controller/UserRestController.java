@@ -40,9 +40,6 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/userInfo")
 public class UserRestController {
 
-//	static boolean updateTmpPW = false;
-//	static boolean updateEmailTmpCode = false;
-
 	private UserService userService;
 
 	@Autowired
@@ -85,9 +82,6 @@ public class UserRestController {
 				result.put("message", "로그인에 성공하였습니다.");
 				loginUser.setPassword("");
 				result.put("loginUser", loginUser);
-
-				// 로그인 하면, 임시비밀번호 다시 받을 수 있는 상태(false)로 변경
-//				updateTmpPW = false;
 
 				status = HttpStatus.ACCEPTED;
 			}
@@ -156,33 +150,21 @@ public class UserRestController {
 	}
 
 	@GetMapping("/findpw")
-	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 사용자 이메일로 임시비밀번호를 발급한다.")
+	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 사용자 이메일로 인증코드를 발급한다.")
 	public ResponseEntity<?> findpw(@RequestParam String email) throws Exception {
 
-//		if (updateTmpPW == false) {
 			String tmppwCode = RandomNumberUtil.getRandomNumber();
-//			userService.updatePasswordTMP(email, tmppwCode);
-
 			userService.insertTmpPw(email, tmppwCode);
 			emailSender.sendPwAuth(email, tmppwCode);
-			// 비밀번호 찾기로 임시비밀번호 발급(true)
-			// 로그인하면 updateTmpPW상태를 false로 변경
-//			updateTmpPW = true;
-//		} else {
-//			return new ResponseEntity<>(HttpStatus.CONFLICT);
-//		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/updatepw")
-	@ApiOperation(value = "비밀번호 업데이트", notes = "이메일주소를 통해 인증받은 번호를 입력하면 비밀번호를 업데이트 할 수 있다.")
+	@ApiOperation(value = "비밀번호 난수 업데이트", notes = "이메일주소를 통해 인증코드를 입력하면 비밀번호가 난수로 변경되고 이메일로 발송된다.")
 	public ResponseEntity<?> updatepw(@RequestBody FindPwReq findPwReq) throws Exception {
 
 		userService.updatePasswordTMP(findPwReq.getEmail(), findPwReq.getTmppwCode());
 		emailSender.sendUpdatePw(findPwReq.getEmail(), findPwReq.getTmppwCode());
-		// 비밀번호 찾기로 임시비밀번호 발급(true)
-		// 로그인하면 updateTmpPW상태를 false로 변경
-
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -190,22 +172,9 @@ public class UserRestController {
 	@ApiOperation(value = "이메일 인증 코드 보내기", notes = "이메일주소를 통해 사용자 이메일로 인증코드를 발급한다.")
 	public ResponseEntity<?> checkingEmail(@RequestParam String email) throws Exception {
 
-//		if (!email.equals("") || userService.findByEmail(email)) {
-//			updateEmailTmpCode = false;
-//		}
-
-//		if (updateEmailTmpCode == false) {
 			String tmpCode = RandomNumberUtil.getRandomNumber();
-
 			userService.insertTmpUser(email, tmpCode);
 			emailSender.checkEmail(email, tmpCode);
-
-//			updateEmailTmpCode = true;
-//		}
-
-//		else {
-//			return new ResponseEntity<>(HttpStatus.CONFLICT);
-//		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
