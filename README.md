@@ -173,7 +173,7 @@ FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FR
 
 ![김영진.jpg](/uploads/fc5185ee4d7ce976ae4818f74d3682cf/김영진.jpg.jpg)
 
-![나예인](/uploads/4543129fbe12f300f05de18e0236cdc8/나예인.jpg)
+![조절예인](/uploads/c006a251b3a6814f2b049e1b81d65b15/조절예인.jpg)
 
 ![송상훈](/uploads/7465195c5dd707b1dae5658362575c03/송상훈.jpg)
 
