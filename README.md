@@ -96,8 +96,8 @@ docker pull yeinrah/chronicler-front
     방장의 이메일로 회의록 docx파일로 송신
 <hr>
 
-# 서비스 아키텍쳐
-
+# 시스템 아키텍쳐
+![시스템아키텍처](/uploads/3d137ce717806e4e324059d7c5cd3d26/시스템아키텍처.PNG)
 <hr>
 
 # CI/CD 구축 및 SSL 인증서 적용
