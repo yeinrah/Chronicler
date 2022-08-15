@@ -59,10 +59,8 @@ public class ConferenceController {
 
 		// DB 저장
 		Conference conf = conferenceService.makeConference(makeConferenceReq.getConferenceCode(), u_id);
-
 		// conference_history를 만들고 action을 0으로 했음
 		conferenceService.makeConferenceHistory(u_id, makeConferenceReq.getConferenceCode());
-
 		// 방 참가했을 때 회의_회원 테이블에 방장 데이터 넣기
 		conferenceService.insertOwner(u_id, conf.getCId());
 
@@ -101,13 +99,8 @@ public class ConferenceController {
 			try {
 				HashMap<String, Object> user = userService.findUser(u_id);
 				User user2 = (User) user.get("user");
-
-//				wordcloud.makeWordCloud(leaveConferenceReq.getChronicleData());
-
-//				String wordpath = wordcloud.makeJFrame(leaveConferenceReq.getChronicleData());
-				// 참가자와 시간을 가져오자 먼저 시간이 쉬우니까 시간부터
+				// 참가 시간 가져오기
 				String time = conferenceService.getInsertedTime(u_id, conference_code);
-				System.out.println(time);
 				// 참가자 가져오기
 				String participants = conferenceService.getParticipants(conference_code);
 				aspose.makeChronicle(leaveConferenceReq.getChronicleData(), time, participants);

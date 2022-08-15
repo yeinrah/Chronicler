@@ -15,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @ApiModel("ConferenceRes")
 public class ConferenceRes {
-
 	@ApiModelProperty(name = "세션코드", example = "ABE83")
 	private String conference_code;
 

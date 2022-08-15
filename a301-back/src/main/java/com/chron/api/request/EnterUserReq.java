@@ -12,11 +12,6 @@ import lombok.Setter;
 @Setter
 @ApiModel("EnterUserReq")
 public class EnterUserReq {
-
-//	@ApiModelProperty(name = "사용자 ID", example = "22")
-//	@NotNull(message = "사용자 ID 칸을 채워주세요.")
-//	private int u_id;
-
 	@ApiModelProperty(name = "닉네임", example = "porter")
 	@NotNull(message = "닉네임 칸을 채워주세요.")
 	private String nickname;

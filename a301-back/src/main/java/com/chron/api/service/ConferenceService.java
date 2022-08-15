@@ -145,59 +145,57 @@ public class ConferenceService {
 		Long time = System.currentTimeMillis();
 		java.sql.Timestamp stamp = new Timestamp(time);
 
-		//MessageBody 요리하기
+		// MessageBody 요리하기
 		StringBuilder sb = new StringBuilder();
 		String MessageData = "";
 		System.out.println(chronicleData);
-		if(chronicleData.isEmpty()) MessageData = "회의 기록이 없습니다.";
+		if (chronicleData.isEmpty())
+			MessageData = "회의 기록이 없습니다.";
 		else {
-		for(int i=0; i<chronicleData.size();i++) {
-			sb.append(chronicleData.get(i).getName());
-			sb.append(" : ");
-			sb.append(chronicleData.get(i).getText());
-			sb.append("\r\n");
+			for (int i = 0; i < chronicleData.size(); i++) {
+				sb.append(chronicleData.get(i).getName());
+				sb.append(" : ");
+				sb.append(chronicleData.get(i).getText());
+				sb.append("\r\n");
 			}
 		}
-//		System.out.println("toString으로 찍은거" + sb.toString());
 		System.out.println(sb);
 		MessageData += sb.toString();
-//		String data = new String(, "UTF-8");
 		Chronicle chronicle = Chronicle.builder().cId(confCid).ownerId(user_id).chronicle_data(MessageData)
 				.time(stamp.toString()).callStartTime(startTime).callEndTime(endTime).build();
 
 		return chronicleRepo.save(chronicle);
 	}
-	
-	//회의록 시작시간 가져오는 로직
-		public String getInsertedTime(int u_id, String conference_code) {
-			Conference conference = conferenceRepository.findOneByConferenceCode(conference_code);
-			int confId = conference.getCId();
-			System.out.println("conference_code : "+conference_code);
-			System.out.println("confId : "+confId);
-			System.out.println("u_id : "+u_id);
-			ConferenceHistory confhistory = conferenceHistoryRepo.findOneByCIdAndUserIdAndAction(confId,u_id,  0);
-			String time = confhistory.getInsertedTime();
-			System.out.println("time : " + time);
-			return time;
-		}
-		//참가자 가져오는 로직
-		public String getParticipants(String conference_code) {
-			String participants = "";
-			Conference conference = conferenceRepository.findOneByConferenceCode(conference_code);
-			int cid = conference.getCId();
-			List<UserConference> list = userConferenceRepo.findConferenceBycId(cid);
-			for(int i=0; i<list.size();i++) {
-				int uid = list.get(i).getUserId();
-				User user = userRepository.findOneById(uid);
-				participants+=user.getNickname();
-				if(i==list.size()-1)break;
-				if(list.size()!=1) {
-					participants+=", ";				
-				}
-				
-			}
-		
-			return participants;
-		}
+
+	// 회의록 시작시간 가져오는 로직
+	public String getInsertedTime(int u_id, String conference_code) {
+		Conference conference = conferenceRepository.findOneByConferenceCode(conference_code);
+		int confId = conference.getCId();
+		System.out.println("conference_code : " + conference_code);
+		System.out.println("confId : " + confId);
+		System.out.println("u_id : " + u_id);
+		ConferenceHistory confhistory = conferenceHistoryRepo.findOneByCIdAndUserIdAndAction(confId, u_id, 0);
+		String time = confhistory.getInsertedTime();
+		System.out.println("time : " + time);
+		return time;
 	}
 
+	// 참가자 가져오는 로직
+	public String getParticipants(String conference_code) {
+		String participants = "";
+		Conference conference = conferenceRepository.findOneByConferenceCode(conference_code);
+		int cid = conference.getCId();
+		List<UserConference> list = userConferenceRepo.findConferenceBycId(cid);
+		for (int i = 0; i < list.size(); i++) {
+			int uid = list.get(i).getUserId();
+			User user = userRepository.findOneById(uid);
+			participants += user.getNickname();
+			if (i == list.size() - 1)
+				break;
+			if (list.size() != 1) {
+				participants += ", ";
+			}
+		}
+		return participants;
+	}
+}

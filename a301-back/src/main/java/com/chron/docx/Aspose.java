@@ -1,13 +1,11 @@
 package com.chron.docx;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 
 import org.springframework.stereotype.Component;
 
@@ -42,6 +40,7 @@ public class Aspose {
 	private static final String[] FILTER = { "어", "아", "은", "는", "이", "가", "하", "도", "이다", "이네", "있었다", "있다", "것으로",
 			"있다는", "했다", "것이다", "해서", "안녕하세요", "안녕하십니까", "정말", "반갑습니다 ", "반갑네요", "너무", "니다" };
 
+	// Komoran 적용
 	public String listToStrTotal(List<Message> chronicleData) {
 		KomoranSearch KS = new KomoranSearch();
 		StringBuilder sb = new StringBuilder();
@@ -52,22 +51,21 @@ public class Aspose {
 				sb.append(ls.get(j)).append(" ");
 			}
 		}
-//		System.out.println("투스트링 : " + sb.toString());
 		return sb.toString();
 	}
 
+	// Not Komoran
 	public String listToStrTotalNotKomo(List<Message> chronicleData) {
-
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < chronicleData.size(); i++) {
 			String str = chronicleData.get(i).getText();
 			sb.append(str).append(" ");
 		}
-//		System.out.println("투스트링NotKomo : " + sb.toString());
 		return sb.toString();
 	}
 
+	// 회의록 만들어지는 과정
 	public void makeChronicle(List<Message> chronicleData, String date, String participants) throws Exception {
 		String timeData = date;
 		String YYMMDD = timeData.substring(0, 10);
@@ -82,7 +80,8 @@ public class Aspose {
 
 		builder.getParagraphFormat().setStyle(titleStyle);
 		builder.getParagraphFormat().setAlignment(ParagraphAlignment.CENTER);
-		// 여기 닉네임 받기
+
+		// 닉네임 받기
 		String bossName = "";
 		int index = participants.indexOf(",");
 
@@ -106,17 +105,13 @@ public class Aspose {
 		builder.write("참석자 :" + participants);
 		builder.insertBreak(BreakType.PAGE_BREAK);
 
-//		String messageData = "";
 		if (chronicleData.size() == 0) {
 			System.out.println("회의기록 없습니다.");
-//			messageData = "회의 기록이 없습니다.";
-//			builder.writeln(messageData);
 		} else {
 			// 1번차트(단어 빈도)
 			Shape shape = builder.insertChart(ChartType.COLUMN, 470, 324);
 			// 2번 차트(참여자 발화 빈도)
 			Shape shape2 = builder.insertChart(ChartType.PIE, 235, 324);
-
 			// 3번 차트(참여자 별 긍정어휘 차트)
 			Shape shape3 = builder.insertChart(ChartType.PIE, 235, 324);
 
@@ -125,14 +120,10 @@ public class Aspose {
 
 			Chart chart = shape.getChart();
 
-			// Get chart series collection.
 			ChartSeriesCollection seriesColl = chart.getSeries();
-			// Delete default generated series.
 			seriesColl.clear();
-			// Create category names array, in this example we have two categories.
 			String[] categories = new String[] { "단어 빈도 분석" };
-			// Adding new series. Please note, data arrays must not be empty and arrays must
-			// be the same size.
+
 			KomoranSearch KS = new KomoranSearch();
 			ArrayList<WordCount> words = new ArrayList<WordCount>();
 			StringProcessor strProcessor = new StringProcessor(listToStrTotal(chronicleData), filteringList(FILTER),
@@ -179,7 +170,6 @@ public class Aspose {
 			labels1.setShowLeaderLines(false);
 			labels1.setSeparator(" - ");
 			// 2번차트 끝
-
 			// 3번 차트(전체 긍정/부정 빈도 차트) 시작
 			Chart chart3 = shape3.getChart();
 			chart3.getSeries().clear();
@@ -250,14 +240,9 @@ public class Aspose {
 
 	private static HashSet<String> filteringList(String[] filterWord) throws IOException {
 		HashSet<String> filter = new HashSet<String>();
-//		Scanner scan = new Scanner(new File(path));
-//		while (scan.hasNext()) {
-//			filter.add(scan.next());
-//		}
 		for (int i = 0; i < filterWord.length; i++) {
 			filter.add(filterWord[i]);
 		}
 		return filter;
 	}
-
 }

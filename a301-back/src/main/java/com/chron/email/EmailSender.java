@@ -57,7 +57,7 @@ public class EmailSender {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 			helper.setFrom("chronicler321@gmail.com", "CHRONICLER");
-			helper.setTo(toEmailAddresses); // 받는사람 이메일
+			helper.setTo(toEmailAddresses);
 			helper.setSubject("CHRONICLER 임시 패스워드 발급");
 			
 			String text = "고객님의 임시 패스워드는 " + tmpPW + "입니다.";

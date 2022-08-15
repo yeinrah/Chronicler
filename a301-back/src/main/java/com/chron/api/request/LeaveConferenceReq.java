@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter
 @ApiModel("LeaveConferenceReq")
 public class LeaveConferenceReq {
-
 	@ApiModelProperty(name = "회원ID", example = "1")
 	@NotNull(message = "회원ID를 입력하세요.")
 	private Integer id;

@@ -17,7 +17,6 @@ public class RandomNumberUtil {
 		sr.setSeed(new Date().getTime());
 
 		for (int i = 0; i < 16; i++) {
-			// 강력한 난수를 발생시키기 위해 SecureRandom을 사용
 			sb.append(charSet[sr.nextInt(setLength)]);
 		}
 

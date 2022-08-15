@@ -83,6 +83,7 @@ public class UserRestController {
 				result.put("message", "로그인에 성공하였습니다.");
 				loginUser.setPassword("");
 				result.put("loginUser", loginUser);
+
 				// 로그인 하면, 임시비밀번호 다시 받을 수 있는 상태(false)로 변경
 				updateTmpPW = false;
 

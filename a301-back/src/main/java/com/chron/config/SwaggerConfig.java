@@ -55,7 +55,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	// swagger 2.9.2 버전 리소스 등록
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) { 
-		// spring-security와 연결할 때 이 부분을 작성하지 않으면 404에러가 뜬다.
+		// spring-security와 연결할 때 이 부분을 작성하지 않으면 404에러 발생
 		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 	}
