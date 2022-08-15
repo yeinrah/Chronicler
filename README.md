@@ -4,7 +4,7 @@
 ## 프로젝트 기간 : 2022.07.11 ~ 2022.08.19
 
 ## Chronicler 로고
-![logo](/uploads/d94bfed736f33df9728985629b76282f/logo.png)
+![logo](/uploads/abf57c0d5b67e9b8527263d97ec7c1b7/logo.png)
 <hr>
 ## 개발환경
 
