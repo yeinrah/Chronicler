@@ -111,9 +111,9 @@ public class Aspose {
 			// 1번차트(단어 빈도)
 			Shape shape = builder.insertChart(ChartType.COLUMN, 470, 324);
 			// 2번 차트(참여자 발화 빈도)
-			Shape shape2 = builder.insertChart(ChartType.PIE, 235, 320);
+			Shape shape2 = builder.insertChart(ChartType.PIE, 233, 320);
 			// 3번 차트(참여자 별 긍정어휘 차트)
-			Shape shape3 = builder.insertChart(ChartType.PIE, 235, 320);
+			Shape shape3 = builder.insertChart(ChartType.PIE, 233, 320);
 
 //		builder.insertImage(wordpath);
 			builder.insertBreak(BreakType.PAGE_BREAK);
