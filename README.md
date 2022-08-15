@@ -81,7 +81,7 @@ docker pull yeinrah/chronicler-front
 <hr>
 
 # Chronicler 서비스 화면 
-
+![크로니클러_메일왔을때](/uploads/7ac52e7a95d0d78216c8ca3ff853ebd4/크로니클러_메일왔을때.png)
 
 <hr>
 
