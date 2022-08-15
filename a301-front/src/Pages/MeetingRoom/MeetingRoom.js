@@ -183,15 +183,32 @@ const MeetingRoom = (props) => {
     }
   }, [subscribers, publisher]);
   useEffect(() => {
+    let token = localStorage.getItem("access-token");
     if (isMain) {
-      roomCreate.post(`/conference/${myUid.id}`, {
-        conferenceCode: mySessionId,
-      });
+      roomCreate.post(
+        `/conference/${myUid.id}`,
+        {
+          conferenceCode: mySessionId,
+        },
+        {
+          headers: {
+            "access-token": token,
+          },
+        }
+      );
     } else if (!isMain) {
-      roomJoin.post(`/conference/enter/${myUid.id}`, {
-        conference_code: mySessionId,
-        nickname: myUserName,
-      });
+      roomJoin.post(
+        `/conference/enter/${myUid.id}`,
+        {
+          conference_code: mySessionId,
+          nickname: myUserName,
+        },
+        {
+          headers: {
+            "access-token": token,
+          },
+        }
+      );
     }
   }, [isMain]);
   const listenMessage = () => {
@@ -593,10 +610,19 @@ const MeetingRoom = (props) => {
     });
   };
   const leaveRoomApi = () => {
+    let token = localStorage.getItem("access-token");
     roomLeave
-      .put(`/conference/${mySessionId}`, {
-        id: myUid.id,
-      })
+      .put(
+        `/conference/${mySessionId}`,
+        {
+          id: myUid.id,
+        },
+        {
+          headers: {
+            "access-token": token,
+          },
+        }
+      )
       .then(() => {
         console.log("leave room success");
       })
@@ -605,11 +631,20 @@ const MeetingRoom = (props) => {
       });
   };
   const destroySessionApi = (data) => {
+    let token = localStorage.getItem("access-token");
     destroyRoom
-      .put(`/conference/${mySessionId}`, {
-        chronicleData: data,
-        id: myUid.id,
-      })
+      .put(
+        `/conference/${mySessionId}`,
+        {
+          chronicleData: data,
+          id: myUid.id,
+        },
+        {
+          headers: {
+            "access-token": token,
+          },
+        }
+      )
       .then(() => {
         console.log("destroy room success");
       })

@@ -73,6 +73,7 @@ const MyPage = () => {
     });
   }, [myEmail, myProfileNum, myPhone, myNickname]);
   const DeleteUser = () => {
+    let token = localStorage.getItem('access-token');
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -84,87 +85,132 @@ const MyPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-        userInfoDelete.delete<any>(`/userInfo/mypage/${nowUserInfo.id}`);
+        if (token != null)
+          userInfoDelete.delete<any>(`/userInfo/mypage/${nowUserInfo.id}`, {
+            headers: {
+              'access-token': token,
+            },
+          });
         setNowLogined(false);
         navigate('/main');
       }
     });
   };
   const updateProfileImage = (num: number) => {
-    userInfoUpdateImage
-      .patch(`./userInfo/updateImage/${nowUserInfo.id}`, { image: num })
-      .then(() => {
-        setMyProfileNum(num);
-      });
+    let token = localStorage.getItem('access-token');
+    if (token != null)
+      userInfoUpdateImage
+        .patch(
+          `./userInfo/updateImage/${nowUserInfo.id}`,
+          { image: num },
+          {
+            headers: {
+              'access-token': token,
+            },
+          }
+        )
+        .then(() => {
+          setMyProfileNum(num);
+        });
   };
   const updateNickName = () => {
-    userInfoUpdateNickname
-      .patch(`/userInfo/updateNickname/${nowUserInfo.id}`, {
-        nickname: inputNickNameChange.current.value,
-      })
-      .then(() => {
-        nickNameHandleClose();
-        setMyNickname(inputNickNameChange.current.value);
-        Swal.fire({
-          icon: 'success',
-          title: 'success',
-          text: '닉네임 변경 성공',
+    let token = localStorage.getItem('access-token');
+    if (token != null)
+      userInfoUpdateNickname
+        .patch(
+          `/userInfo/updateNickname/${nowUserInfo.id}`,
+          {
+            nickname: inputNickNameChange.current.value,
+          },
+          {
+            headers: {
+              'access-token': token,
+            },
+          }
+        )
+        .then(() => {
+          nickNameHandleClose();
+          setMyNickname(inputNickNameChange.current.value);
+          Swal.fire({
+            icon: 'success',
+            title: 'success',
+            text: '닉네임 변경 성공',
+          });
+        })
+        .catch(() => {
+          nickNameHandleClose();
+          Swal.fire({
+            icon: 'error',
+            title: '숫자, 영어, 한글만 가능 / 1~32글자로 입력해주세요',
+            text: '닉네임 변경 실패',
+          });
         });
-      })
-      .catch(() => {
-        nickNameHandleClose();
-        Swal.fire({
-          icon: 'error',
-          title: '숫자, 영어, 한글만 가능 / 1~32글자로 입력해주세요',
-          text: '닉네임 변경 실패',
-        });
-      });
   };
   const updatePassword = () => {
-    userInfoUpdatePassword
-      .patch(`./userInfo/updatePassword/${nowUserInfo.id}`, {
-        password: inputPasswordChange.current.value,
-      })
-      .then(() => {
-        passwordHandleClose();
-        Swal.fire({
-          icon: 'success',
-          title: 'success',
-          text: '비밀번호 변경 성공',
+    let token = localStorage.getItem('access-token');
+    if (token != null)
+      userInfoUpdatePassword
+        .patch(
+          `./userInfo/updatePassword/${nowUserInfo.id}`,
+          {
+            password: inputPasswordChange.current.value,
+          },
+          {
+            headers: {
+              'access-token': token,
+            },
+          }
+        )
+        .then(() => {
+          passwordHandleClose();
+          Swal.fire({
+            icon: 'success',
+            title: 'success',
+            text: '비밀번호 변경 성공',
+          });
+        })
+        .catch(() => {
+          passwordHandleClose();
+          Swal.fire({
+            icon: 'error',
+            title:
+              '숫자, 영어, 특수문자가 적어도 1개 이상씩 포함 / 8~16글자여야 합니다.',
+            text: '비밀번호 변경 실패',
+          });
         });
-      })
-      .catch(() => {
-        passwordHandleClose();
-        Swal.fire({
-          icon: 'error',
-          title:
-            '숫자, 영어, 특수문자가 적어도 1개 이상씩 포함 / 8~16글자여야 합니다.',
-          text: '비밀번호 변경 실패',
-        });
-      });
   };
   const updatePhone = () => {
-    userInfoUpdatePhone
-      .patch(`./userInfo/updatePhone/${nowUserInfo.id}`, {
-        phone: inputPhoneChange.current.value,
-      })
-      .then(() => {
-        phoneHandleClose();
-        setMyPhone(inputPhoneChange.current.value);
-        Swal.fire({
-          icon: 'success',
-          title: 'success',
-          text: '전화번호 변경 성공',
+    let token = localStorage.getItem('access-token');
+    if (token != null)
+      userInfoUpdatePhone
+        .patch(
+          `./userInfo/updatePhone/${nowUserInfo.id}`,
+          {
+            phone: inputPhoneChange.current.value,
+          },
+          {
+            headers: {
+              'access-token': token,
+            },
+          }
+        )
+        .then(() => {
+          phoneHandleClose();
+          setMyPhone(inputPhoneChange.current.value);
+          Swal.fire({
+            icon: 'success',
+            title: 'success',
+            text: '전화번호 변경 성공',
+          });
+        })
+        .catch(() => {
+          phoneHandleClose();
+          Swal.fire({
+            icon: 'error',
+            title: '숫자로만 / 010으로 시작하는 11글자',
+            text: '전화번호 변경 실패',
+          });
         });
-      })
-      .catch(() => {
-        phoneHandleClose();
-        Swal.fire({
-          icon: 'error',
-          title: '숫자로만 / 010으로 시작하는 11글자',
-          text: '전화번호 변경 실패',
-        });
-      });
   };
   type userInfo = {
     id: number;
@@ -183,8 +229,6 @@ const MyPage = () => {
           },
         })
         .then((info) => {
-          console.log('####');
-          console.log(info);
           if (!info.data.user.image) info.data.user.image = 0;
           setMyEmail(info.data.user.email);
           setMyNickname(info.data.user.nickname);

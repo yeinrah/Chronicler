@@ -46,31 +46,36 @@ const FindEmailCard = () => {
     type PhoneNumber = {
       phone: string;
     };
-    userInfoFindEmailApi
-      .get<PhoneNumber>('/userInfo/findEmail', {
-        params: {
-          phone: inputNumber.current.value,
-        },
-      })
-      .then((res) => {
-        setUserEmail(res.data);
-        // emailShowHandleOpen();
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: String(res.data),
-        }).then(() => {
-          navigate('/signin');
+    let token = localStorage.getItem('access-token');
+    if (token != null)
+      userInfoFindEmailApi
+        .get<PhoneNumber>('/userInfo/findEmail', {
+          params: {
+            phone: inputNumber.current.value,
+          },
+          headers: {
+            'access-token': token,
+          },
+        })
+        .then((res) => {
+          setUserEmail(res.data);
+          // emailShowHandleOpen();
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: String(res.data),
+          }).then(() => {
+            navigate('/signin');
+          });
+        })
+        .catch((error) => {
+          setUserEmail('유효하지 않은 번호 입니다.');
+          Swal.fire({
+            icon: 'error',
+            title: 'fail',
+            text: '유효하지 않은 번호 입니다.',
+          });
         });
-      })
-      .catch((error) => {
-        setUserEmail('유효하지 않은 번호 입니다.');
-        Swal.fire({
-          icon: 'error',
-          title: 'fail',
-          text: '유효하지 않은 번호 입니다.',
-        });
-      });
   };
   // const ShowEmailModal = () => {
   //   return (
