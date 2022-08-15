@@ -40,6 +40,7 @@ import io.swagger.annotations.ApiResponses;
 public class UserRestController {
 
 	static boolean updateTmpPW = false;
+	static boolean updateEmailTmpCode = false;
 
 	private UserService userService;
 
@@ -63,6 +64,7 @@ public class UserRestController {
 		userService.checkEmailDuplication(userRegisterReq);
 		userService.checkPhoneDuplication(userRegisterReq);
 		userService.signup(userRegisterReq);
+		updateEmailTmpCode = true;
 		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 
@@ -169,4 +171,20 @@ public class UserRestController {
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	
+	@GetMapping("/signup/checkEmail")
+	@ApiOperation(value = "이메일 인증 코드 보내기", notes = "이메일주소를 통해 사용자 이메일로 인증코드를 발급한다.")
+	public ResponseEntity<?> checkingEmail(@RequestParam String email) throws Exception {
+
+		if (updateEmailTmpCode == false) {
+			String tmpCode = RandomNumberUtil.getRandomNumber();
+			userService.insertTmpUser(email, tmpCode);
+			emailSender.checkEmail(email, tmpCode);
+		} else {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 }
