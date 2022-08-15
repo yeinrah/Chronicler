@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiResponses;
 public class UserRestController {
 
 	static boolean updateTmpPW = false;
-//	static boolean updateEmailTmpCode = false;
+	static boolean updateEmailTmpCode = false;
 
 	private UserService userService;
 
@@ -158,6 +158,10 @@ public class UserRestController {
 	@ApiOperation(value = "비밀번호 찾기", notes = "이메일주소를 통해 사용자 이메일로 임시비밀번호를 발급한다.")
 	public ResponseEntity<?> findpw(@RequestParam String email) {
 
+		if (!email.equals("") || userService.findByEmail(email)) {
+			updateTmpPW = false;
+		}
+		
 		if (updateTmpPW == false) {
 			String tmpPW = RandomNumberUtil.getRandomNumber();
 			userService.updatePasswordTMP(email, tmpPW);
@@ -174,12 +178,17 @@ public class UserRestController {
 	@GetMapping("/signup/checkEmail")
 	@ApiOperation(value = "이메일 인증 코드 보내기", notes = "이메일주소를 통해 사용자 이메일로 인증코드를 발급한다.")
 	public ResponseEntity<?> checkingEmail(@RequestParam String email) throws Exception {
-		boolean updateEmailTmpCode = false;
-		
+
+		if (!email.equals("") || userService.findByEmail(email)) {
+			updateEmailTmpCode = false;
+		}
+
 		if (updateEmailTmpCode == false) {
 			String tmpCode = RandomNumberUtil.getRandomNumber();
+
 			userService.insertTmpUser(email, tmpCode);
 			emailSender.checkEmail(email, tmpCode);
+
 			updateEmailTmpCode = true;
 		} else {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
