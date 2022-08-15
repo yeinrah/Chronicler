@@ -16,9 +16,11 @@ import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.ConferenceHistory;
 import com.chron.db.entity.User;
 import com.chron.db.entity.UserEmailCheck;
+import com.chron.db.entity.UserPwCheck;
 import com.chron.db.repository.ConferenceHistoryRepository;
 import com.chron.db.repository.UserEmailCheckRepository;
 import com.chron.db.repository.UserRepository;
+import com.chron.db.repository.UserTmpPwRepository;
 
 @Service
 public class UserService {
@@ -36,12 +38,16 @@ public class UserService {
 	private ConferenceHistoryRepository confernecHistoryRepository;
 
 	@Autowired
+	private UserTmpPwRepository userTmpPwRepository;
+
+	@Autowired
 	public UserService(UserRepository userRepository, ConferenceHistoryRepository confernecHistoryRepository,
-			UserEmailCheckRepository userEmailCheckRepository) {
+			UserEmailCheckRepository userEmailCheckRepository, UserTmpPwRepository userTmpPwRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.confernecHistoryRepository = confernecHistoryRepository;
 		this.userEmailCheckRepository = userEmailCheckRepository;
+		this.userTmpPwRepository = userTmpPwRepository;
 	}
 
 	// 회원가입
@@ -153,9 +159,8 @@ public class UserService {
 	// 비밀번호 변경(임시 비밀번호 발급)
 	@Transactional
 	public void updatePasswordTMP(String email, String password) {
-		User user = userRepository.findOneByEmail(email);
-		
-			
+//		User user = userRepository.findOneByEmail(email);
+//		if(email.equals(user.getEmail()))	
 		String encodePw = encoder.encode(password);
 		userRepository.updatePasswordTMP(email, encodePw);
 	}
@@ -178,6 +183,28 @@ public class UserService {
 		userEmailCheckRepository.save(userTmpDb);
 		return userTmpDb;
 	}
+	
+	
+	// 비밀번호 찾기 계정 검증을 위한 임시테이블에 email 저장
+		@Transactional
+		public UserPwCheck insertTmpPw(String email, String tmppwCode) throws Exception {
+
+			UserPwCheck userTmpPwDb = userTmpPwRepository.findOneByEmail(email);
+
+			if (userTmpPwDb == null) {
+				System.out.println("null");
+				userTmpPwDb = UserPwCheck.builder().email(email).tmppwCode(tmppwCode).build();
+			} else {
+				if (email.equals(userTmpPwDb.getEmail())) {
+					userTmpPwRepository.delete(userTmpPwDb);
+					userTmpPwDb = UserPwCheck.builder().email(email).tmppwCode(tmppwCode).build();
+				}
+			}
+			userTmpPwRepository.save(userTmpPwDb);
+			return userTmpPwDb;
+		}
+	
+	
 
 	// 이메일 회원정보 조회
 	@Transactional
