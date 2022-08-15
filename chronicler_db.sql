@@ -68,8 +68,17 @@ FOREIGN KEY(c_id)
 REFERENCES conference(c_id) ON DELETE CASCADE
 );
 
+-- 회원 임시 테이블
+CREATE TABLE user_tmp (
+ tmp_id INTEGER auto_increment,
+ email VARCHAR(255),
+ tmp_code VARCHAR(32),
+ PRIMARY KEY(tmp_id)
+);
+
 SELECT * FROM user;
 SELECT * FROM conference;
 SELECT * FROM chronicle;
 SELECT * FROM conference_history;
 SELECT * FROM user_conference;
+SELECT * FROM user_tmp; 

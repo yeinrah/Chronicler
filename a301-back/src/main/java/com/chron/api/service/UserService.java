@@ -15,7 +15,9 @@ import com.chron.api.request.UpdatePhoneReq;
 import com.chron.api.request.UserRegisterReq;
 import com.chron.db.entity.ConferenceHistory;
 import com.chron.db.entity.User;
+import com.chron.db.entity.UserEmailCheck;
 import com.chron.db.repository.ConferenceHistoryRepository;
+import com.chron.db.repository.UserEmailCheckRepository;
 import com.chron.db.repository.UserRepository;
 
 @Service
@@ -28,22 +30,33 @@ public class UserService {
 	private UserRepository userRepository;
 
 	@Autowired
+	private UserEmailCheckRepository userEmailCheckRepository;
+
+	@Autowired
 	private ConferenceHistoryRepository confernecHistoryRepository;
 
 	@Autowired
-	public UserService(UserRepository userRepository, ConferenceHistoryRepository confernecHistoryRepository) {
+	public UserService(UserRepository userRepository, ConferenceHistoryRepository confernecHistoryRepository,
+			UserEmailCheckRepository userEmailCheckRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.confernecHistoryRepository = confernecHistoryRepository;
+		this.userEmailCheckRepository = userEmailCheckRepository;
 	}
 
 	// 회원가입
 	@Transactional
 	public User signup(UserRegisterReq userRegisterReq) throws Exception {
-		User user = User.builder().nickname(userRegisterReq.getNickname())
-				.password(encoder.encode(userRegisterReq.getPassword())).email(userRegisterReq.getEmail())
-				.phone(userRegisterReq.getPhone()).build();
-		return userRepository.save(user);
+		UserEmailCheck userTmpDb = userEmailCheckRepository.findOneByTmpCode(userRegisterReq.getTmpCode());
+		if (userRegisterReq.getTmpCode().equals(userTmpDb.getTmpCode())) {
+			User user = User.builder().nickname(userRegisterReq.getNickname())
+					.password(encoder.encode(userRegisterReq.getPassword())).email(userRegisterReq.getEmail())
+					.phone(userRegisterReq.getPhone()).build();
+			userEmailCheckRepository.delete(userTmpDb);
+			return userRepository.save(user);
+		} else {
+			throw new IllegalStateException("회원가입에 실패하셨습니다.");
+		}
 	}
 
 	// 로그인
@@ -142,5 +155,13 @@ public class UserService {
 	public void updatePasswordTMP(String email, String password) {
 		String encodePw = encoder.encode(password);
 		userRepository.updatePasswordTMP(email, encodePw);
+	}
+
+	// 회원가입 이메일 검증을 위한 임시테이블에 email 저장
+	@Transactional
+	public UserEmailCheck insertTmpUser(String email, String tmpCode) throws Exception {
+		UserEmailCheck user = UserEmailCheck.builder().email(email).tmpCode(tmpCode).build();
+		userEmailCheckRepository.save(user);
+		return user;
 	}
 }

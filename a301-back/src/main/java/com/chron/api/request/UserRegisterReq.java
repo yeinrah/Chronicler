@@ -37,4 +37,8 @@ public class UserRegisterReq {
 	@NotNull(message = "휴대폰 번호를 입력해주세요.")
 	@Pattern(regexp = "(010)(\\d{4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
 	private String phone;
+	
+	@ApiModelProperty(name = "유저 Email 임시코드", example = "AAACc")
+	@NotNull(message = "유저 Email 임시코드 칸을 채워주세요.")
+	private String tmpCode;
 }

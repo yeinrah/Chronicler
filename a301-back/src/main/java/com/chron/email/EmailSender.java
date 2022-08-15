@@ -68,4 +68,21 @@ public class EmailSender {
 			System.out.println(e);
 		}
 	}
+	
+	public void checkEmail(final String toEmailAddresses, String tmpCode) {
+		try {			
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setFrom("chronicler321@gmail.com", "CHRONICLER");
+			helper.setTo(toEmailAddresses);
+			helper.setSubject("CHRONICLER 이메일 인증코드 발급");
+			
+			String text = "고객님의 이메일 인증코드는 " + tmpCode + "입니다.";
+			helper.setText(text, true);
+			
+			mailSender.send(message);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }
