@@ -153,6 +153,9 @@ public class UserService {
 	// 비밀번호 변경(임시 비밀번호 발급)
 	@Transactional
 	public void updatePasswordTMP(String email, String password) {
+		User user = userRepository.findOneByEmail(email);
+		
+			
 		String encodePw = encoder.encode(password);
 		userRepository.updatePasswordTMP(email, encodePw);
 	}
@@ -160,8 +163,30 @@ public class UserService {
 	// 회원가입 이메일 검증을 위한 임시테이블에 email 저장
 	@Transactional
 	public UserEmailCheck insertTmpUser(String email, String tmpCode) throws Exception {
-		UserEmailCheck user = UserEmailCheck.builder().email(email).tmpCode(tmpCode).build();
-		userEmailCheckRepository.save(user);
-		return user;
+
+		UserEmailCheck userTmpDb = userEmailCheckRepository.findOneByEmail(email);
+
+		if (userTmpDb == null) {
+			System.out.println("null");
+			userTmpDb = UserEmailCheck.builder().email(email).tmpCode(tmpCode).build();
+		} else {
+			if (email.equals(userTmpDb.getEmail())) {
+				userEmailCheckRepository.delete(userTmpDb);
+				userTmpDb = UserEmailCheck.builder().email(email).tmpCode(tmpCode).build();
+			}
+		}
+		userEmailCheckRepository.save(userTmpDb);
+		return userTmpDb;
+	}
+
+	// 이메일 회원정보 조회
+	@Transactional
+	public Boolean findByEmail(String email) {
+		User user = userRepository.findOneByEmail(email);
+		if (user != null) {
+			return false;
+		}
+		return true;
+
 	}
 }

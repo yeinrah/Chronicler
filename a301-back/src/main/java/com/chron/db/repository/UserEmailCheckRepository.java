@@ -8,4 +8,6 @@ import com.chron.db.entity.UserEmailCheck;
 @Repository
 public interface UserEmailCheckRepository extends JpaRepository<UserEmailCheck, Integer> {
 	UserEmailCheck findOneByTmpCode(String tmpCode);
+
+	UserEmailCheck findOneByEmail(String email);
 }
