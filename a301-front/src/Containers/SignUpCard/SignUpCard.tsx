@@ -199,10 +199,9 @@ const SignUpCard = () => {
                   // mb: 2,
                 }}
                 onClick={() => {
-                  let accessToken = localStorage.getItem('access-token');
-                  if (accessToken != null)
+                  if (!enteredEmailError) {
                     requestEmailCode
-                      .get(`/userInfo/signup/checkEmail/${enteredEmail}`, {
+                      .get(`/userInfo/signup/checkEmail`, {
                         params: {
                           email: enteredEmail,
                         },
@@ -217,6 +216,9 @@ const SignUpCard = () => {
                           Swal.fire('잘못된 요청입니다.');
                         }
                       });
+                  } else {
+                    Swal.fire('이메일을 입력해주세요');
+                  }
                 }}
               >
                 인증코드 보내기
