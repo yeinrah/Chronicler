@@ -6,6 +6,7 @@
 ## Chronicler 로고
 ![logo](/uploads/abf57c0d5b67e9b8527263d97ec7c1b7/logo.png)
 <hr>
+
 ## 개발환경
 
 - [ ]  협업툴
@@ -104,7 +105,8 @@ docker pull yeinrah/chronicler-front
 <hr>
 
 # CI/CD 구축 및 SSL 인증서 적용
-프론트엔드 React.js는 Nginx와 함께 docker image로 빌드하여 배포하였고, 백엔드, openvidu도 docker container를 통해 배포하였습니다. 
+프론트엔드 React.js는 Nginx와 함께 docker를 사용하여 빌드 및 배포하였고, 백엔드, openvidu도 docker container를 통해 배포하였습니다. 
+<br>
 Nginx와 letsencrypt를 이용하여 SSL 인증서를 적용하고, 프론트엔드는 https의 기본값 443을 통해 분기, 백엔드는 /api의 경로로 프록시를 걸어주었습니다.
 
 # 기술 특이점
@@ -119,6 +121,7 @@ Nginx와 letsencrypt를 이용하여 SSL 인증서를 적용하고, 프론트엔
 
 # Git 컨벤션
 
+```
 FEAT:    새로운 기능을 추가할 경우
 FIX:     버그를 고친 경우
 STYLE:   코드 포맷 변경, 간단한 수정, 코드 변경이 없는 경우
@@ -126,6 +129,7 @@ REFATOR: 프로덕션 코드 리팩토링
 DOCS:    문서를 수정한 경우(ex> Swagger)
 Rename:  파일 혹은 폴더명 수정 및 이동
 Remove:  파일 삭제
+```
 
 <hr>
 
@@ -151,7 +155,9 @@ Mattermost와 연동하여 업무에 대한 변동사항을 실시간으로 파�
 <hr>
 
 # Notion
-FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FRONT에게 필요한 정보, BACK에게 필요한 정보 모두가 함께 알아야 할 정보로 나누어 관리했습니다. 매일 회의한 내용을 회의록 카테고리에 작성했고, 일정에 대한 부분도 기술하였습니다. 
+FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FRONT에게 필요한 정보, BACK에게 필요한 정보 모두가 함께 알아야 할 정보로 나누어 관리했습니다.
+<br> 
+매일 회의한 내용을 회의록 카테고리에 작성했고, 일정에 대한 부분도 기술하였습니다. 
 
 <hr>
 
