@@ -32,7 +32,7 @@ const MainNonLog: React.FC = () => {
                 lineHeight: '130%',
               }}
             >
-              회의에 집중하세요. 기록은 우리에게 맡기세요 .
+              회의에 집중하세요 기록은 맡겨주세요
             </Typography>
           </CardContent>
         </Card>

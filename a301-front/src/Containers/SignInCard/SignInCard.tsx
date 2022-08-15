@@ -56,7 +56,7 @@ const SignInCard = () => {
         setNowLogined(true);
         Swal.fire({
           icon: 'success',
-          title: 'Success..!',
+          title: 'Success!',
           text: '로그인 성공',
         });
         navigate('/main');

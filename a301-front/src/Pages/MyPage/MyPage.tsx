@@ -75,16 +75,17 @@ const MyPage = () => {
   const DeleteUser = () => {
     let token = localStorage.getItem('access-token');
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: '탈퇴 하시겠습니까?',
+      text: '되돌릴 수 없습니다.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: '네!',
+      cancelButtonText: '아니요!',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+        Swal.fire('탈퇴 완료', '모든 개인정보가 삭제 되었습니다.', 'success');
         if (token != null)
           userInfoDelete.delete<any>(`/userInfo/mypage/${nowUserInfo.id}`, {
             headers: {
