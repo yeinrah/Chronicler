@@ -4,7 +4,7 @@
 ## 프로젝트 기간 : 2022.07.11 ~ 2022.08.19
 
 ## 개발환경
-----------------------------
+
 - [ ]  협업툴
 - Notion
 - Jira
@@ -71,7 +71,7 @@ docker pull yeinrah/chronicler-front
 <hr>
 
 # Overview
-Chronicler. 당신의 회의록
+회의에 집중하세요 기록은 맡겨주세요
 
 <hr>
 
@@ -114,15 +114,6 @@ Nginx와 letsencrypt를 이용하여 SSL 인증서를 적용하고, 프론트엔
 
 <hr>
 
-
-# 화면 설계서
-
-<hr>
-
-# 코드 컨벤션
-
-<hr>
-
 # Git 컨벤션
 
 FEAT:    새로운 기능을 추가할 경우
@@ -136,34 +127,60 @@ Remove:  파일 삭제
 <hr>
 
 # Git Flow 브랜치 전략
+- 사용 브랜치
+master - 배포
+devleop - 개발
+feature - 기능
+
+- 진행 방식
+feature의 기능이 완성되면 develop에 merge
+배포 준비가 완료되면 develop 브랜치를 master에 merge
 
 <hr>
 
 # Jira
+Jira를 통해서 매주 진행 예상되는 업무를 sprint에 넣어서 관리했습니다. 팀원 개개인이 어떤 일을 하고 있는지에 대한 확인할 때에도 backlog를 통해서 확인하였고, 스프린트는 일주일 단위로 진행하였습니다. 
+- story : 디테일한 부분까지 상세하게 기술
+- epic : BACKEND, FRONTEND, SERVER, DOCKER 등으로 구성하였습니다.
+
+Mattermost와 연동하여 업무에 대한 변동사항을 실시간으로 파악할 수 있도록 했습니다. 
 
 <hr>
 
 # Notion
-
+FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FRONT에게 필요한 정보, BACK에게 필요한 정보 모두가 함께 알아야 할 정보로 나누어 관리했습니다. 매일 회의한 내용을 회의록 카테고리에 작성했고, 일정에 대한 부분도 기술하였습니다. 
 
 <hr>
 
 # ER Diagram
 
+
 <hr>
 
 # EC2 포트 정리
+|443 | HTTPS|
+|-|-|
+|80 | HTTP -> HTTPS로 Redirect|
+|3306 | MySQL|
+|8080 | SpringBoot(Docker container)|
+|3000 | React, Nginx(Docker container)|
+|4443 | Openvidu|
 
 <hr>
 
-# 팀원 소개
+# 팀원을 소개합니다!
 
-<hr>
+
 
 # 팀원 역할
-
+송상훈 : 팀장, Backend
+김영진 : Backend
+나예인 : Backend
+김정서 : Frontend
+조선송 : Frontend
 <hr>
 
 # 개발 후 회고
-
 <hr>
+재밌었습니다 ㅋㅋ
+
