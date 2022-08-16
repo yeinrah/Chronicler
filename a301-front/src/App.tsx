@@ -8,7 +8,6 @@ import {
   FindEmail,
   FindPw,
   ConfirmNewPw,
-  MainLogined,
   MainNonLog,
   MyPage,
   MeetingRoom,
