@@ -54,7 +54,7 @@ public class UserService {
 	@Transactional
 	public User signup(UserRegisterReq userRegisterReq) throws Exception {
 		UserEmailCheck userTmpDb = userEmailCheckRepository.findOneByTmpCode(userRegisterReq.getTmpCode());
-		if (userRegisterReq.getTmpCode().equals(userTmpDb.getTmpCode())) {
+		if (userTmpDb.getTmpCode().equals(userRegisterReq.getTmpCode())) {
 			User user = User.builder().nickname(userRegisterReq.getNickname())
 					.password(encoder.encode(userRegisterReq.getPassword())).email(userRegisterReq.getEmail())
 					.phone(userRegisterReq.getPhone()).build();
@@ -159,8 +159,6 @@ public class UserService {
 	// 비밀번호 변경(임시 비밀번호 발급)
 	@Transactional
 	public void updatePasswordTMP(String email, String password) {
-//		User user = userRepository.findOneByEmail(email);
-//		if(email.equals(user.getEmail()))	
 		String encodePw = encoder.encode(password);
 		userRepository.updatePasswordTMP(email, encodePw);
 	}
@@ -183,28 +181,25 @@ public class UserService {
 		userEmailCheckRepository.save(userTmpDb);
 		return userTmpDb;
 	}
-	
-	
+
 	// 비밀번호 찾기 계정 검증을 위한 임시테이블에 email 저장
-		@Transactional
-		public UserPwCheck insertTmpPw(String email, String tmppwCode) throws Exception {
+	@Transactional
+	public UserPwCheck insertTmpPw(String email, String tmppwCode) throws Exception {
 
-			UserPwCheck userTmpPwDb = userTmpPwRepository.findOneByEmail(email);
+		UserPwCheck userTmpPwDb = userTmpPwRepository.findOneByEmail(email);
 
-			if (userTmpPwDb == null) {
-				System.out.println("null");
+		if (userTmpPwDb == null) {
+			System.out.println("null");
+			userTmpPwDb = UserPwCheck.builder().email(email).tmppwCode(tmppwCode).build();
+		} else {
+			if (email.equals(userTmpPwDb.getEmail())) {
+				userTmpPwRepository.delete(userTmpPwDb);
 				userTmpPwDb = UserPwCheck.builder().email(email).tmppwCode(tmppwCode).build();
-			} else {
-				if (email.equals(userTmpPwDb.getEmail())) {
-					userTmpPwRepository.delete(userTmpPwDb);
-					userTmpPwDb = UserPwCheck.builder().email(email).tmppwCode(tmppwCode).build();
-				}
 			}
-			userTmpPwRepository.save(userTmpPwDb);
-			return userTmpPwDb;
 		}
-	
-	
+		userTmpPwRepository.save(userTmpPwDb);
+		return userTmpPwDb;
+	}
 
 	// 이메일 회원정보 조회
 	@Transactional
@@ -214,6 +209,5 @@ public class UserService {
 			return false;
 		}
 		return true;
-
 	}
 }
