@@ -30,15 +30,14 @@ import com.chron.wordcloud.words.WordCount;
 
 @Component
 public class Aspose {
-//	private static final String FILTER = "korean_filtering.txt";
 
 	private static final String[] POSITIVE = { "최고", "칭찬", "좋", "굿", "굳", "오케이", "짱", "퍼펙트", "나이스", "사랑", "희망", "성공",
-			"화이팅", "감격", "감동", "행복", "짜릿", "통쾌", "흡족", "기쁘", "홀가분", "후련", "훌륭", "적극", "기쁜", "기쁩", "이타적" };
+			"화이팅", "감격", "감동", "행복", "짜릿", "통쾌", "흡족", "기쁘", "홀가분", "후련", "훌륭", "적극", "기쁜", "기쁩", "이타적", "기대" };
 	private static final String[] NEGATIVE = { "못", "안", "않", "싫", "혐", "바보", "실패", "절망", "포기", "괴로", "비난", "거짓말", "분열",
 			"좌초", "불씨", "비판", "멸망", "장애물", "잘못", "시련", "고통", "고난", "위기", "싸움", "소극", "화난", "화납", "이기적" };
 
-	private static final String[] FILTER = { "어", "아", "은", "는", "이", "가", "하", "도", "이다", "이네", "있었다", "있다", "것으로",
-			"있다는", "했다", "것이다", "해서", "안녕하세요", "안녕하십니까", "정말", "반갑습니다 ", "반갑네요", "너무", "니다" };
+	private static final String[] FILTER = { "이다", "이네", "있었다", "있다", "것으로", "있다는", "했다", "것이다", "해서", "안녕하세요",
+			"안녕하십니까", "정말", "진짜", "반갑습니다 ", "반갑네요", "너무", "니다" };
 
 	// Komoran 적용
 	public String listToStrTotal(List<Message> chronicleData) {
@@ -123,7 +122,7 @@ public class Aspose {
 
 			ChartSeriesCollection seriesColl = chart.getSeries();
 			seriesColl.clear();
-			String[] categories = new String[] {""};
+			String[] categories = new String[] { "" };
 
 			KomoranSearch KS = new KomoranSearch();
 			ArrayList<WordCount> words = new ArrayList<WordCount>();
@@ -202,8 +201,7 @@ public class Aspose {
 				}
 			}
 
-			
-			if (feelCnt[0] == 0 || feelCnt[1] == 0) {
+			if (feelCnt[0] == 0 && feelCnt[1] == 0) {
 				ChartSeries series2 = chart3.getSeries().add("회의 긍정 지수 측정을 위한 데이터가 부족합니다.", feelName, feelCnt);
 				series2.getDataLabels();
 			} else {
