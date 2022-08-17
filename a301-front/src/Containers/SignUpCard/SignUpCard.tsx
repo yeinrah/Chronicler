@@ -219,8 +219,13 @@ const SignUpCard = () => {
                           },
                         })
                         .then(() => {
-                          setNowLoading(false);
-                          Swal.fire('인증이메일을 전송하였습니다.');
+                          if (enteredEmail === '') {
+                            setNowLoading(false);
+                            Swal.fire('이메일을 입력해주세요');
+                          } else {
+                            setNowLoading(false);
+                            Swal.fire('인증이메일을 전송하였습니다.');
+                          }
                         })
                         .catch((error) => {
                           setNowLoading(false);
