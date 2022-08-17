@@ -119,7 +119,7 @@ const MeetingFooter: React.FC<Props> = ({
             color="inherit"
             onClick={() => {
               Swal.fire(
-                `정확도를 높이기 위해서는 한문장 단위로 마이크를 on/off 하기를 권장합니다.`
+                `정확도를 높이기 위해, 한문장 단위로 마이크 on/off 하기를 권장합니다.`
               );
             }}
           ></InfoIcon>

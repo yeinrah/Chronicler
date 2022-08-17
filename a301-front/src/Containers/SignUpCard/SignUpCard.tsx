@@ -19,6 +19,9 @@ import userSignUpApi from '../../Api/userSignUpApi';
 import Swal from 'sweetalert2';
 import requestEmailCode from '../../Api/requestEmailCode';
 import theme from '../../Components/Theme';
+import { useRecoilState } from 'recoil';
+import loadingState from '../../recoil/atoms/loadingState';
+import Loading from '../../Components/Loading';
 
 const SignUpCard = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -42,6 +45,7 @@ const SignUpCard = () => {
   const nicknameRegex = /([^A-Za-z0-9가-힣])/g;
   const passwordRegex =
     /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/g;
+  const [nowLoading, setNowLoading] = useRecoilState(loadingState);
   useEffect(() => {
     if (enteredEmail.length === 0) {
     } else if (
@@ -135,6 +139,7 @@ const SignUpCard = () => {
       maxWidth="xs"
       sx={{ bgcolor: 'var(--eleBase-color)', marginTop: '100px' }}
     >
+      {nowLoading && <Loading />}
       <CssBaseline />
       <Box
         sx={{
@@ -205,6 +210,7 @@ const SignUpCard = () => {
                     // mb: 2,
                   }}
                   onClick={() => {
+                    setNowLoading(true);
                     if (!enteredEmailError) {
                       requestEmailCode
                         .get(`/userInfo/signup/checkEmail`, {
@@ -213,9 +219,11 @@ const SignUpCard = () => {
                           },
                         })
                         .then(() => {
+                          setNowLoading(false);
                           Swal.fire('인증이메일을 전송하였습니다.');
                         })
                         .catch((error) => {
+                          setNowLoading(false);
                           if (error.response.status === 409) {
                             Swal.fire('이미 메일로 인증번호를 발송하였습니다.');
                           } else {
@@ -223,6 +231,7 @@ const SignUpCard = () => {
                           }
                         });
                     } else {
+                      setNowLoading(false);
                       Swal.fire('이메일을 입력해주세요');
                     }
                   }}

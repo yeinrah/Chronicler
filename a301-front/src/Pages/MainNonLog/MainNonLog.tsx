@@ -9,6 +9,8 @@ import { useRecoilState } from 'recoil';
 import userLoginedState from '../../recoil/atoms/userLoginedState';
 import InputText from '../../Components/InputText';
 import userInfoState from '../../recoil/atoms/userInfoState';
+import { MoonLoader } from 'react-spinners';
+import Loading from '../../Components/Loading';
 const MainNonLog: React.FC = () => {
   const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);

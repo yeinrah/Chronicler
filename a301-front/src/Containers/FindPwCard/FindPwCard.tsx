@@ -18,10 +18,14 @@ import { FindPw } from '../../Pages';
 import requestEmailCode from '../../Api/requestEmailCode';
 import { Navigate, useNavigate } from 'react-router-dom';
 import theme from '../../Components/Theme';
+import { useRecoilState } from 'recoil';
+import loadingState from '../../recoil/atoms/loadingState';
+import Loading from '../../Components/Loading';
 const FindPwCard = () => {
   const inputEmail = useRef<any>();
   const inputEmailAuth = useRef<any>();
   const [emailAuth, setEmailAuth] = useState(false);
+  const [nowLoading, setNowLoading] = useRecoilState(loadingState);
   const navigator = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,6 +33,7 @@ const FindPwCard = () => {
   };
   const findPw = () => {
     if (emailAuth) {
+      setNowLoading(true);
       userInfoFindPw
         .post<any>('/userInfo/updatepw', {
           email: inputEmail.current.value,
@@ -41,11 +46,13 @@ const FindPwCard = () => {
           }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
+              setNowLoading(false);
               navigator('/main');
             }
           });
         })
         .catch((error) => {
+          setNowLoading(false);
           if (error.response.status === 409) {
             Swal.fire('이미 메일로 임시 패스워드가 발급 되었습니다.');
           }
@@ -59,6 +66,7 @@ const FindPwCard = () => {
       maxWidth="xs"
       sx={{ bgcolor: 'var(--eleBase-color)', marginTop: '100px' }}
     >
+      {nowLoading && <Loading />}
       <CssBaseline />
       <Box
         sx={{
@@ -114,6 +122,7 @@ const FindPwCard = () => {
                 inputEmail.current.value &&
                 inputEmail.current.value.indexOf('@') > 0
               ) {
+                setNowLoading(true);
                 requestEmailCode
                   .get(`/userInfo/findpw`, {
                     params: {
@@ -122,9 +131,11 @@ const FindPwCard = () => {
                   })
                   .then(() => {
                     Swal.fire('인증이메일을 전송하였습니다.');
+                    setNowLoading(false);
                     setEmailAuth(true);
                   })
                   .catch((error) => {
+                    setNowLoading(false);
                     if (error.response.status === 409) {
                       Swal.fire('이미 메일로 인증번호를 발송하였습니다.');
                     } else {
@@ -132,6 +143,7 @@ const FindPwCard = () => {
                     }
                   });
               } else {
+                setNowLoading(false);
                 Swal.fire('이메일을 입력해주세요');
               }
             }}
