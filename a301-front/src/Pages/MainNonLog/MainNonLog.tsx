@@ -11,6 +11,7 @@ import InputText from '../../Components/InputText';
 import userInfoState from '../../recoil/atoms/userInfoState';
 import { MoonLoader } from 'react-spinners';
 import Loading from '../../Components/Loading';
+import { Navbar } from '../../Containers';
 const MainNonLog: React.FC = () => {
   const [nowLogined, setNowLogined] = useRecoilState<any>(userLoginedState);
   const [nowUserInfo, setNowUserInfo] = useRecoilState<any>(userInfoState);
@@ -18,6 +19,7 @@ const MainNonLog: React.FC = () => {
   const navigate = useNavigate();
   return (
     <>
+      {nowLogined && <Navbar />}
       <MainStack direction={'row'}>
         <Card sx={{ marginRight: '30vw', boxShadow: '0 0 0 0' }}>
           <CardContent
