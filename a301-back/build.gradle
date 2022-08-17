@@ -47,12 +47,9 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2' 
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2' 
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-	// Openvidu 의존성
+	
+	// Openvidu
     implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.22.0'
-    
-    // google stt
-    implementation platform('com.google.cloud:libraries-bom:26.0.0')
-	implementation 'com.google.cloud:google-cloud-speech'
 
 	// aspose
 	implementation fileTree(dir: 'asposejar', include: ['*.jar'])
@@ -60,14 +57,14 @@ dependencies {
 	// email
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	
-	implementation group: 'org.apache.commons', name: 'commons-email', version: '1.2'
+	//implementation group: 'org.apache.commons', name: 'commons-email', version: '1.2'
 	//Thanks for using https://jar-download.com
 	
 	// https://mvnrepository.com/artifact/com.liferay/org.apache.commons.fileupload
-	implementation("com.liferay:org.apache.commons.fileupload:1.2.2.LIFERAY-PATCHED-1")
+	// implementation("com.liferay:org.apache.commons.fileupload:1.2.2.LIFERAY-PATCHED-1")
 
 	// https://mvnrepository.com/artifact/javax.mail/javax.mail-api
-	implementation("javax.mail:javax.mail-api:1.6.2")
+	//implementation("javax.mail:javax.mail-api:1.6.2")
 	
 	// komoran
 	implementation 'com.github.shin285:KOMORAN:3.3.4'
