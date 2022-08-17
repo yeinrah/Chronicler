@@ -200,6 +200,7 @@ const SignUpCard = () => {
                 />
                 <Button
                   variant="contained"
+                  disabled={nowLoading}
                   sx={{
                     bgcolor: 'var(--btnMain-color)',
                     color: 'var(--fontBase-color)',
@@ -355,6 +356,7 @@ const SignUpCard = () => {
               type="submit"
               fullWidth
               variant="contained"
+              disabled={nowLoading}
               sx={{
                 bgcolor: 'var(--btnMain-color)',
                 color: 'var(--fontBase-color)',

@@ -108,6 +108,7 @@ const FindPwCard = () => {
           </ThemeProvider>
           <Button
             variant="contained"
+            disabled={nowLoading}
             sx={{
               bgcolor: 'var(--btnMain-color)',
               color: 'var(--fontBase-color)',
@@ -154,6 +155,7 @@ const FindPwCard = () => {
             type="submit"
             fullWidth
             variant="contained"
+            disabled={nowLoading}
             sx={{
               bgcolor: 'var(--btnMain-color)',
               color: 'var(--fontBase-color)',
