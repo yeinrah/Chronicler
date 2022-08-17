@@ -10,6 +10,7 @@ import {
   Typography,
   Container,
   Modal,
+  ThemeProvider,
 } from '@mui/material';
 import PolicyIcon from '@mui/icons-material/Policy';
 import userInfoFindEmailApi from '../../Api/userInfoFindEmailApi';
@@ -20,6 +21,7 @@ import MypageBtn from '../../Components/MypageBtn';
 import { stringify } from 'querystring';
 import Swal from 'sweetalert2';
 import { Navigate, useNavigate } from 'react-router-dom';
+import theme from '../../Components/Theme';
 
 const FindEmailCard = () => {
   const [isShowEmailModal, setIsShowEmailModal] = useState(false);
@@ -46,36 +48,31 @@ const FindEmailCard = () => {
     type PhoneNumber = {
       phone: string;
     };
-    let token = localStorage.getItem('access-token');
-    if (token != null)
-      userInfoFindEmailApi
-        .get<PhoneNumber>('/userInfo/findEmail', {
-          params: {
-            phone: inputNumber.current.value,
-          },
-          headers: {
-            'access-token': token,
-          },
-        })
-        .then((res) => {
-          setUserEmail(res.data);
-          // emailShowHandleOpen();
-          Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: String(res.data),
-          }).then(() => {
-            navigate('/signin');
-          });
-        })
-        .catch((error) => {
-          setUserEmail('유효하지 않은 번호 입니다.');
-          Swal.fire({
-            icon: 'error',
-            title: 'fail',
-            text: '유효하지 않은 번호 입니다.',
-          });
+    userInfoFindEmailApi
+      .get<PhoneNumber>('/userInfo/findEmail', {
+        params: {
+          phone: inputNumber.current.value,
+        },
+      })
+      .then((res) => {
+        setUserEmail(res.data);
+        // emailShowHandleOpen();
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: String(res.data),
+        }).then(() => {
+          navigate('/signin');
         });
+      })
+      .catch((error) => {
+        setUserEmail('유효하지 않은 번호 입니다.');
+        Swal.fire({
+          icon: 'error',
+          title: 'fail',
+          text: '유효하지 않은 번호 입니다.',
+        });
+      });
   };
   // const ShowEmailModal = () => {
   //   return (
@@ -119,7 +116,7 @@ const FindEmailCard = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'var(--eleActionPos-color)' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'var(--btnMain-color)' }}>
             <PolicyIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -131,22 +128,26 @@ const FindEmailCard = () => {
             noValidate
             sx={{ mt: 3 }}
           >
-            <TextField
-              required
-              fullWidth
-              id="phone"
-              label="Phone(Only digits)"
-              name="phone"
-              autoComplete="phone"
-              inputRef={inputNumber}
-            />
+            <ThemeProvider theme={theme}>
+              <TextField
+                required
+                fullWidth
+                id="phone"
+                label="Phone(Only digits)"
+                name="phone"
+                autoComplete="phone"
+                color="secondary"
+                inputRef={inputNumber}
+              />
+            </ThemeProvider>
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{
-                bgcolor: 'var(--eleActionPos-color)',
+                bgcolor: 'var(--btnMain-color)',
                 color: 'var(--fontBase-color)',
+                '&:hover': { bgcolor: 'var(--btnMainHover-color)' },
                 mt: 3,
                 mb: 2,
               }}

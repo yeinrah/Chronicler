@@ -239,7 +239,6 @@ const MeetingRoom = (props) => {
   const listenEndSession = () => {
     session.on("signal:endSession", (event) => {
       leaveSession();
-      navigate("/main");
     });
   };
   const listenScriber = () => {
@@ -628,6 +627,15 @@ const MeetingRoom = (props) => {
         }
       )
       .then(() => {
+        Swal.fire({
+          title: "회의가 종료되었습니다.",
+          confirmButtonText: "확인",
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            navigate("/main");
+          }
+        });
         console.log("leave room success");
       })
       .catch((e) => {
@@ -650,6 +658,17 @@ const MeetingRoom = (props) => {
         }
       )
       .then(() => {
+        Swal.fire({
+          title: "이메일로 회의록이 전송되었습니다.",
+          text: "메일 도착까지 약간의 시간이 소요될 수 있습니다.(대화가 없을 때는 전송되지 않습니다)",
+          confirmButtonText: "확인",
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            navigate("/main");
+          }
+        });
+
         console.log("destroy room success");
       })
       .catch((e) => {

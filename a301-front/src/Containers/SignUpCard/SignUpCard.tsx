@@ -11,12 +11,14 @@ import {
   Box,
   Typography,
   Container,
+  ThemeProvider,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import userSignUpApi from '../../Api/userSignUpApi';
 import Swal from 'sweetalert2';
 import requestEmailCode from '../../Api/requestEmailCode';
+import theme from '../../Components/Theme';
 
 const SignUpCard = () => {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -142,227 +144,237 @@ const SignUpCard = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'var(--eleActionPos-color)' }}>
+        <Avatar sx={{ m: 1, bgcolor: 'var(--btnMain-color)' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                error={enteredEmailError}
-                onChange={(e) => {
-                  setEnteredEmail(e.target.value);
-                }}
-              />
-              {enteredEmailError ? (
-                <Typography
-                  component="h1"
-                  variant="caption"
-                  sx={{ color: 'red' }}
+          <ThemeProvider theme={theme}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  color="secondary"
+                  error={enteredEmailError}
+                  onChange={(e) => {
+                    setEnteredEmail(e.target.value);
+                  }}
+                />
+                {enteredEmailError ? (
+                  <Typography
+                    component="h1"
+                    variant="caption"
+                    sx={{ color: 'red' }}
+                  >
+                    {enteredEmailErrorMsg}
+                  </Typography>
+                ) : (
+                  ''
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="emailAuth"
+                  label="Email Address Auth"
+                  name="emailAuth"
+                  autoComplete="emailAuth"
+                  color="secondary"
+                  sx={{ width: '60%' }}
+                  onChange={(e) => {
+                    // setEnteredEmail(e.target.value);
+                    setEnteredEmailAuth(e.target.value);
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: 'var(--btnMain-color)',
+                    color: 'var(--fontBase-color)',
+                    width: '40%',
+                    height: '100%',
+                    '&:hover': { bgcolor: 'var(--btnMainHover-color)' },
+                    // mt: 1,
+                    // mb: 2,
+                  }}
+                  onClick={() => {
+                    if (!enteredEmailError) {
+                      requestEmailCode
+                        .get(`/userInfo/signup/checkEmail`, {
+                          params: {
+                            email: enteredEmail,
+                          },
+                        })
+                        .then(() => {
+                          Swal.fire('인증이메일을 전송하였습니다.');
+                        })
+                        .catch((error) => {
+                          if (error.response.status === 409) {
+                            Swal.fire('이미 메일로 인증번호를 발송하였습니다.');
+                          } else {
+                            Swal.fire('잘못된 요청입니다.');
+                          }
+                        });
+                    } else {
+                      Swal.fire('이메일을 입력해주세요');
+                    }
+                  }}
                 >
-                  {enteredEmailErrorMsg}
-                </Typography>
-              ) : (
-                ''
-              )}
+                  인증코드 보내기
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="nickname"
+                  label="Nickname"
+                  name="nickname"
+                  autoComplete="nickname"
+                  color="secondary"
+                  error={enteredNicknameError}
+                  onChange={(e) => {
+                    setEnteredNickname(e.target.value);
+                  }}
+                />
+                {enteredNicknameError ? (
+                  <Typography
+                    component="h1"
+                    variant="caption"
+                    sx={{ color: 'red' }}
+                  >
+                    {enteredNicknameErrorMsg}
+                  </Typography>
+                ) : (
+                  ''
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone(Only digits)"
+                  name="phone"
+                  autoComplete="phone"
+                  color="secondary"
+                  error={enteredPhoneError}
+                  onChange={(e) => {
+                    setEnteredPhone(e.target.value);
+                  }}
+                />
+                {enteredPhoneError ? (
+                  <Typography
+                    component="h1"
+                    variant="caption"
+                    sx={{ color: 'red' }}
+                  >
+                    {enteredPhoneErrorMsg}
+                  </Typography>
+                ) : (
+                  ''
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  color="secondary"
+                  error={enteredPasswordError}
+                  onChange={(e) => {
+                    setEnteredPassword(e.target.value);
+                  }}
+                />
+                {enteredPasswordError ? (
+                  <Typography
+                    component="h1"
+                    variant="caption"
+                    sx={{ color: 'red' }}
+                  >
+                    {enteredPasswordErrorMsg}
+                  </Typography>
+                ) : (
+                  ''
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Confirm Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  color="secondary"
+                  error={enteredPasswordConfirmError}
+                  onChange={(e) => {
+                    setEnteredPasswordConfirm(e.target.value);
+                  }}
+                />
+                {enteredPasswordConfirmError ? (
+                  <Typography
+                    component="h1"
+                    variant="caption"
+                    sx={{ color: 'red' }}
+                  >
+                    {enteredPasswordConfirmErrorMsg}
+                  </Typography>
+                ) : (
+                  ''
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="emailAuth"
-                label="Email Address Auth"
-                name="emailAuth"
-                autoComplete="emailAuth"
-                sx={{ width: '60%' }}
-                onChange={(e) => {
-                  // setEnteredEmail(e.target.value);
-                  setEnteredEmailAuth(e.target.value);
-                }}
-              />
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: 'var(--eleActionPos-color)',
-                  color: 'var(--fontBase-color)',
-                  width: '40%',
-                  height: '100%',
-                  // mt: 1,
-                  // mb: 2,
-                }}
-                onClick={() => {
-                  if (!enteredEmailError) {
-                    requestEmailCode
-                      .get(`/userInfo/signup/checkEmail`, {
-                        params: {
-                          email: enteredEmail,
-                        },
-                      })
-                      .then(() => {
-                        Swal.fire('인증이메일을 전송하였습니다.');
-                      })
-                      .catch((error) => {
-                        if (error.response.status === 409) {
-                          Swal.fire('이미 메일로 인증번호를 발송하였습니다.');
-                        } else {
-                          Swal.fire('잘못된 요청입니다.');
-                        }
-                      });
-                  } else {
-                    Swal.fire('이메일을 입력해주세요');
-                  }
-                }}
-              >
-                인증코드 보내기
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="nickname"
-                label="Nickname"
-                name="nickname"
-                autoComplete="nickname"
-                error={enteredNicknameError}
-                onChange={(e) => {
-                  setEnteredNickname(e.target.value);
-                }}
-              />
-              {enteredNicknameError ? (
-                <Typography
-                  component="h1"
-                  variant="caption"
-                  sx={{ color: 'red' }}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                bgcolor: 'var(--btnMain-color)',
+                color: 'var(--fontBase-color)',
+                mt: 3,
+                mb: 2,
+                '&:hover': { bgcolor: 'var(--btnMainHover-color)' },
+              }}
+              onClick={() => {
+                if (
+                  enteredEmailError ||
+                  enteredNicknameError ||
+                  enteredPasswordError ||
+                  enteredPhoneError ||
+                  enteredPasswordConfirmError
+                ) {
+                  alert('유효한 값이 아닙니다.');
+                } else {
+                  signUP();
+                }
+              }}
+            >
+              Sign Up
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <RouterLink
+                  to="/signin"
+                  style={{ color: 'var(--btnMain-color)' }}
                 >
-                  {enteredNicknameErrorMsg}
-                </Typography>
-              ) : (
-                ''
-              )}
+                  Already have an account? Sign in
+                </RouterLink>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="phone"
-                label="Phone(Only digits)"
-                name="phone"
-                autoComplete="phone"
-                error={enteredPhoneError}
-                onChange={(e) => {
-                  setEnteredPhone(e.target.value);
-                }}
-              />
-              {enteredPhoneError ? (
-                <Typography
-                  component="h1"
-                  variant="caption"
-                  sx={{ color: 'red' }}
-                >
-                  {enteredPhoneErrorMsg}
-                </Typography>
-              ) : (
-                ''
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                error={enteredPasswordError}
-                onChange={(e) => {
-                  setEnteredPassword(e.target.value);
-                }}
-              />
-              {enteredPasswordError ? (
-                <Typography
-                  component="h1"
-                  variant="caption"
-                  sx={{ color: 'red' }}
-                >
-                  {enteredPasswordErrorMsg}
-                </Typography>
-              ) : (
-                ''
-              )}
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Confirm Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                error={enteredPasswordConfirmError}
-                onChange={(e) => {
-                  setEnteredPasswordConfirm(e.target.value);
-                }}
-              />
-              {enteredPasswordConfirmError ? (
-                <Typography
-                  component="h1"
-                  variant="caption"
-                  sx={{ color: 'red' }}
-                >
-                  {enteredPasswordConfirmErrorMsg}
-                </Typography>
-              ) : (
-                ''
-              )}
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              bgcolor: 'var(--eleActionPos-color)',
-              color: 'var(--fontBase-color)',
-              mt: 3,
-              mb: 2,
-            }}
-            onClick={() => {
-              if (
-                enteredEmailError ||
-                enteredNicknameError ||
-                enteredPasswordError ||
-                enteredPhoneError ||
-                enteredPasswordConfirmError
-              ) {
-                alert('유효한 값이 아닙니다.');
-              } else {
-                signUP();
-              }
-            }}
-          >
-            Sign Up
-          </Button>
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <RouterLink
-                to="/signin"
-                style={{ color: 'var(--eleActionPos-color)' }}
-              >
-                Already have an account? Sign in
-              </RouterLink>
-            </Grid>
-          </Grid>
+          </ThemeProvider>
         </Box>
       </Box>
       <Copyright sx={{ mt: 5 }} />

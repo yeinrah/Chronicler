@@ -13,6 +13,7 @@ import {
   Box,
   Typography,
   Container,
+  ThemeProvider,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -20,6 +21,7 @@ import userSignInApi from '../../Api/userSignInApi';
 import { useRecoilState } from 'recoil';
 import userInfoState from '../../recoil/atoms/userInfoState';
 import userLoginedState from '../../recoil/atoms/userLoginedState';
+import theme from '../../Components/Theme';
 import Swal from 'sweetalert2';
 
 const SignInCard = () => {
@@ -86,36 +88,40 @@ const SignInCard = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'var(--eleActionPos-color)' }}>
+        <Avatar sx={{ m: 1, bgcolor: 'var(--btnMain-color)' }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            inputRef={enteredEmail}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            inputRef={enteredPassword}
-          />
-          <FormControlLabel
+          <ThemeProvider theme={theme}>
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              color="secondary"
+              inputRef={enteredEmail}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              color="secondary"
+              inputRef={enteredPassword}
+            />
+          </ThemeProvider>
+          {/* <FormControlLabel
             control={
               <Checkbox
                 value="remember"
@@ -123,16 +129,17 @@ const SignInCard = () => {
               />
             }
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{
-              bgcolor: 'var(--eleActionPos-color)',
+              bgcolor: 'var(--btnMain-color)',
               color: 'var(--fontBase-color)',
               mt: 3,
               mb: 2,
+              '&:hover': { bgcolor: 'var(--btnMainHover-color)' },
             }}
             onClick={signIn}
           >
@@ -147,7 +154,7 @@ const SignInCard = () => {
               > */}
               <RouterLink
                 to="/findemail"
-                style={{ color: 'var(--eleActionPos-color)' }}
+                style={{ color: 'var(--btnMain-color)' }}
               >
                 Forgot email?
               </RouterLink>
@@ -161,7 +168,7 @@ const SignInCard = () => {
               > */}
               <RouterLink
                 to="/findpw"
-                style={{ color: 'var(--eleActionPos-color)' }}
+                style={{ color: 'var(--btnMain-color)' }}
               >
                 Forgot password?
               </RouterLink>
@@ -175,7 +182,7 @@ const SignInCard = () => {
               > */}
               <RouterLink
                 to="/signup"
-                style={{ color: 'var(--eleActionPos-color)' }}
+                style={{ color: 'var(--btnMain-color)' }}
               >
                 Sign UP
               </RouterLink>

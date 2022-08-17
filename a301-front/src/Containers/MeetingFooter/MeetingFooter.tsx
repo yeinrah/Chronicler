@@ -15,6 +15,7 @@ import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ChatIcon from '@mui/icons-material/Chat';
 import AddIcon from '@mui/icons-material/Add';
+import InfoIcon from '@mui/icons-material/Info';
 import Swal from 'sweetalert2';
 
 interface Props {
@@ -112,6 +113,16 @@ const MeetingFooter: React.FC<Props> = ({
           >
             <AddIcon />
           </IconButton>
+        </Tooltip>
+        <Tooltip title={'info'} placement="top" arrow>
+          <InfoIcon
+            color="inherit"
+            onClick={() => {
+              Swal.fire(
+                `정확도를 높이기 위해서는 한문장 단위로 마이크를 on/off 하기를 권장합니다.`
+              );
+            }}
+          ></InfoIcon>
         </Tooltip>
         <Tooltip
           title={openParticipant ? 'Close Participants' : 'See Participants'}

@@ -9,6 +9,7 @@ import {
   Box,
   Typography,
   Container,
+  ThemeProvider,
 } from '@mui/material';
 import PolicyIcon from '@mui/icons-material/Policy';
 import userInfoFindPw from '../../Api/userInfoFindPw';
@@ -16,7 +17,7 @@ import Swal from 'sweetalert2';
 import { FindPw } from '../../Pages';
 import requestEmailCode from '../../Api/requestEmailCode';
 import { Navigate, useNavigate } from 'react-router-dom';
-
+import theme from '../../Components/Theme';
 const FindPwCard = () => {
   const inputEmail = useRef<any>();
   const inputEmailAuth = useRef<any>();
@@ -67,39 +68,44 @@ const FindPwCard = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'var(--eleActionPos-color)' }}>
+        <Avatar sx={{ m: 1, bgcolor: 'var(--btnMain-color)' }}>
           <PolicyIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Find your password
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-          <TextField
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            inputRef={inputEmail}
-          />
-          <TextField
-            required
-            id="emailAuth"
-            label="Email Address Auth Code"
-            name="emailAuth"
-            sx={{ width: '100%', margin: '5% 0' }}
-            autoComplete="emailAuth"
-            inputRef={inputEmailAuth}
-            // inputRef={inputEmail}
-          />
+          <ThemeProvider theme={theme}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              color="secondary"
+              inputRef={inputEmail}
+            />
+            <TextField
+              required
+              id="emailAuth"
+              label="Email Address Auth Code"
+              name="emailAuth"
+              sx={{ width: '100%', margin: '5% 0' }}
+              autoComplete="emailAuth"
+              color="secondary"
+              inputRef={inputEmailAuth}
+              // inputRef={inputEmail}
+            />
+          </ThemeProvider>
           <Button
             variant="contained"
             sx={{
-              bgcolor: 'var(--eleActionPos-color)',
+              bgcolor: 'var(--btnMain-color)',
               color: 'var(--fontBase-color)',
               width: '100%',
               height: '100%',
+              '&:hover': { bgcolor: 'var(--btnMainHover-color)' },
               // mt: 1,
               // mb: 2,
             }}
@@ -137,8 +143,9 @@ const FindPwCard = () => {
             fullWidth
             variant="contained"
             sx={{
-              bgcolor: 'var(--eleActionPos-color)',
+              bgcolor: 'var(--btnMain-color)',
               color: 'var(--fontBase-color)',
+              '&:hover': { bgcolor: 'var(--btnMainHover-color)' },
               mt: 3,
               mb: 2,
             }}

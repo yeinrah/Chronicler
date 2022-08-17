@@ -10,6 +10,8 @@
   --eleBase-color: #fdecfe;
   --eleActionPos-color: #24e424;
   --eleActionNeg-color: #ea4335;
+  --btnMain-color: #838378;
+  --btnMainHover-color: #3c3c36;
 }
 
 * {
