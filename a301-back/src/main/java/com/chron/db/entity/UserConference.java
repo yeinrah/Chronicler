@@ -37,12 +37,4 @@ public class UserConference {
 	@NotNull
 	@Column(name = "is_owner", nullable = false)
 	private boolean isOwner;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "u_id", insertable = false, updatable = false)
-//	private User user;
-
-//	@ManyToOne
-//	@JoinColumn(name = "c_id", insertable = false, updatable = false)
-//	private Conference conference;
 }

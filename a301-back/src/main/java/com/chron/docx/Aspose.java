@@ -95,8 +95,6 @@ public class Aspose {
 		style2.getFont().setSize(22.0);
 		style2.getFont().setBold(true);
 
-		// 이미지 위치
-//		builder.insertImage("logoTochron.jpg");
 		// 여기 각 데이터들 받아서 넣어주기
 		builder.getParagraphFormat().setStyle(style2);
 		builder.write("\r\r\r\r\r\r\r\r\r" + "날짜 : " + YYMMDD + "\r");
@@ -114,7 +112,6 @@ public class Aspose {
 			// 3번 차트(참여자 별 긍정어휘 차트)
 			Shape shape3 = builder.insertChart(ChartType.PIE, 233, 320);
 
-//		builder.insertImage(wordpath);
 			builder.insertBreak(BreakType.PAGE_BREAK);
 
 			Chart chart = shape.getChart();
@@ -231,7 +228,6 @@ public class Aspose {
 
 			builder.insertCell();
 			builder.getParagraphFormat().setAlignment(ParagraphAlignment.LEFT);
-//		builder.getRowFormat().setHeight(100.0);
 			builder.getRowFormat().setHeightRule(HeightRule.EXACTLY);
 			builder.getFont().setBold(true);
 

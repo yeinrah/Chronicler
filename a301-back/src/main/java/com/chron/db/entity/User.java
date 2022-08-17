@@ -40,11 +40,4 @@ public class User {
 
 	@Column(name = "phone", length = 11)
 	private String phone;
-	
-//	@OneToMany(mappedBy = "user")
-//	private List<UserConference> userconf = new ArrayList<UserConference>();
-
-//	@ManyToOne
-//	@JoinColumn(name = "u_id", insertable = false, updatable = false)
-	
 }

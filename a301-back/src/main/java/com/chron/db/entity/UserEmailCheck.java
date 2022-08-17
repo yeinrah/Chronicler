@@ -31,5 +31,4 @@ public class UserEmailCheck {
 
 	@Column(name = "tmp_code", length = 32)
 	private String tmpCode;
-
 }

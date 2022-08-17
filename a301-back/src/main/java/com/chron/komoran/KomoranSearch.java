@@ -15,14 +15,10 @@ public class KomoranSearch {
 
 		KomoranResult analyzeResultList = komoran.analyze(textData);
 
-//			System.out.println(analyzeResultList.getPlainText());
 		List<Token> tokenList = analyzeResultList.getTokenList();
 		List<String> ans = new ArrayList<>();
 
 		for (Token token : tokenList) {
-//			System.out.format("(%2d, %2d) %s/%s\n", token.getBeginIndex(), token.getEndIndex(), token.getMorph(),
-//					token.getPos());
-
 			// 조사, 어미, 부사, 접사
 			if (token.getPos().equals("JKS") || token.getPos().equals("JKC") || token.getPos().equals("JKG")
 					|| token.getPos().equals("JKO") || token.getPos().equals("JKB") || token.getPos().equals("JKV")

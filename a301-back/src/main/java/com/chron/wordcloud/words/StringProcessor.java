@@ -47,6 +47,7 @@ public class StringProcessor implements Iterable<WordCount> {
 			if (wc.word.length() > 1)
 				words.add(wc);
 		}
+		scan.close();
 		return words;
 	}
 

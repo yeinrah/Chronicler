@@ -48,11 +48,10 @@ public class ConferenceService {
 	}
 
 	@Transactional(readOnly = true)
-	public ConferenceRes getConferenceRes(String conference_code, String title, String nickname) {
+	public ConferenceRes getConferenceRes(String conference_code, String nickname) {
 		ConferenceRes conferenceRes = new ConferenceRes();
 
 		conferenceRes.setNickname(nickname);
-		conferenceRes.setTitle(title);
 		conferenceRes.setConference_code(conference_code);
 		return conferenceRes;
 	}
@@ -80,7 +79,7 @@ public class ConferenceService {
 	public ConferenceHistory makeConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		Long time = System.currentTimeMillis();
-		java.sql.Timestamp stamp = new Timestamp(time);
+		Timestamp stamp = new Timestamp(time);
 		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(0)
 				.insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
@@ -91,7 +90,7 @@ public class ConferenceService {
 	public ConferenceHistory startConferenceHistory(int user_id, String conference_code) {
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		Long time = System.currentTimeMillis();
-		java.sql.Timestamp stamp = new Timestamp(time);
+		Timestamp stamp = new Timestamp(time);
 		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(1)
 				.insertedTime(stamp.toString()).build();
 		return conferenceHistoryRepo.save(confh);
@@ -101,7 +100,7 @@ public class ConferenceService {
 	@Transactional
 	public ConferenceHistory leaveConferenceHistory(int user_id, String conference_code) {
 		Long time = System.currentTimeMillis();
-		java.sql.Timestamp stamp = new Timestamp(time);
+		Timestamp stamp = new Timestamp(time);
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(2)
 				.insertedTime(stamp.toString()).build();
@@ -112,7 +111,7 @@ public class ConferenceService {
 	@Transactional
 	public ConferenceHistory endConferenceHistory(int user_id, String conference_code) {
 		Long time = System.currentTimeMillis();
-		java.sql.Timestamp stamp = new Timestamp(time);
+		Timestamp stamp = new Timestamp(time);
 		Conference conf = conferenceRepository.findOneByConferenceCode(conference_code);
 		ConferenceHistory confh = ConferenceHistory.builder().cId(conf.getCId()).userId(user_id).action(3)
 				.insertedTime(stamp.toString()).build();
@@ -143,7 +142,7 @@ public class ConferenceService {
 		String startTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 0).getInsertedTime();
 		String endTime = conferenceHistoryRepo.findBycIdAndAction(confCid, 3).getInsertedTime();
 		Long time = System.currentTimeMillis();
-		java.sql.Timestamp stamp = new Timestamp(time);
+		Timestamp stamp = new Timestamp(time);
 
 		// MessageBody 요리하기
 		StringBuilder sb = new StringBuilder();

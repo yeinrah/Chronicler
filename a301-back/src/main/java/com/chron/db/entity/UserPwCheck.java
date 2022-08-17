@@ -31,5 +31,4 @@ public class UserPwCheck {
 
 	@Column(name = "tmppw_code", length = 32)
 	private String tmppwCode;
-
 }

@@ -13,7 +13,7 @@ import lombok.Setter;
 @ApiModel("MakeConferenceReq")
 public class MakeConferenceReq {
 	@ApiModelProperty(name = "세션 코드", example = "conference_code")
-	@NotNull(message = "세션 코드 채워주세요.")
+	@NotNull(message = "세션 코드를 채워주세요.")
 	@Size(max = 16)
 	private String conferenceCode;
 
