@@ -7,6 +7,9 @@ const InitialPage = () => {
   const navigate = useNavigate();
   const [isShownNavState, setIsShownNavState] = useRecoilState(showNavState);
   useEffect(() => {
+    // setTimeout(() => {
+    //   navigate('/main');
+    // }, 1000);
     setIsShownNavState(false);
   }, []);
   return (

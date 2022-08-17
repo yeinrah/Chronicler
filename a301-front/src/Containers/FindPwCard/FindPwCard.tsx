@@ -15,11 +15,13 @@ import userInfoFindPw from '../../Api/userInfoFindPw';
 import Swal from 'sweetalert2';
 import { FindPw } from '../../Pages';
 import requestEmailCode from '../../Api/requestEmailCode';
+import { useNavigate } from 'react-router-dom';
 
 const FindPwCard = () => {
   const inputEmail = useRef<any>();
   const inputEmailAuth = useRef<any>();
   const [emailAuth, setEmailAuth] = useState(false);
+  const navigator = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -33,6 +35,7 @@ const FindPwCard = () => {
         })
         .then(() => {
           Swal.fire('임시 패스워드를 전송했습니다.');
+          navigator('/main');
         })
         .catch((error) => {
           if (error.response.status === 409) {
