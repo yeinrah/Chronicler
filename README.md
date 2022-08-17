@@ -15,41 +15,39 @@
 - Mattermost
 - GitLab
 - Webex
-----------------------------
+----------------------------- 
 - [ ]  Frontend
 - React 18.2.0
 - React Router 6.3.0
 - Recoil 0.7.4
 - Material UI 5.9.1
-----------------------------
+---
 - [ ]  Backend
-- Java 8
-- eclipse
+- openjdk 1.8.0_192
+- Java Zulu 8.33.0.1
+- eclipse 4.16.0 (2020-06)
 - Spring Boot 2.7.1
 - Spring Data JPA
 - Spring Security 5.6.6
 - AWS EC2
 - MySQL 5.7.37
-----------------------------
+---
 - [ ]  WebRTC
 - Openvidu-insecure-react
-----------------------------
+---
 - [ ]  STT(Speech-to-Text)
-- Google Cloud Speech-to-Text
-- vito
 - window 객체
-----------------------------
+---
 - [ ]  CI/CD
 - Docker
 - NGINX
 - AWS EC2
-----------------------------
-- [ ] make docx
+---
+- [ ]  Docx file API
 - Aspose
-----------------------------
-- [ ] Email
+---
+- [ ]  Email
 - JavaMailSender
-
 
 <hr>
 
