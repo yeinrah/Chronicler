@@ -2,7 +2,7 @@
  - 비지니스 목적을 위한 자동 회의록 작성 서비스
 
 # 팀원을 소개합니다!
-      김정서        김영진       나예인      송상훈       조선송
+      김정서            김영진            나예인            송상훈            조선송
 
 ![kimjeongseo.jpg](/uploads/459a5244a09183a784ceded1f4378371/kimjeongseo.jpg.png)  ![김영진.jpg](/uploads/86b5bd3ec8be65344a780da882916038/김영진.jpg.jpg)  ![나예인](/uploads/e4f2a7ab2838ad7b2ae3ee63eb40c99d/나예인.jpg)  ![송상훈](/uploads/43b7f330da859fec8f4fa516288d7d12/송상훈.jpg)  ![조선송__2_](/uploads/5d641de3fd594880bfcb627715b95f7a/조선송__2_.jpg)
 
@@ -178,8 +178,8 @@ FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FR
 |-|-|
 |80 | HTTP -> HTTPS로 Redirect|
 |3306 | MySQL|
-|8080 | SpringBoot(Docker container)|
-|3000 | React, Nginx(Docker container)|
+|8080 | Spring Boot |
+|3000 | React |
 |4443 | Openvidu|
 
 <hr>
