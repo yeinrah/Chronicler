@@ -1,6 +1,21 @@
 # Chronicler
  - 비지니스 목적을 위한 자동 회의록 작성 서비스
 
+# 팀원을 소개합니다!
+      백정 김정서        심슨 김영진       옌킨스 나예인      서울대표 송상훈       ?? 조선송
+
+![kimjeongseo.jpg](/uploads/459a5244a09183a784ceded1f4378371/kimjeongseo.jpg.png)  ![김영진.jpg](/uploads/86b5bd3ec8be65344a780da882916038/김영진.jpg.jpg)  ![나예인](/uploads/e4f2a7ab2838ad7b2ae3ee63eb40c99d/나예인.jpg)  ![송상훈](/uploads/43b7f330da859fec8f4fa516288d7d12/송상훈.jpg)
+
+
+# 팀원 역할
+송상훈 : 팀장, Backend <br> 
+김영진 : Backend, Server <br>
+나예인 : Backend, Docker <br>
+김정서 : Frontend <br>
+조선송 : Frontend
+
+<hr>
+
 ## 프로젝트 기간 : 2022.07.11 ~ 2022.08.19
 
 ## Chronicler 로고
@@ -21,6 +36,9 @@
 - React Router 6.3.0
 - Recoil 0.7.4
 - Material UI 5.9.1
+- Axios 0.27.2
+- Typescript 4.7.4
+- sweetalert2 11.4.24
 ---
 - [ ]  Backend
 - openjdk 1.8.0_192
@@ -29,51 +47,29 @@
 - Spring Boot 2.7.1
 - Spring Data JPA
 - Spring Security 5.6.6
+- JWT 0.11.2
 - AWS EC2
 - MySQL 5.7.37
 ---
 - [ ]  WebRTC
-- Openvidu-insecure-react
+- Openvidu
 ---
 - [ ]  STT(Speech-to-Text)
-- window 객체
+- JavaScript window 객체
 ---
 - [ ]  CI/CD
-- Docker
+- Docker version 20.10.17, build 100c701
 - NGINX
 - AWS EC2
 ---
 - [ ]  Docx file API
-- Aspose
+- Aspose words 22.7
 ---
 - [ ]  Email
-- JavaMailSender
-
-<hr>
-
-# Docker command
-
-DB :
-
-```docker
-docker pull yeinrah/mysql:5.7.37
-```
-
-BE : 
-
-```docker
-docker pull yeinrah/chronicler-back
-```
-
-FE :
-```docker
-docker pull yeinrah/chronicler-front
-```
-
-<hr>
-
-# Overview
-회의에 집중하세요 기록은 맡겨주세요
+- Spring Java MailSender
+---
+- [ ]  형태소 분석
+- KOMORAN 3.3.4
 
 <hr>
 
@@ -87,15 +83,15 @@ docker pull yeinrah/chronicler-front
 
 <hr>
 
-# 주요 기능
-- 서비스 설명 : 회의에서 사용자들이 대화한 데이터를 수집, 자동으로 회의록을 docx 파일로 제작해주는 서비스
+# 서비스 설명
+회의에서 사용자들이 대화한 데이터를 수집, 자동으로 회의록을 docx 파일로 제작해주는 서비스
 
-- 주요 기능 : 
-    webRTC를 통한 화상 채팅 기능
-    STT를 활용한 실시간 자막 제공
-    대화 data를 분석하여 형태소 처리 이후 관련 데이터 차트 제공
-    회의 종료 시 해당 회의에 대한 회의록 작성
-    방장의 이메일로 회의록 docx파일로 송신
+# 주요 기능
+- webRTC를 통한 화상 채팅 기능
+- STT를 활용한 실시간 자막 제공
+- 대화 data를 분석하여 형태소 처리 이후 관련 데이터 차트 제공
+- 회의 종료 시 해당 회의에 대한 회의록 작성
+- 방장의 이메일로 회의록 docx파일로 송신
 <hr>
 
 # 시스템 아키텍쳐
@@ -175,19 +171,41 @@ FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FR
 
 <hr>
 
-# 팀원을 소개합니다!
-      백정 김정서        심슨 김영진       옌킨스 나예인      서울대표 송상훈       ?? 조선송
 
-![kimjeongseo.jpg](/uploads/459a5244a09183a784ceded1f4378371/kimjeongseo.jpg.png)  ![김영진.jpg](/uploads/86b5bd3ec8be65344a780da882916038/김영진.jpg.jpg)  ![나예인](/uploads/e4f2a7ab2838ad7b2ae3ee63eb40c99d/나예인.jpg)  ![송상훈](/uploads/43b7f330da859fec8f4fa516288d7d12/송상훈.jpg)
+# Docker command
 
+DB :
 
-# 팀원 역할
-송상훈 : 팀장, Backend
-김영진 : Backend
-나예인 : Backend
-김정서 : Frontend
-조선송 : Frontend
+```docker
+docker pull yeinrah/mysql:5.7.37
+```
+
+```docker
+docker run -d -p 3306:3306 --name mysql --network chronicler -e MYSQL_ROOT_PASSWORD=ssafy -e MYSQL_DATABASE=chronicler -e MYSQL_USER=A301 -e MYSQL_PASSWORD=SSAFY0707 yeinrah/mysql:5.7.37
+```
+
+BE : 
+
+```docker
+docker pull yeinrah/chronicler-back
+```
+
+```docker
+docker run -d -p 8080:8080 --name chronicler-back --network chronicler yeinrah/chronicler-back
+```
+
+FE :
+```docker
+docker pull yeinrah/chronicler-front
+```
+
+```docker
+docker run -d -p 3000:80 --name chronicler-front --network chronicler yeinrah/chronicler-front
+```
+
 <hr>
+
+
 
 # 개발 후 회고
 <hr>
