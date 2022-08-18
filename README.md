@@ -89,7 +89,7 @@
 ![크로니클러_메일왔을때](/uploads/7ac52e7a95d0d78216c8ca3ff853ebd4/크로니클러_메일왔을때.png)
 
 - 회의록
-
+![회의록1](/uploads/e9f1d43e1213e34c5b67fde08e95da77/회의록1.png)
 
 <hr>
 
