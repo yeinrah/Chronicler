@@ -169,7 +169,7 @@ FRONTEND, BACKEND, FREEDOM, 회의록, 일정관리 카테고리로 나누어 FR
 <hr>
 
 # ER Diagram
-![erd](/uploads/e15fd75160bf624d5553ec5662240043/erd.jpeg)
+![erd](/uploads/6c16954b3344ed9b1c7b6a781a5c63c2/erd.png)
 
 <hr>
 
