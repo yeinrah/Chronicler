@@ -79,8 +79,15 @@
 <hr>
 
 # Chronicler 서비스 화면 
+- 메인 페이지
 ![main](/uploads/6b28ef8f8dabf5359a0ede7f17f3e674/main.png)
+
+- 회의실 실시간 자막 
+![회의_자막](/uploads/b8e160d6f11a27650e6afbb19cea05ad/회의_자막.png)
+
+- 회의 종료 후 메일 발송
 ![크로니클러_메일왔을때](/uploads/7ac52e7a95d0d78216c8ca3ff853ebd4/크로니클러_메일왔을때.png)
+
 
 <hr>
 
