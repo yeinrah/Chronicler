@@ -1,0 +1,12 @@
+body {
+  font-family: "Vesper Libre";
+  background-color: var(--bgBase-color);
+}
+
+html {
+  background-color: var(--bgBase-color);
+}
+
+.App {
+  background-color: var(--bgBase-color);
+}

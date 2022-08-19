@@ -1,0 +1,9 @@
+.noParticipant {
+  display: none;
+}
+.onlyParticipant {
+  height: 84.5vh;
+}
+.withChat {
+  height: 26.5vh;
+}

@@ -1,0 +1,67 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.chron'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation("io.springfox:springfox-swagger2:3.0.0")
+    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
+    implementation("io.springfox:springfox-data-rest:3.0.0")
+    implementation("io.springfox:springfox-bean-validators:3.0.0")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-hateoas
+	implementation("org.springframework.boot:spring-boot-starter-hateoas:2.7.1")
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-rest-hal-browser
+	implementation("org.springframework.data:spring-data-rest-hal-browser:3.3.9.RELEASE")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
+	implementation("org.springframework.boot:spring-boot-starter-validation:2.7.1")
+ 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
+    implementation("org.springframework.security:spring-security-web:5.6.6")
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+    implementation("org.springframework.security:spring-security-config:5.6.6")
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2' 
+	implementation 'io.jsonwebtoken:jjwt-impl:0.11.2' 
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	
+	// Openvidu
+    implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.22.0'
+
+	// aspose
+	implementation fileTree(dir: 'asposejar', include: ['*.jar'])
+
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	// komoran
+	implementation 'com.github.shin285:KOMORAN:3.3.4'
+	
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

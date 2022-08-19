@@ -1,0 +1,31 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&family=UnifrakturMaguntia&family=Vesper+Libre:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gowun+Batang:wght@700&family=Gugi&family=Knewave&family=Song+Myung&family=Yeon+Sung&display=swap");
+:root {
+  --font-base: "Vesper Libre", "Noto Sans KR", "UnifrakturMaguntia";
+
+  --bgBase-color: #202321;
+  --bgExtra-color: #202124;
+  --fontBase-color: #ffffff;
+  --fontAccent-color: #333236;
+  --eleBase-color: #fdecfe;
+  --eleActionPos-color: #24e424;
+  --eleActionNeg-color: #ea4335;
+  --btnMain-color: #838378;
+  --btnMainHover-color: #3c3c36;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+/*scroll css
+/* body {
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+} */

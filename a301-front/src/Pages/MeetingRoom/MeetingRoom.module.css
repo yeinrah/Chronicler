@@ -1,0 +1,67 @@
+#join {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+#join-dialog {
+  background-color: var(--eleBase-color);
+  padding: 20px;
+  border-radius: 5px;
+}
+#video-container {
+  display: flex;
+  direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  font-weight: bold;
+  height: 80vh;
+  width: 80vw;
+}
+.formCont {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.stream-container-many {
+  width: calc(100% / 5);
+}
+.stream-container-less {
+  width: calc(100% / 3);
+}
+.stream-container-dual {
+  width: calc(100% / 2);
+}
+.btn {
+  font-weight: bold;
+  width: 200px;
+  height: 65px;
+  padding: 2px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 20px;
+  border-color: var(--bgExtra-color);
+  border: 3px solid;
+}
+.btnBack {
+  font-weight: bold;
+  width: 200px;
+  height: 65px;
+  padding: 2px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 20px;
+  border-color: var(--bgExtra-color);
+  border: 3px solid;
+}
+.btn:hover {
+  border-color: #1abd61;
+}
+.btnBack:hover {
+  border-color: var(--eleActionNeg-color);
+}
+.text-center {
+  display: flex;
+  justify-content: space-between;
+}
