@@ -2,7 +2,7 @@
  - 비지니스 목적을 위한 자동 회의록 작성 서비스
 
 # 팀원을 소개합니다!
-            김정서            김영진            나예인            송상훈            조선송
+       김정서            김영진            나예인            송상훈            조선송
 
 ![kimjeongseo jpg](https://user-images.githubusercontent.com/63994962/204204276-f39cb7d0-bd6a-455c-827b-0566b294e750.png)
 ![김영진 jpg](https://user-images.githubusercontent.com/63994962/204204280-b3c35505-1366-49ac-b311-2dc017936f40.jpg)
