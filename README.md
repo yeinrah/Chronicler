@@ -6,7 +6,7 @@
 
 ![kimjeongseo jpg](https://user-images.githubusercontent.com/63994962/204204276-f39cb7d0-bd6a-455c-827b-0566b294e750.png)
 ![김영진 jpg](https://user-images.githubusercontent.com/63994962/204204280-b3c35505-1366-49ac-b311-2dc017936f40.jpg)
-![나예인](https://user-images.githubusercontent.com/63994962/204204282-b2eda675-4284-4fd2-ae7d-0cd4c9d3d08b.jpg)
+![나예인](https://user-images.githubusercontent.com/63994962/187566675-a38857c0-faf1-4d28-8dd0-363c73f10c58.png)
 ![송상훈](https://user-images.githubusercontent.com/63994962/204204285-d5200720-d8de-4a8a-8378-373af95c6559.jpg)
 ![조선송__2_](https://user-images.githubusercontent.com/63994962/204204287-75d623b7-861c-4f04-b7e9-38338dd5c743.jpg)
 
